@@ -162,10 +162,10 @@ input,select,textarea{font-family:var(--f);outline:none}
 .hw-c{flex:1;min-width:300px}
 .hw-c h4{font-size:18px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:var(--t1)}
 
-/* ARREGLO ESTRUCTURAL DE MODAL: Siempre Botón visible */
+/* ARREGLO ESTRUCTURAL DE MODAL: Siempre Botón visible usando Flexbox */
 .mo{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
 .mo.on{display:flex}
-.mb{background:var(--bg1);border:1px solid var(--bd);border-radius:16px;width:100%;max-width:650px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shl);animation:fi .2s ease}
+.mb{background:var(--bg1);border:1px solid var(--bd);border-radius:16px;width:100%;max-width:650px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shl);animation:fi .2s ease}
 .mh{padding:20px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg1);border-radius:16px 16px 0 0;flex-shrink:0}
 .mh h3{font-size:18px;font-weight:700}
 .mx{width:32px;height:32px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
@@ -279,14 +279,15 @@ input,select,textarea{font-family:var(--f);outline:none}
 <div class="mnav" id="MN"></div>
 </div>
 
-<!-- MODALS -->
-<div class="mo" id="MC"><div class="mb" style="max-width:750px"><div class="mh"><h3 id="MCT">Clase</h3><button class="mx" onclick="cM('MC')">✕</button></div><div class="mbd" id="MCB"></div><div class="mft" style="display:none"></div></div></div>
+<!-- MODALS REPARADOS CON FLEXBOX PARA QUE NO SE CORTE EL BOTON -->
+<div class="mo" id="MC"><div class="mb" style="max-width:750px"><div class="mh"><h3 id="MCT">Clase</h3><button class="mx" onclick="cM('MC')">✕</button></div><div class="mbd" id="MCB"></div></div></div>
 <div class="mo" id="MF"><div class="mb" style="max-width:750px"><div class="mh"><h3 id="MFT">Form</h3><button class="mx" onclick="cM('MF')">✕</button></div><div class="mbd" id="MFB"></div><div class="mft"><button class="ba s" onclick="cM('MF')">Cancelar</button><button class="ba p" id="MFS">Guardar</button></div></div></div>
 <div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Confirmar</button></div></div></div>
 
 <script>
 // ==================== CONFIGURACIÓN ====================
-const API='https://script.google.com/macros/s/AKfycbzaQjxf5nJBOSZuptecMz0lUQyWkgN6Y_r9CC1Yw5fJfMF3DmuIwRLIpvyuZdPaDhyhFw/exec';
+// ¡ATENCIÓN! Reemplaza esto con tu URL de Google Apps Script V4.6
+const API='https://script.google.com/macros/s/AKfycbzpPqBJ06vDkKw8UuxZHlW_RDi6ZEhrNJijD1coK0QJ26A2S8gEslUOm5VYKIrN7LCG7w/exec';
 const MPW='123123';
 const APW='admin123';
 const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
@@ -353,7 +354,11 @@ function demoD(){return{configuracion:[],usuarios:[],clases:[],proyectos:[]}}
 async function load(){const d=await aGet();D.cfr=d.configuracion||[];D.cf={};D.cfr.forEach(r=>{if(r.Clave)D.cf[r.Clave]=r.Valor});D.us=(d.usuarios||[]).filter(u=>String(u.Activo).toLowerCase()==='true'||u.Activo===true);D.cl=(d.clases||[]).filter(c=>c.ID_Clase);D.pr=(d.proyectos||[]).filter(p=>p.ID_Entrega)}
 
 async function init(){await load();popLogin();$('LS').classList.add('off')}
-async function doRefresh(){toast('Sincronizando portal...', 'ok');await load();if(D.u){ const f=D.us.find(u=>u.ID_Usuario===D.u.ID_Usuario); if(f) D.u=f; rAll(); }}
+async function doRefresh(){
+  toast('Sincronizando portal...', 'ok');
+  await load();
+  if(D.u){ const f=D.us.find(u=>u.ID_Usuario===D.u.ID_Usuario); if(f) D.u=f; rAll(); }
+}
 
 function popLogin(){const s=$('LSEL');s.innerHTML='<option value="">— Selecciona tu usuario —</option>';D.us.forEach(u=>{s.innerHTML+='<option value="'+(u.Email_Corporativo||u.Email_Personal)+'">'+u.Nombre+' ('+u.Rol+')</option>'})}
 
@@ -684,21 +689,14 @@ function oSUB(id_c){
   `;
   $('MFS').onclick=async()=>{
     const u = $('fsub').value; if(!u){toast('Ingresa una URL válida','er');return}
+    cM('MF'); toast('Guardando entrega en base de datos...', 'ok'); 
     
-    // update local for quick UX
-    let i=D.pr.findIndex(p=>p.ID_Clase===id_c && p.ID_Usuario===D.u.ID_Usuario);
-    if(i>=0){ D.pr[i].URL_Proyecto = u; D.pr[i].Fecha_Entrega = new Date().toISOString(); }
-    else { D.pr.push({ID_Entrega:'TEMP', ID_Usuario:D.u.ID_Usuario, ID_Clase:id_c, URL_Proyecto:u, Fecha_Entrega:new Date().toISOString()}); }
-    
-    cM('MF'); toast('Guardando entrega en base de datos...', 'ok'); rAll(); 
-    
-    // server request
     const res = await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_c, url_proyecto: u});
     if(res && res.success) {
         toast('✅ ¡Entrega confirmada y guardada!');
         await doRefresh(); // Garantizar sincronización
     }
-    else { toast('❌ Error al guardar en servidor', 'er'); doRefresh(); }
+    else { toast('❌ Error al guardar en servidor', 'er'); await doRefresh(); }
   };
   oM('MF');
 }
@@ -709,15 +707,11 @@ function cDelProj(id_clase){
   $('DY').onclick=async()=>{
     cM('MD'); toast('Eliminando...', 'ok');
     if(adm){
-        D.pr = D.pr.filter(p => !(p.ID_Clase === id_clase && p.ID_Usuario === D.u.ID_Usuario));
-        rAll();
         const res = await aPost({action:'deleteProyecto', id_clase: id_clase, id_usuario: D.u.ID_Usuario});
-        if(res && res.success) { toast('✅ Entrega eliminada'); await doRefresh(); } else { toast('❌ Error', 'er'); }
+        if(res && res.success) { toast('✅ Entrega eliminada'); await doRefresh(); } else { toast('❌ Error', 'er'); await doRefresh();}
     } else {
-        const proj = D.pr.find(p=>p.ID_Clase===id_clase && p.ID_Usuario===D.u.ID_Usuario);
-        if(proj){ proj.URL_Proyecto=''; proj.Fecha_Entrega=''; } rAll();
         const res = await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_clase, url_proyecto: ''});
-        if(res && res.success) { toast('✅ Enlace limpiado correctamente'); await doRefresh(); } else { toast('❌ Error', 'er'); }
+        if(res && res.success) { toast('✅ Enlace limpiado correctamente'); await doRefresh(); } else { toast('❌ Error', 'er'); await doRefresh();}
     }
   }; oM('MD');
 }
@@ -798,9 +792,6 @@ function oEditAula() {
     keys.forEach(k => {
       let val = $(`fe_${k}`).value;
       if (D.cf[k] !== val) {
-        D.cf[k] = val;
-        let r = D.cfr.find(x => x.Clave === k);
-        if(r) r.Valor = val; else D.cfr.push({Clave: k, Valor: val});
         changed.push({clave: k, valor: val});
       }
     });
@@ -808,12 +799,13 @@ function oEditAula() {
     cM('MF');
     if (changed.length > 0) {
       toast('Actualizando Aula en BD...', 'ok');
-      rAU();
-      for(let ch of changed){
-         await aPost({action: 'updateConfig', clave: ch.clave, valor: ch.valor});
+      const res = await aPost({action: 'updateConfigBatch', configs: changed});
+      if(res && res.success) {
+        toast('✅ Aula guardada correctamente');
+        await doRefresh(); // Garantizar sincronización
+      } else {
+        toast('❌ Error al guardar', 'er');
       }
-      toast('✅ Aula guardada correctamente');
-      await doRefresh(); // Garantizar sincronización
     } else { toast('No se hicieron cambios.'); }
   };
   oM('MF');
@@ -850,14 +842,11 @@ function oCF(id){
     if(!d.ID_Clase||!d.Titulo_Clase){toast('ID y Título requeridos','er');return}
     cM('MF'); toast('Sincronizando con BD...', 'ok');
     
-    if(id){const i=D.cl.findIndex(x=>x.ID_Clase===id);if(i>=0)D.cl[i]={...D.cl[i],...d}}else D.cl.push(d); 
-    rAll();
-    
     const res = await aPost({action:id?'updateClase':'addClass',clase:d,id_clase:id||d.ID_Clase});
     if(res && res.success) {
-        toast('✅ Clase sincronizada correctamente');
+        toast('✅ Clase guardada correctamente');
         await doRefresh(); // Garantizar sincronización perfecta
-    } else { toast('❌ Error al guardar', 'er'); }
+    } else { toast('❌ Error al guardar', 'er'); await doRefresh();}
   }; oM('MF');
 }
 
@@ -886,14 +875,11 @@ function oUF(id){
     if(!d.ID_Usuario||!d.Nombre){toast('Requerido ID y Nombre','er');return}
     cM('MF'); toast('Sincronizando usuario...','ok');
     
-    if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){D.us[i]={...D.us[i],...d}}}else D.us.push(d); 
-    popLogin(); rAll();
-    
     const res = await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});
     if(res && res.success) {
         toast('✅ Usuario sincronizado');
         await doRefresh();
-    } else { toast('❌ Error', 'er'); }
+    } else { toast('❌ Error', 'er'); await doRefresh();}
   }; oM('MF');
 }
 
@@ -935,12 +921,9 @@ function oEManual(){
   $('MFB').innerHTML=`<div class="fg"><label>Alumno</label><select id="femUser">${D.us.map(u=>`<option value="${u.ID_Usuario}">${u.Nombre}</option>`).join('')}</select></div><div class="fg"><label>Taller Asignado</label><select id="femTaller">${ts.map(c=>`<option value="${c.ID_Clase}">${c.Titulo_Clase} (${c.ID_Clase})</option>`).join('')}</select></div><div class="fg"><label>URL Proyecto (Opcional)</label><input id="femUrl" placeholder="https://..."></div><div class="fg"><label>Nota Asignada</label><input id="femNota" type="number" step="0.1"></div><div class="fg"><label>Feedback</label><textarea id="femCom"></textarea></div>`;
   $('MFS').onclick=async()=>{
     const id_u = $('femUser').value, id_c = $('femTaller').value, nota = $('femNota').value, url = $('femUrl').value, com = $('femCom').value;
-    let i = D.pr.findIndex(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
-    if(i>=0){ D.pr[i].Nota_Evaluacion=nota; D.pr[i].Comentarios_Admin=com; if(url)D.pr[i].URL_Proyecto=url; }
-    else D.pr.push({ID_Entrega:'MANUAL', ID_Usuario:id_u, ID_Clase:id_c, URL_Proyecto:url, Nota_Evaluacion:nota, Comentarios_Admin:com, Fecha_Entrega:new Date().toISOString()});
-    cM('MF'); toast('Sincronizando BD...', 'ok'); rAll();
+    cM('MF'); toast('Guardando BD...', 'ok');
     const res = await aPost({action:'evaluarProyecto', id_usuario:id_u, id_clase:id_c, nota:nota, comentarios:com, url:url});
-    if(res && res.success) { toast('✅ Evaluación guardada'); await doRefresh(); } else { toast('❌ Error', 'er'); }
+    if(res && res.success) { toast('✅ Evaluación guardada'); await doRefresh(); } else { toast('❌ Error: El administrador no ha creado la fila base', 'er'); await doRefresh();}
   }; oM('MF');
 }
 
@@ -958,22 +941,18 @@ function oEF(id_u, id_c){
     <div class="fg"><label>Comentarios</label><textarea id="fec" style="min-height:80px">${p.Comentarios_Admin||''}</textarea></div>`;
   $('MFS').onclick=async()=>{
     const nota = $('fen').value, url = $('feu').value, com = $('fec').value;
-    let i=D.pr.findIndex(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
-    if(i>=0){ D.pr[i].Nota_Evaluacion = nota; D.pr[i].Comentarios_Admin = com; D.pr[i].URL_Proyecto = url; }
-    else D.pr.push({ID_Entrega:'TEMP', ID_Usuario:id_u, ID_Clase:id_c, URL_Proyecto:url, Nota_Evaluacion:nota, Comentarios_Admin:com, Fecha_Entrega:new Date().toISOString()});
-    
-    cM('MF'); toast('Evaluando en Base de Datos...', 'ok'); rAll(); 
+    cM('MF'); toast('Evaluando en Base de Datos...', 'ok'); 
     const res = await aPost({action:'evaluarProyecto', id_usuario:id_u, id_clase:id_c, nota:nota, comentarios:com, url:url});
-    if(res && res.success) { toast('✅ Evaluación asignada'); await doRefresh(); } else { toast('❌ Error', 'er'); }
+    if(res && res.success) { toast('✅ Evaluación asignada'); await doRefresh(); } else { toast('❌ Error: El administrador no ha creado la fila base', 'er'); await doRefresh();}
   }; oM('MF');
 }
 
 function cDelProjAdmin(id_u, id_c){
   $('DM').textContent='¿Eliminar esta entrega por completo de la base de datos?';
   $('DY').onclick=async()=>{
-    cM('MD'); toast('Borrando...', 'ok'); D.pr = D.pr.filter(p => !(p.ID_Clase===id_c && p.ID_Usuario===id_u)); rAll();
+    cM('MD'); toast('Borrando...', 'ok');
     const res = await aPost({action:'deleteProyecto', id_clase:id_c, id_usuario:id_u});
-    if(res && res.success) { toast('✅ Entrega borrada'); await doRefresh(); } else { toast('❌ Error', 'er'); }
+    if(res && res.success) { toast('✅ Entrega borrada'); await doRefresh(); } else { toast('❌ Error', 'er'); await doRefresh();}
   }; oM('MD');
 }
 
@@ -987,8 +966,7 @@ function eCfg(k,v){
     cM('MF'); toast('Sincronizando...', 'ok');
     const res = await aPost({action:'updateConfig',clave:k,valor:nv});
     if(res && res.success) {
-      D.cf[k]=nv;const r=D.cfr.find(x=>x.Clave===k);if(r)r.Valor=nv;
-      toast('✅ Variable actualizada'); rAK(); rAU(); await doRefresh();
+      toast('✅ Variable actualizada'); await doRefresh();
     } else { toast('❌ Error', 'er'); }
   }; oM('MF');
 }
@@ -997,10 +975,8 @@ function cDel(t,id){
   $('DM').textContent='¿Seguro que deseas eliminar? No se puede deshacer.';
   $('DY').onclick=async()=>{
     cM('MD');toast('Eliminando en Base de Datos...','ok');
-    if(t==='c')D.cl=D.cl.filter(c=>c.ID_Clase!==id);else{D.us=D.us.filter(u=>u.ID_Usuario!==id);popLogin()}
-    rAll();
     const res = await aPost({action:t==='c'?'deleteClase':'deleteUsuario',id:id});
-    if(res && res.success){ toast('✅ Eliminado correctamente'); await doRefresh(); } else { toast('❌ Error al eliminar', 'er'); }
+    if(res && res.success){ toast('✅ Eliminado correctamente'); await doRefresh(); } else { toast('❌ Error al eliminar', 'er'); await doRefresh();}
   };oM('MD')
 }
 
