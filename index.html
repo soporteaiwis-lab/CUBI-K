@@ -1,436 +1,393 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CUBI-K | Portal IA Educativo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg0: #0a0e1a; --bg1: #111827; --bg2: #1a2236; --bg2h: #1f2a42; --bg3: #0f1629;
-            --bd: #2a3550; --bdl: #3a4a6b;
-            --ac: #00d4aa; --acg: rgba(0,212,170,.15); --acd: #00a888;
-            --ac2: #6366f1; --ac2g: rgba(99,102,241,.15);
-            --err: #ef4444; --errg: rgba(239,68,68,.12);
-            --t1: #e8ecf4; --t2: #94a3b8; --t3: #64748b;
-            --f1: 'Outfit', sans-serif; --f2: 'JetBrains Mono', monospace;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUBI-K | Portal IA Educativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#0a0e1a;--bg1:#111827;--bg2:#1a2236;--bg2h:#1f2a42;--bg3:#0f1629;--bd:#2a3550;--bdl:#3a4a6b;--ac:#00d4aa;--acg:rgba(0,212,170,.15);--acd:#00a888;--ac2:#6366f1;--ac2g:rgba(99,102,241,.15);--ac3:#f59e0b;--ac3g:rgba(245,158,11,.15);--err:#ef4444;--errg:rgba(239,68,68,.12);--t1:#e8ecf4;--t2:#8896b3;--t3:#556380;--r:12px;--rs:8px;--rx:6px;--f:'Outfit',sans-serif;--m:'JetBrains Mono',monospace;--sh:0 4px 24px rgba(0,0,0,.4);--shl:0 8px 40px rgba(0,0,0,.5);--tr:.2s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--bg0);color:var(--t1);min-height:100vh;overflow-x:hidden}
+a{color:var(--ac);text-decoration:none}button{font-family:var(--f);cursor:pointer;border:none;outline:none}
+input,select,textarea{font-family:var(--f);outline:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg0)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--f1); background-color: var(--bg0); color: var(--t1); overflow-x: hidden; }
+/* LOADING */
+#LS{position:fixed;inset:0;z-index:9999;background:var(--bg0);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .4s,visibility .4s}
+#LS.off{opacity:0;visibility:hidden;pointer-events:none}
+.ldr{width:48px;height:48px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lt{color:var(--t2);font-size:14px;letter-spacing:2px;text-transform:uppercase}
 
-        /* UTILIDADES */
-        .hidden { display: none !important; }
-        .flex { display: flex; }
-        .grid { display: grid; }
-        .btn { padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; font-family: var(--f1); font-weight: 600; transition: all 0.3s; }
-        .btn-primary { background: var(--ac); color: var(--bg0); }
-        .btn-primary:hover { background: var(--acd); }
-        .btn-danger { background: var(--err); color: white; }
+/* LOGIN */
+#LOGIN{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg0);background-image:radial-gradient(ellipse at 20% 50%,rgba(0,212,170,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(99,102,241,.05) 0%,transparent 50%)}
+#LOGIN.off{display:none!important}
+.lbox{background:var(--bg2);border:1px solid var(--bd);border-radius:16px;padding:48px 40px;width:100%;max-width:440px;box-shadow:var(--shl)}
+.lbrand{text-align:center;margin-bottom:36px}
+.lbrand h1{font-size:32px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lbrand p{color:var(--t2);font-size:13px;margin-top:6px;letter-spacing:1px;text-transform:uppercase}
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px}
+.fg select,.fg input,.fg textarea{width:100%;padding:12px 16px;background:var(--bg3);color:var(--t1);border:1px solid var(--bd);border-radius:var(--rs);font-size:14px;transition:var(--tr)}
+.fg select:focus,.fg input:focus,.fg textarea:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.fg select option{background:var(--bg1);color:var(--t1)}
+.fg textarea{resize:vertical;min-height:70px}
+.pwf{display:none;margin-bottom:18px}
+.pwf.vis{display:block}
+.pwf label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px}
+.pwf input{width:100%;padding:12px 16px;background:var(--bg3);color:var(--t1);border:1px solid var(--bd);border-radius:var(--rs);font-size:14px;transition:var(--tr)}
+.pwf input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.bl{width:100%;padding:14px;background:linear-gradient(135deg,var(--ac),var(--acd));color:#0a0e1a;font-size:15px;font-weight:700;border-radius:var(--rs);letter-spacing:.5px;text-transform:uppercase;transition:var(--tr);margin-bottom:6px}
+.bl:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,212,170,.3)}
+.lerr{color:var(--err);font-size:13px;text-align:center;min-height:20px;margin-top:6px}
+.lfoot{text-align:center;margin-top:20px}.lfoot span{font-size:12px;color:var(--t3)}
+.mlink{display:block;text-align:center;margin-top:14px;padding:10px;font-size:12px;color:var(--ac2);border:1px dashed var(--bd);border-radius:var(--rs);transition:var(--tr);cursor:pointer}
+.mlink:hover{border-color:var(--ac2);background:var(--ac2g)}
 
-        /* LOGIN */
-        #login-screen { height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg0); }
-        .login-box { background: var(--bg1); padding: 40px; border-radius: 12px; border: 1px solid var(--bd); width: 100%; max-width: 400px; text-align: center; }
-        .login-box input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 6px; border: 1px solid var(--bd); background: var(--bg2); color: var(--t1); font-family: var(--f1); }
+/* DASHBOARD */
+#DASH{display:none;min-height:100vh}
+#DASH.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-        /* APP LAYOUT */
-        #app-screen { display: flex; height: 100vh; }
-        .sidebar { width: 250px; background: var(--bg1); border-right: 1px solid var(--bd); padding: 20px; display: flex; flex-direction: column; }
-        .menu-item { padding: 12px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; color: var(--t2); font-weight: 500; transition: all 0.2s; }
-        .menu-item:hover, .menu-item.active { background: var(--bg2); color: var(--ac); }
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg0); }
+/* TOPBAR */
+.tb{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.tb-b{display:flex;align-items:center;gap:12px}
+.tb-b h2{font-size:18px;font-weight:700;letter-spacing:-.5px}
+.tag{font-size:10px;font-weight:600;padding:3px 8px;background:var(--acg);color:var(--ac);border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.tb-n{display:flex;gap:4px}
+.tb-n button{padding:8px 14px;background:transparent;color:var(--t2);font-size:13px;font-weight:500;border-radius:var(--rx);transition:var(--tr);display:flex;align-items:center;gap:6px}
+.tb-n button:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.tb-n button.on{color:var(--ac);background:var(--acg)}
+.tb-r{display:flex;align-items:center;gap:12px}
+.upill{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:var(--bg2);border:1px solid var(--bd);border-radius:20px;font-size:13px;color:var(--t2)}
+.upill .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.blo{padding:6px 14px;background:transparent;border:1px solid var(--bd);color:var(--t2);font-size:12px;font-weight:500;border-radius:var(--rx);transition:var(--tr)}
+.blo:hover{border-color:var(--err);color:var(--err)}
+.brf{padding:6px 10px;background:transparent;border:1px solid var(--bd);color:var(--t2);font-size:14px;border-radius:var(--rx);transition:var(--tr)}
+.brf:hover{border-color:var(--ac);color:var(--ac)}
 
-        /* TARJETAS CLASES */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card { background: var(--bg1); border: 1px solid var(--bd); border-radius: 10px; padding: 20px; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--ac); }
-        .card h3 { color: var(--ac); margin-bottom: 10px; }
-        .card p { color: var(--t2); font-size: 14px; margin-bottom: 15px; }
-        
-        /* BOTÓN VISTO BUENO */
-        .btn-visto { padding: 8px 16px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; font-family: var(--f1); font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; width: 100%; justify-content: center; margin-top: 10px;}
-        .visto-off { background: var(--bg2); color: var(--t2); border-color: var(--bd); }
-        .visto-off:hover { background: var(--bg2h); }
-        .visto-on { background: var(--acd); color: #fff; box-shadow: 0 0 10px var(--acg); }
+/* MAIN */
+.mc{padding:24px;max-width:1400px;margin:0 auto}
+.vp{display:none}.vp.von{display:block;animation:fi .25s ease}
 
-        /* TABLAS BASE DE DATOS */
-        .db-table-container { width: 100%; overflow-x: auto; margin-top: 15px; background: var(--bg1); border-radius: 8px; border: 1px solid var(--bd); padding: 10px;}
-        .db-table { width: 100%; border-collapse: collapse; font-size: 12px; font-family: var(--f2); white-space: nowrap; color: var(--t1); }
-        .db-table th, .db-table td { border: 1px solid var(--bd); padding: 10px 12px; text-align: left; }
-        .db-table th { background: var(--bg2); color: var(--ac); font-weight: 600; }
-        .db-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
-        .db-table tr:hover { background: var(--bg2h); }
+/* BANNER */
+.cbanner{background:var(--ac3g);border:1px solid rgba(245,158,11,.3);border-radius:var(--rs);padding:14px 20px;margin-bottom:20px;font-size:13px;color:#fbbf24;display:none}
+.cbanner.vis{display:block}
+.cbanner code{background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-family:var(--m);font-size:12px}
 
-        /* FORMULARIOS Y MODALES */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: var(--bg1); padding: 30px; border-radius: 12px; border: 1px solid var(--bd); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;}
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; color: var(--t2); margin-bottom: 5px; font-size: 14px;}
-        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--bd); background: var(--bg2); color: var(--t1); font-family: var(--f1); }
-        
-        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--bd); padding-bottom: 15px;}
-    </style>
+/* PHASE BAR */
+.pbar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.pb{padding:10px 20px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr)}
+.pb:hover{border-color:var(--ac);color:var(--t1)}.pb.on{background:var(--acg);border-color:var(--ac);color:var(--ac)}
+
+/* SECTION */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.sh h3{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.badge{font-size:11px;font-weight:600;padding:4px 10px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;color:var(--t2)}
+
+/* MODULE */
+.mblk{margin-bottom:28px}
+.mtit{font-size:14px;font-weight:600;color:var(--t2);margin-bottom:12px;padding-left:4px;display:flex;align-items:center;gap:8px}
+.mtit .dot{width:8px;height:8px;border-radius:50%;background:var(--ac2)}.mtit.tw .dot{background:var(--ac3)}
+
+/* CLASS GRID */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:20px;transition:var(--tr);cursor:pointer;position:relative}
+.cc:hover{border-color:var(--bdl);background:var(--bg2h);transform:translateY(-2px);box-shadow:var(--sh)}
+.cc.vd{border-left:3px solid var(--ac)}.cc.tw{border-left:3px solid var(--ac3)}
+.cct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.cid{font-family:var(--m);font-size:11px;color:var(--t3)}
+.cb{font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.cb.v{background:rgba(0,212,170,.12);color:var(--ac)}.cb.p{background:rgba(99,102,241,.12);color:var(--ac2)}.cb.t{background:rgba(245,158,11,.12);color:var(--ac3)}
+.cc h4{font-size:16px;font-weight:600;margin-bottom:6px}
+.cc .ds{font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5}
+.cm{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t3);margin-bottom:12px}.cm span{display:flex;align-items:center;gap:4px}
+.ca{display:flex;gap:6px;flex-wrap:wrap}
+.bs{padding:6px 12px;font-size:11px;font-weight:600;border-radius:var(--rx);transition:var(--tr);display:inline-flex;align-items:center;gap:4px;text-decoration:none;cursor:pointer}
+.bs.p{background:var(--acg);color:var(--ac);border:1px solid rgba(0,212,170,.2)}.bs.p:hover{background:var(--ac);color:#0a0e1a}
+.bs.s{background:var(--bg3);color:var(--t2);border:1px solid var(--bd)}.bs.s:hover{border-color:var(--bdl);color:var(--t1)}
+.bs.d{background:var(--errg);color:var(--err);border:1px solid rgba(239,68,68,.2)}.bs.d:hover{background:var(--err);color:#fff}
+.bs.w{background:var(--ac3g);color:var(--ac3);border:1px solid rgba(245,158,11,.2)}
+
+/* STUDENTS */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:22px;transition:var(--tr)}
+.sc:hover{border-color:var(--bdl);transform:translateY(-2px);box-shadow:var(--sh)}
+.stp{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sav{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.si h4{font-size:15px;font-weight:600}.si p{font-size:12px;color:var(--t2)}
+.sr{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.sl{font-size:11px;color:var(--t2);width:100px;flex-shrink:0}
+.sbr{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.sf{height:100%;border-radius:3px;transition:width .5s ease}
+.sf.s1{background:linear-gradient(90deg,var(--ac),#00e6b8)}.sf.s2{background:linear-gradient(90deg,var(--ac2),#818cf8)}.sf.s3{background:linear-gradient(90deg,var(--ac3),#fbbf24)}
+.sv{font-family:var(--m);font-size:11px;color:var(--t3);width:28px;text-align:right}
+.spr{margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)}
+.spl{font-size:12px;color:var(--t2);margin-bottom:6px;display:flex;justify-content:space-between}
+.spb{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.spf{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:4px;transition:width .6s ease}
+.sps{display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--t3)}
+.scn{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+
+/* ADMIN */
+.atabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.at{padding:10px 18px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr)}
+.at:hover{border-color:var(--ac2);color:var(--t1)}.at.on{background:var(--ac2g);border-color:var(--ac2);color:var(--ac2)}
+.ap{display:none}.ap.on{display:block}
+.atb{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.atw{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);overflow-x:auto}
+.ata{width:100%;border-collapse:collapse;font-size:13px}
+.ata th{text-align:left;padding:12px 14px;background:var(--bg3);color:var(--t2);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd);white-space:nowrap}
+.ata td{padding:10px 14px;border-bottom:1px solid rgba(42,53,80,.4);color:var(--t1);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ata tr:hover td{background:rgba(255,255,255,.02)}
+.ba{padding:8px 18px;font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr);display:inline-flex;align-items:center;gap:6px}
+.ba.p{background:var(--ac);color:#0a0e1a}.ba.p:hover{box-shadow:0 4px 16px rgba(0,212,170,.3)}
+.ba.d{background:var(--errg);color:var(--err);border:1px solid rgba(239,68,68,.2)}.ba.d:hover{background:var(--err);color:#fff}
+.ba.s{background:var(--bg2);color:var(--t2);border:1px solid var(--bd)}
+
+/* INFO CARDS */
+.ic{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.icc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:22px;transition:var(--tr)}
+.icc:hover{border-color:var(--bdl);transform:translateY(-2px)}
+.icc h4{font-size:15px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.icc p{font-size:13px;color:var(--t2);line-height:1.6}
+.icc a{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
+
+/* MODAL */
+.mo{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
+.mo.on{display:flex}
+.mb{background:var(--bg1);border:1px solid var(--bd);border-radius:16px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;box-shadow:var(--shl)}
+.mh{padding:20px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg1);z-index:1;border-radius:16px 16px 0 0}
+.mh h3{font-size:17px;font-weight:700}
+.mx{width:32px;height:32px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.mx:hover{border-color:var(--err);color:var(--err)}
+.mbd{padding:24px}
+.mbd .fg{margin-bottom:14px}
+.mft{padding:16px 24px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--bg1);border-radius:0 0 16px 16px}
+
+/* TOAST */
+.tc{position:fixed;top:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px}
+.tt{padding:12px 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rs);font-size:13px;color:var(--t1);box-shadow:var(--sh);animation:si .3s ease;display:flex;align-items:center;gap:8px}
+.tt.ok{border-left:3px solid var(--ac)}.tt.er{border-left:3px solid var(--err)}
+@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .tb{padding:0 12px}.tb-n{display:none}.mc{padding:14px}.lbox{padding:32px 22px;margin:16px}
+  .cg,.sg,.ic{grid-template-columns:1fr}
+  .mnav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,14,26,.96);backdrop-filter:blur(12px);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:8px 0 env(safe-area-inset-bottom,8px);z-index:100}
+  .mnav button{padding:6px 10px;background:transparent;color:var(--t3);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:var(--rx)}
+  .mnav button.on{color:var(--ac)}
+  .mnav .ni{font-size:18px}
+  #DASH.on{padding-bottom:70px}
+}
+@media(min-width:769px){.mnav{display:none}}
+</style>
 </head>
 <body>
+<div id="LS"><div class="ldr"></div><div class="lt">Cargando Portal CUBI-K...</div></div>
+<div class="tc" id="TC"></div>
 
-    <div id="login-screen">
-        <div class="login-box">
-            <h1 style="color: var(--ac); margin-bottom: 10px;">CUBI-K IA</h1>
-            <p style="color: var(--t2); margin-bottom: 20px;">Portal Educativo</p>
-            <input type="email" id="login-email" placeholder="Correo Corporativo o Personal">
-            <button class="btn btn-primary" style="width: 100%;" onclick="iniciarSesion()">Ingresar</button>
-            <p id="login-error" style="color: var(--err); margin-top: 15px; font-size: 14px;" class="hidden"></p>
-        </div>
-    </div>
+<!-- LOGIN -->
+<div id="LOGIN">
+<div class="lbox">
+<div class="lbrand"><h1>CUBI-K</h1><p>Portal IA Educativo &bull; Powered by AIWIS</p></div>
+<div id="LN">
+<div class="fg"><label>Selecciona tu usuario</label><select id="LSEL"><option value="">— Cargando usuarios —</option></select></div>
+<div class="pwf" id="PWF"><label>Contraseña de Acceso</label><input type="password" id="LPW" placeholder="Ingresa la contraseña"></div>
+<button class="bl" id="BLOG">Ingresar al Portal</button>
+<div class="lerr" id="LERR"></div>
+<div class="mlink" id="MLNK">🔑 Acceso directo Master / Root</div>
+</div>
+<div id="LM" style="display:none">
+<div class="fg"><label>🔑 Acceso Master Root</label><input type="password" id="MPW" placeholder="Contraseña Master Root"></div>
+<button class="bl" id="MLOG">Acceder como Master Root</button>
+<div class="lerr" id="MERR"></div>
+<div class="mlink" id="BKLNK">← Volver al login normal</div>
+</div>
+<div class="lfoot"><span>AIWIS &copy; 2026 &bull; Armin Wildo Salazar</span></div>
+</div>
+</div>
 
-    <div id="app-screen" class="hidden">
-        <div class="sidebar">
-            <h2 style="color: var(--ac); margin-bottom: 30px; text-align: center;">CUBI-K</h2>
-            <div class="menu-item active" onclick="cambiarVista('vista-clases')">📚 Clases</div>
-            <div class="menu-item" onclick="cambiarVista('vista-proyectos')">🚀 Proyectos</div>
-            <div class="menu-item admin-only hidden" onclick="abrirConfiguracion()">⚙️ Configuración (DB)</div>
-            
-            <div style="margin-top: auto; border-top: 1px solid var(--bd); padding-top: 15px;">
-                <p id="user-name" style="color: var(--t1); font-weight: 600; font-size: 14px;"></p>
-                <p id="user-role" style="color: var(--t3); font-size: 12px; margin-bottom: 15px;"></p>
-                <button class="btn" style="background: var(--bg2); color: var(--t2); width: 100%;" onclick="cerrarSesion()">Salir</button>
-            </div>
-        </div>
+<!-- DASHBOARD -->
+<div id="DASH">
+<div class="tb">
+<div class="tb-b"><h2>CUBI-K</h2><span class="tag" id="UTAG">Portal</span></div>
+<div class="tb-n" id="TBN"></div>
+<div class="tb-r">
+<button class="brf" onclick="doRefresh()" title="Recargar datos">🔄</button>
+<div class="upill"><div class="av" id="UAV">A</div><span id="UNM">User</span></div>
+<button class="blo" onclick="doLogout()">Salir</button>
+</div>
+</div>
+<div class="mc">
+<div class="cbanner" id="CBAN">⚠️ <strong>Modo Demo:</strong> Configura la variable <code>APP_SCRIPT_URL</code> con tu URL de Google Apps Script desplegado para conectar con la base de datos real.</div>
+<div id="VC" class="vp"><div class="sh"><h3>📚 Clases</h3><span class="badge" id="NC">0</span></div><div class="pbar" id="PB"></div><div id="CB"></div></div>
+<div id="VE" class="vp"><div class="sh"><h3>👥 Estudiantes</h3><span class="badge" id="NE">0</span></div><div class="sg" id="SB"></div></div>
+<div id="VA" class="vp"><div class="sh"><h3>🎓 Aula Virtual</h3></div><div class="ic" id="AB"></div></div>
+<div id="VD" class="vp"><div class="sh"><h3>⚙️ Panel de Administración</h3><span class="badge">Master / Admin</span></div><div class="atabs" id="ATBS"></div><div id="APC" class="ap on"></div><div id="APU" class="ap"></div><div id="APP" class="ap"></div><div id="APK" class="ap"></div></div>
+</div>
+<div class="mnav" id="MN"></div>
+</div>
 
-        <div class="main-content">
-            
-            <div id="vista-clases" class="vista">
-                <div class="header-actions">
-                    <h2>📚 Módulos y Clases</h2>
-                    <button class="btn btn-primary admin-only hidden" onclick="abrirModalClase()">+ Nueva Clase</button>
-                </div>
-                <div id="contenedor-clases" class="card-grid">
-                    </div>
-            </div>
+<!-- MODALS -->
+<div class="mo" id="MC"><div class="mb" style="max-width:700px"><div class="mh"><h3 id="MCT">Clase</h3><button class="mx" onclick="cM('MC')">✕</button></div><div class="mbd" id="MCB"></div></div></div>
+<div class="mo" id="MF"><div class="mb"><div class="mh"><h3 id="MFT">Form</h3><button class="mx" onclick="cM('MF')">✕</button></div><div class="mbd" id="MFB"></div><div class="mft"><button class="ba s" onclick="cM('MF')">Cancelar</button><button class="ba p" id="MFS">Guardar</button></div></div></div>
+<div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Eliminar</button></div></div></div>
 
-            <div id="vista-proyectos" class="vista hidden">
-                <div class="header-actions">
-                    <h2>🚀 Entregas de Proyectos</h2>
-                </div>
-                <p style="color: var(--t2);">Aquí podrás ver y subir tus entregas de proyectos.</p>
-                </div>
+<script>
+const API='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJNeR7asbeMcaaGKzoLwiqECkFcNPMLhlGgPVsRQ3kg/exec';
+const MPW='123123';
+const APW='admin123'; // CONTRASEÑA PARA ADMINISTRADORES
+const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
+let D={u:null,us:[],cl:[],pr:[],cf:{},cfr:[],ph:1};
+const $=i=>document.getElementById(i);
+const toast=(m,t='ok')=>{const e=document.createElement('div');e.className='tt '+t;e.innerHTML=(t==='ok'?'✅':'❌')+' '+m;$('TC').appendChild(e);setTimeout(()=>e.remove(),3500)};
+const ini=n=>n?n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase():'??';
+const fd=d=>{if(!d)return'—';try{return new Date(d).toLocaleDateString('es-CL',{day:'2-digit',month:'short',year:'numeric'})}catch{return String(d)}};
+const pp=j=>{if(!j||j==='{}'||j==='')return{};try{return typeof j==='string'?JSON.parse(j):j}catch{return{}}};
+function eurl(u){if(!u)return null;let m=u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);if(m)return'https://www.youtube.com/embed/'+m[1];m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);if(m)return'https://drive.google.com/file/d/'+m[1]+'/preview';return null}
 
-            <div id="vista-config" class="vista hidden">
-                <div class="header-actions">
-                    <h2>⚙️ Panel de Control y Base de Datos</h2>
-                    <p style="color: var(--ac);">Acceso Nivel: Administrador / Master Root</p>
-                </div>
-                <div id="db-container">
-                    </div>
-            </div>
+async function aGet(){
+  if(DEMO)return demoD();
+  try{const r=await fetch(API+'?action=getTodo&_='+Date.now());const j=await r.json();if(j.success)return j.data;throw new Error(j.message)}
+  catch(e){console.error(e);toast('Error: '+e.message,'er');return demoD()}
+}
+async function aPost(b){
+  if(DEMO){toast('Demo: configura APP_SCRIPT_URL','er');return{success:false}}
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});
+    const txt=await r.text();
+    let j;
+    try { j=JSON.parse(txt); } catch(e) { throw new Error('Respuesta del servidor no es JSON. Error de Backend.'); }
+    if(j.success)toast(j.message||'OK');else toast(j.message||'Error','er');
+    return j;
+  }
+  catch(e){console.error(e);toast('Error en la operación POST','er');return{success:false}}
+}
 
-        </div>
-    </div>
+function demoD(){return{configuracion:[],usuarios:[],clases:[],proyectos:[]}}
 
-    <div id="modal-clase" class="modal hidden">
-        <div class="modal-content">
-            <h3 id="modal-clase-titulo" style="color: var(--ac); margin-bottom: 20px;">Crear/Editar Clase</h3>
-            <form id="form-clase" onsubmit="guardarClase(event)">
-                <input type="hidden" id="form-id-clase">
-                <div class="form-group">
-                    <label>Título de la Clase</label>
-                    <input type="text" id="form-titulo" required>
-                </div>
-                <div class="form-group">
-                    <label>Fase ID</label>
-                    <input type="text" id="form-fase" required>
-                </div>
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <input type="text" id="form-desc">
-                </div>
-                <div class="form-group">
-                    <label>URL Video Meet</label>
-                    <input type="url" id="form-video">
-                </div>
-                <div class="form-group">
-                    <label>Material Drive (URL)</label>
-                    <input type="url" id="form-drive">
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="button" class="btn" style="background: var(--bg2); color: var(--t1); flex: 1;" onclick="cerrarModal('modal-clase')">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar Cambios</button>
-                </div>
-            </form>
-        </div>
-    </div>
+async function load(){const d=await aGet();D.cfr=d.configuracion||[];D.cf={};D.cfr.forEach(r=>{if(r.Clave)D.cf[r.Clave]=r.Valor});D.us=(d.usuarios||[]).filter(u=>String(u.Activo).toLowerCase()==='true'||u.Activo===true);D.cl=(d.clases||[]).filter(c=>c.ID_Clase);D.pr=(d.proyectos||[]).filter(p=>p.ID_Entrega)}
+async function init(){await load();popLogin();$('LS').classList.add('off')}
+async function doRefresh(){toast('Recargando...');await load();if(D.u){const f=D.us.find(u=>u.ID_Usuario===D.u.ID_Usuario);if(f)D.u=f;rAll()}toast('Datos actualizados ✓')}
 
-    <script>
-        // ==========================================
-        // CONFIGURACIÓN GLOBAL
-        // ==========================================
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwJA-B3Hw3pdhVGKC8Q2TA0cSrF26806Do_g1uh3EaqH8cJDAOnM8kiP6zj7i1MCWTBEg/exec';
-        const ADMIN_PASSWORD = 'admincubik2026';
-        
-        let D = { usuarios: [], clases: [], proyectos: [], config: [] };
-        let usuarioActual = null;
-        let progresoLocal = {};
+function popLogin(){const s=$('LSEL');s.innerHTML='<option value="">— Selecciona tu usuario —</option>';D.us.forEach(u=>{s.innerHTML+='<option value="'+(u.Email_Corporativo||u.Email_Personal)+'">'+u.Nombre+' ('+u.Rol+')</option>'})}
 
-        // ==========================================
-        // FUNCIONES DE RED (FETCH API)
-        // ==========================================
-        async function aPost(payload) {
-            try {
-                const res = await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Evitar bloqueos CORS (Apps script devuelve opaco en POST)
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                return { success: true }; // En no-cors asumimos éxito si no hay catch
-            } catch (err) {
-                console.error("Error POST:", err);
-                return { success: false, message: err.message };
-            }
-        }
+$('LSEL').addEventListener('change',function(){
+  const u=D.us.find(x=>(x.Email_Corporativo||x.Email_Personal)===this.value);
+  if(u&&(u.Rol==='Master'||u.Rol==='Admin')){
+    $('PWF').classList.add('vis');
+    $('PWF').querySelector('label').textContent = 'Contraseña ' + u.Rol;
+  }else{
+    $('PWF').classList.remove('vis');
+    $('LPW').value='';
+  }
+  $('LERR').textContent='';
+});
 
-        async function cargarDatosGlobales() {
-            try {
-                const res = await fetch(API_URL + '?action=getTodo');
-                const json = await res.json();
-                if(json.success) {
-                    D.usuarios = json.data.usuarios || [];
-                    D.clases = json.data.clases || [];
-                    D.proyectos = json.data.proyectos || [];
-                    D.config = json.data.configuracion || [];
-                }
-            } catch (err) {
-                console.error("Error obteniendo datos:", err);
-                alert("Error de conexión con la base de datos.");
-            }
-        }
+$('BLOG').addEventListener('click',function(){
+  const e=$('LSEL').value;if(!e){$('LERR').textContent='Selecciona un usuario';return}
+  const u=D.us.find(x=>(x.Email_Corporativo||x.Email_Personal)===e);
+  if(!u){$('LERR').textContent='Usuario no encontrado';return}
+  if(u.Rol==='Master'&&$('LPW').value!==MPW){$('LERR').textContent='Contraseña Master incorrecta';return}
+  if(u.Rol==='Admin'&&$('LPW').value!==APW){$('LERR').textContent='Contraseña Admin incorrecta';return}
+  D.u=u;enter();
+});
+$('LPW').addEventListener('keydown',e=>{if(e.key==='Enter')$('BLOG').click()});
+$('MPW').addEventListener('keydown',e=>{if(e.key==='Enter')$('MLOG').click()});
+$('MLNK').addEventListener('click',()=>{$('LN').style.display='none';$('LM').style.display='block';$('MPW').focus()});
+$('BKLNK').addEventListener('click',()=>{$('LM').style.display='none';$('LN').style.display='block'});
+$('MLOG').addEventListener('click',function(){if($('MPW').value!==MPW){$('MERR').textContent='Contraseña incorrecta';return}const m=D.us.find(u=>u.Rol==='Master');if(!m){$('MERR').textContent='No hay usuario Master';return}D.u=m;enter()});
 
-        // ==========================================
-        // SISTEMA DE SESIÓN Y ROLES
-        // ==========================================
-        async function iniciarSesion() {
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
-            const errorMsg = document.getElementById('login-error');
-            
-            if(!email) return;
-            errorMsg.textContent = "Conectando con la base de datos...";
-            errorMsg.style.color = "var(--ac)";
-            errorMsg.classList.remove('hidden');
+function enter(){$('LOGIN').classList.add('off');$('DASH').classList.add('on');$('UNM').textContent=D.u.Nombre;$('UAV').textContent=ini(D.u.Nombre);$('UTAG').textContent=D.u.Rol;
+const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
+const nv=[{i:'C',ic:'📚',l:'Clases'},{i:'E',ic:'👥',l:'Estudiantes'},{i:'A',ic:'🎓',l:'Aula'}];if(adm)nv.push({i:'D',ic:'⚙️',l:'Admin'});
+$('TBN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')">'+n.ic+' '+n.l+'</button>').join('');
+$('MN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')"><span class="ni">'+n.ic+'</span>'+n.l+'</button>').join('');
+if(DEMO)$('CBAN').classList.add('vis');rAll();sv('C');toast('Bienvenido, '+D.u.Nombre)}
 
-            await cargarDatosGlobales();
+function doLogout(){D.u=null;$('DASH').classList.remove('on');$('LOGIN').classList.remove('off');$('LSEL').value='';$('LPW').value='';$('PWF').classList.remove('vis');$('LM').style.display='none';$('LN').style.display='block'}
 
-            const user = D.usuarios.find(u => 
-                (u.Email_Corporativo && u.Email_Corporativo.toLowerCase() === email) || 
-                (u.Email_Personal && u.Email_Personal.toLowerCase() === email)
-            );
+function sv(v){document.querySelectorAll('.vp').forEach(p=>p.classList.remove('von'));const m={C:'VC',E:'VE',A:'VA',D:'VD'};const el=$(m[v]);if(el)el.classList.add('von');document.querySelectorAll('.tb-n button,.mnav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
 
-            if (user) {
-                usuarioActual = user;
-                try { progresoLocal = JSON.parse(user.Progreso_JSON || '{}'); } catch(e) { progresoLocal = {}; }
-                
-                document.getElementById('user-name').textContent = user.Nombre;
-                document.getElementById('user-role').textContent = user.Rol + (user.Nombre.includes("Armin") ? " (Master Root)" : "");
-                
-                // Mostrar botones de admin si corresponde
-                const esAdmin = user.Rol === 'Admin' || user.Nombre.includes('Armin Salazar');
-                document.querySelectorAll('.admin-only').forEach(el => {
-                    if(esAdmin) el.classList.remove('hidden');
-                });
+function rAll(){rPB();rCL();rST();rAU();if(D.u.Rol==='Master'||D.u.Rol==='Admin')rAD()}
 
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('app-screen').classList.remove('hidden');
-                
-                renderizarClases();
-            } else {
-                errorMsg.textContent = "Usuario no encontrado. Verifique su correo.";
-                errorMsg.style.color = "var(--err)";
-            }
-        }
+function rPB(){const ps=[...new Set(D.cl.map(c=>Number(c.Fase_ID)))].filter(Boolean).sort();if(!ps.length)ps.push(1);const t={};D.cl.forEach(c=>{if(c.Fase_ID&&c.Titulo_Fase)t[Number(c.Fase_ID)]=c.Titulo_Fase});$('PB').innerHTML=ps.map(p=>'<button class="pb'+(p===D.ph?' on':'')+'" onclick="D.ph='+p+';rPB();rCL()">'+(t[p]||'Fase '+p)+'</button>').join('')}
 
-        function cerrarSesion() {
-            usuarioActual = null;
-            document.getElementById('app-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('login-email').value = '';
-        }
+function rCL(){const ls=D.cl.filter(c=>Number(c.Fase_ID)===D.ph);const pg=pp(D.u?.Progreso_JSON);$('NC').textContent=ls.length+' clases';
+const ms={};ls.forEach(c=>{const k=c.Tipo_Modulo==='Taller'?'T_'+c.Sub_ID:'M_'+c.Modulo_ID;if(!ms[k])ms[k]={t:c.Tipo_Modulo,id:c.Modulo_ID,sub:c.Sub_ID,it:[]};ms[k].it.push(c)});
+let h='';for(const[,m]of Object.entries(ms)){const iT=m.t==='Taller';h+='<div class="mblk"><div class="mtit'+(iT?' tw':'')+'"><span class="dot"></span>'+(iT?'🔧 Taller '+m.sub:'📖 Módulo '+m.id)+'</div><div class="cg">';
+m.it.forEach(c=>{const sn=pg[c.ID_Clase]?.visto;h+='<div class="cc'+(sn?' vd':'')+(iT?' tw':'')+'" onclick="oC(\''+c.ID_Clase+'\')"><div class="cct"><span class="cid">'+c.ID_Clase+'</span>'+(sn?'<span class="cb v">✓ Visto</span>':iT?'<span class="cb t">Taller</span>':'<span class="cb p">Pendiente</span>')+'</div><h4>'+(c.Titulo_Clase||'—')+'</h4><p class="ds">'+(c.Descripcion_Clase||'—')+'</p><div class="cm"><span>📅 '+fd(c.Fecha_Clase)+'</span></div><div class="ca">'+(c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':'')+(c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':'')+(c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">❓ Quiz</a>':'')+(c.Google_Calendar_Meet_URL?'<a href="'+c.Google_Calendar_Meet_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📹 Meet</a>':'')+'</div></div>'});
+h+='</div></div>'}
+if(!ls.length)h='<div style="text-align:center;padding:60px;color:var(--t3)"><p style="font-size:40px;margin-bottom:12px">📚</p><p>No hay clases en esta fase</p></div>';
+$('CB').innerHTML=h}
 
-        // ==========================================
-        // INTERFAZ: CLASES Y VISTO BUENO
-        // ==========================================
-        function cambiarVista(idVista) {
-            document.querySelectorAll('.vista').forEach(v => v.classList.add('hidden'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-            document.getElementById(idVista).classList.remove('hidden');
-            event.currentTarget.classList.add('active');
-        }
+function oC(id){const c=D.cl.find(x=>x.ID_Clase===id);if(!c)return;const pg=pp(D.u?.Progreso_JSON);const sn=pg[id]?.visto;const ev=eurl(c.Video_Meet_URL);
+$('MCT').textContent=c.ID_Clase+' — '+c.Titulo_Clase;
+$('MCB').innerHTML='<div style="width:100%;aspect-ratio:16/9;background:var(--bg3);border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;overflow:hidden">'+(ev?'<iframe src="'+ev+'" style="width:100%;height:100%;border:none" allowfullscreen></iframe>':'<span style="color:var(--t3)">📹 Video no disponible</span>')+'</div><p style="color:var(--t2);font-size:13px;margin-bottom:12px">'+(c.Descripcion_Clase||'—')+'</p><div class="cm"><span>📅 '+fd(c.Fecha_Clase)+'</span><span>📂 Fase '+c.Fase_ID+' — '+(c.Tipo_Modulo==='Taller'?'Taller '+c.Sub_ID:'Módulo '+c.Modulo_ID)+'</span></div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">'+(c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p">▶ Video</a>':'')+(c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s">📄 Transcripción</a>':'')+(c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s">❓ Quiz</a>':'')+(c.Material_Drive_URL?'<a href="'+c.Material_Drive_URL+'" target="_blank" class="bs s">📁 Material</a>':'')+(c.Google_Calendar_Meet_URL?'<a href="'+c.Google_Calendar_Meet_URL+'" target="_blank" class="bs s">📹 Meet</a>':'')+'</div><div style="margin-top:16px">'+(sn?'<button class="ba" style="background:var(--acg);color:var(--ac);border:1px solid var(--ac)" onclick="mToggleSeen(\''+id+'\',false)">✅ Clase Vista (Click para desmarcar)</button>':'<button class="ba p" onclick="mToggleSeen(\''+id+'\',true)">☑️ Marcar como Visto</button>')+'</div>';
+oM('MC')}
 
-        function renderizarClases() {
-            const contenedor = document.getElementById('contenedor-clases');
-            contenedor.innerHTML = '';
+async function mToggleSeen(id, state){
+  const pg=pp(D.u.Progreso_JSON);
+  if(state) { pg[id]={visto:true,fecha_visto:new Date().toISOString()}; }
+  else { delete pg[id]; }
+  D.u.Progreso_JSON=JSON.stringify(pg);
+  const i=D.us.findIndex(u=>u.ID_Usuario===D.u.ID_Usuario);
+  if(i>=0)D.us[i].Progreso_JSON=D.u.Progreso_JSON;
+  rAll(); oC(id);
+  await aPost({action:'updateProgreso',email:D.u.Email_Corporativo||D.u.Email_Personal,progreso:pg});
+}
 
-            D.clases.forEach(clase => {
-                const isVisto = progresoLocal[clase.ID_Clase] === true;
-                const claseHTML = `
-                    <div class="card">
-                        <span style="font-size:10px; background:var(--bd); padding:3px 6px; border-radius:4px;">Fase ${clase.Fase_ID || '-'}</span>
-                        <h3 style="margin-top:10px;">${clase.Titulo_Clase || 'Sin Título'}</h3>
-                        <p>${clase.Descripcion_Clase || 'Sin descripción disponible.'}</p>
-                        
-                        ${clase.Video_Meet_URL ? `<a href="${clase.Video_Meet_URL}" target="_blank" class="btn" style="background:var(--ac2g); color:var(--ac2); font-size:12px; display:inline-block; margin-bottom:10px;">🎥 Ver Grabación</a>` : ''}
-                        
-                        <button class="btn-visto ${isVisto ? 'visto-on' : 'visto-off'}" onclick="toggleVisto('${clase.ID_Clase}', this)">
-                            ${isVisto ? '✅ Clase Completada' : '⬜ Marcar como Visto'}
-                        </button>
-                        
-                        ${(usuarioActual.Rol === 'Admin' || usuarioActual.Nombre.includes('Armin')) ? 
-                            `<button class="btn btn-danger" style="font-size:11px; margin-top:10px; width:100%;" onclick="eliminarClase('${clase.ID_Clase}')">🗑️ Eliminar Clase</button>` 
-                        : ''}
-                    </div>
-                `;
-                contenedor.innerHTML += claseHTML;
-            });
-        }
+function rST(){const ls=D.us.filter(u=>u.Rol!=='Master');$('NE').textContent=ls.length+' alumnos';const tt=D.cl.length||1;
+$('SB').innerHTML=ls.map(u=>{const pg=pp(u.Progreso_JSON);const dn=Object.values(pg).filter(p=>p.visto).length;const pc=Math.round(dn/tt*100);const sp=Number(u.Skill_Prompting)||0,sh=Number(u.Skill_Herramientas_IA)||0,sa=Number(u.Skill_Analisis)||0;const ph=(u.Telefono||'').replace(/\+/g,'');
+return'<div class="sc"><div class="stp"><div class="sav">'+ini(u.Nombre)+'</div><div class="si"><h4>'+u.Nombre+'</h4><p>'+(u.Cargo||u.Rol)+' — '+(u.Corporacion||'')+'</p></div></div><div class="sr"><span class="sl">Prompting</span><div class="sbr"><div class="sf s1" style="width:'+sp*10+'%"></div></div><span class="sv">'+sp+'</span></div><div class="sr"><span class="sl">Herram. IA</span><div class="sbr"><div class="sf s2" style="width:'+sh*10+'%"></div></div><span class="sv">'+sh+'</span></div><div class="sr"><span class="sl">Análisis</span><div class="sbr"><div class="sf s3" style="width:'+sa*10+'%"></div></div><span class="sv">'+sa+'</span></div><div class="spr"><div class="spl"><span>Progreso</span><span>'+pc+'%</span></div><div class="spb"><div class="spf" style="width:'+pc+'%"></div></div><div class="sps"><span>✅ '+dn+'</span><span>📋 '+(tt-dn)+' pend.</span></div></div><div class="scn">'+(u.Email_Personal?'<a href="mailto:'+u.Email_Personal+'" class="bs s">✉️ Email</a>':'')+(ph?'<a href="https://wa.me/'+ph+'" target="_blank" class="bs s">💬 WhatsApp</a>':'')+(u.Drive_Alumno_URL?'<a href="'+u.Drive_Alumno_URL+'" target="_blank" class="bs s">📁 Drive</a>':'')+'</div></div>'}).join('')}
 
-        async function toggleVisto(idClase, btnElement) {
-            const estadoActual = progresoLocal[idClase] || false;
-            progresoLocal[idClase] = !estadoActual; 
+function rAU(){const c=D.cf;const pg=pp(D.u?.Progreso_JSON);const dn=Object.values(pg).filter(p=>p.visto).length;const pc=Math.round(dn/(D.cl.length||1)*100);
+$('AB').innerHTML='<div class="icc"><h4>🏢 '+(c.Empresa_Mentor||'AIWIS')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Mentor||'—')+'</p><p><strong>Mentores:</strong> '+(c['01_Mentor_AIWIS']||'')+', '+(c['02_Mentor_AIWIS']||'')+'</p><a href="mailto:'+(c.Email_Soporte||'')+'">📧 Soporte</a></div><div class="icc"><h4>🎯 '+(c.Empresa_Cliente||'CUBI-K')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Cliente||'—')+'</p><p>Portal educativo IA corporativa</p></div><div class="icc"><h4>🐙 GitHub</h4><p>Repositorios del proyecto</p><a href="'+(c.Github_Aiwis||'#')+'" target="_blank">🔗 Ver Repo</a></div><div class="icc"><h4>📁 Google Drive</h4><p>Materiales del curso</p><a href="'+(c.Drive_Cubik_Aiwis||'#')+'" target="_blank">🔗 Abrir</a></div><div class="icc"><h4>📹 Google Meet</h4><p>Sala de clases en vivo</p><a href="https://meet.google.com/ryy-peau-kej" target="_blank">🔗 Entrar</a></div><div class="icc"><h4>📊 Mi Progreso</h4><p><strong style="color:var(--ac);font-size:28px">'+pc+'%</strong> <span style="color:var(--t3);font-size:12px">completado</span></p><p style="margin-top:4px">'+dn+' de '+D.cl.length+' clases</p></div>'}
 
-            // Actualizar UI INMEDIATAMENTE para que sea fluido
-            if (progresoLocal[idClase]) {
-                btnElement.className = 'btn-visto visto-on';
-                btnElement.innerHTML = '✅ Clase Completada';
-            } else {
-                btnElement.className = 'btn-visto visto-off';
-                btnElement.innerHTML = '⬜ Marcar como Visto';
-            }
+// ADMIN
+function rAD(){$('ATBS').innerHTML=[{i:'APC',l:'📚 Clases'},{i:'APU',l:'👥 Usuarios'},{i:'APP',l:'📦 Proyectos'},{i:'APK',l:'🔧 BDD Config'}].map((t,x)=>'<button class="at'+(x===0?' on':'')+'" onclick="sAT(\''+t.i+'\',this)">'+t.l+'</button>').join('');rAC();rAU2();rAPR();rAK()}
+function sAT(id,b){document.querySelectorAll('.ap').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.at').forEach(t=>t.classList.remove('on'));$(id).classList.add('on');if(b)b.classList.add('on')}
 
-            // Enviar en segundo plano al backend
-            const strProgreso = JSON.stringify(progresoLocal);
-            // Actualizar el array local
-            const userIndex = D.usuarios.findIndex(u => u.ID_Usuario === usuarioActual.ID_Usuario);
-            if(userIndex > -1) D.usuarios[userIndex].Progreso_JSON = strProgreso;
+function rAC(){$('APC').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.cl.length+' clases registradas</span><button class="ba p" onclick="oCF()">+ Agregar Clase</button></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Fase</th><th>Tipo</th><th>Mód</th><th>Título</th><th>Fecha</th><th>Video</th><th>Acc.</th></tr></thead><tbody>'+D.cl.map(c=>'<tr><td>'+c.ID_Clase+'</td><td>'+c.Fase_ID+'</td><td>'+c.Tipo_Modulo+'</td><td>'+(c.Tipo_Modulo==='Taller'?'T-'+c.Sub_ID:c.Modulo_ID)+'</td><td>'+c.Titulo_Clase+'</td><td>'+fd(c.Fecha_Clase)+'</td><td>'+(c.Video_Meet_URL?'✅':'—')+'</td><td><button class="bs s" onclick="oCF(\''+c.ID_Clase+'\')">✏️</button> <button class="bs d" onclick="cDel(\'c\',\''+c.ID_Clase+'\')">🗑</button></td></tr>').join('')+'</tbody></table></div>'}
 
-            await aPost({ action: 'updateProgreso', idUsuario: usuarioActual.ID_Usuario, progreso: strProgreso });
-        }
+function oCF(id){const c=id?D.cl.find(x=>x.ID_Clase===id):null;$('MFT').textContent=c?'Editar Clase':'Nueva Clase';
+$('MFB').innerHTML='<div class="fg"><label>ID Clase</label><input id="fc1" value="'+(c?.ID_Clase||'CLS-'+String(D.cl.length+1).padStart(3,'0'))+'" '+(c?'readonly':'')+'></div><div class="fg"><label>Fase ID</label><input id="fc2" type="number" value="'+(c?.Fase_ID||1)+'" min="1"></div><div class="fg"><label>Título Fase</label><input id="fc3" value="'+(c?.Titulo_Fase||'')+'"></div><div class="fg"><label>Tipo</label><select id="fc4"><option value="Normal" '+(c?.Tipo_Modulo!=='Taller'?'selected':'')+'>Normal</option><option value="Taller" '+(c?.Tipo_Modulo==='Taller'?'selected':'')+'>Taller</option></select></div><div class="fg"><label>Módulo ID</label><input id="fc5" value="'+(c?.Modulo_ID||1)+'"></div><div class="fg"><label>Sub ID</label><input id="fc6" value="'+(c?.Sub_ID||'')+'"></div><div class="fg"><label>Título Clase</label><input id="fc7" value="'+(c?.Titulo_Clase||'')+'"></div><div class="fg"><label>Descripción</label><textarea id="fc8">'+(c?.Descripcion_Clase||'')+'</textarea></div><div class="fg"><label>Fecha</label><input id="fc9" type="datetime-local" value="'+(c?.Fecha_Clase?String(c.Fecha_Clase).substring(0,16):'')+'"></div><div class="fg"><label>Video URL</label><input id="fc10" value="'+(c?.Video_Meet_URL||'')+'"></div><div class="fg"><label>Meet URL</label><input id="fc11" value="'+(c?.Google_Calendar_Meet_URL||'')+'"></div><div class="fg"><label>Transcripción</label><input id="fc12" value="'+(c?.Transcripcion_URL||'')+'"></div><div class="fg"><label>Quiz URL</label><input id="fc13" value="'+(c?.Quiz_URL||'')+'"></div><div class="fg"><label>Material URL</label><input id="fc14" value="'+(c?.Material_Drive_URL||'')+'"></div>';
+$('MFS').onclick=async()=>{const d={ID_Clase:$('fc1').value,Fase_ID:Number($('fc2').value),Titulo_Fase:$('fc3').value,Tipo_Modulo:$('fc4').value,Modulo_ID:$('fc5').value,Sub_ID:$('fc6').value,Titulo_Clase:$('fc7').value,Descripcion_Clase:$('fc8').value,Fecha_Clase:$('fc9').value,Video_Meet_URL:$('fc10').value,Google_Calendar_Meet_URL:$('fc11').value,Transcripcion_URL:$('fc12').value,Quiz_URL:$('fc13').value,Material_Drive_URL:$('fc14').value};if(!d.ID_Clase||!d.Titulo_Clase){toast('ID y Título requeridos','er');return}await aPost({action:id?'updateClase':'addClass',clase:d,id_clase:id||d.ID_Clase});if(id){const i=D.cl.findIndex(x=>x.ID_Clase===id);if(i>=0)D.cl[i]={...D.cl[i],...d}}else D.cl.push(d);cM('MF');rAll()};oM('MF')}
 
-        // ==========================================
-        // FUNCIONES ADMIN: CRUD Y BASE DE DATOS
-        // ==========================================
-        function abrirConfiguracion() {
-            // Validar si ya puso la clave en esta sesión
-            if (!sessionStorage.getItem('adminAutenticado')) {
-                const pass = prompt("Acceso Restringido.\nIngrese la clave de administrador para ver la Base de Datos:");
-                if (pass !== ADMIN_PASSWORD) {
-                    alert("Clave incorrecta. Acceso denegado.");
-                    return;
-                }
-                sessionStorage.setItem('adminAutenticado', 'true');
-            }
-            
-            cambiarVista('vista-config');
-            renderizarTablasDB();
-        }
+function rAU2(){$('APU').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.us.length+' usuarios</span><button class="ba p" onclick="oUF()">+ Agregar Usuario</button></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Nombre</th><th>Rol</th><th>Cargo</th><th>Email</th><th>Tel</th><th>Skills</th><th>Acc.</th></tr></thead><tbody>'+D.us.map(u=>'<tr><td>'+u.ID_Usuario+'</td><td>'+u.Nombre+'</td><td>'+u.Rol+'</td><td>'+(u.Cargo||'—')+'</td><td style="font-size:11px">'+(u.Email_Corporativo||'—')+'</td><td>'+(u.Telefono||'—')+'</td><td>'+(Number(u.Skill_Prompting)||0)+'/'+(Number(u.Skill_Herramientas_IA)||0)+'/'+(Number(u.Skill_Analisis)||0)+'</td><td><button class="bs s" onclick="oUF(\''+u.ID_Usuario+'\')">✏️</button> '+(u.Rol!=='Master'?'<button class="bs d" onclick="cDel(\'u\',\''+u.ID_Usuario+'\')">🗑</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'}
 
-        function renderizarTablasDB() {
-            const contenedor = document.getElementById('db-container');
-            contenedor.innerHTML = `
-                <h3 style="color:var(--t1); margin: 20px 0 10px 0;">👥 Tabla: Usuarios</h3>
-                <div class="db-table-container">${generarHTMLTabla(D.usuarios)}</div>
-                
-                <h3 style="color:var(--t1); margin: 30px 0 10px 0;">📚 Tabla: Clases</h3>
-                <div class="db-table-container">${generarHTMLTabla(D.clases)}</div>
-                
-                <h3 style="color:var(--t1); margin: 30px 0 10px 0;">⚙️ Tabla: Configuración</h3>
-                <div class="db-table-container">${generarHTMLTabla(D.config)}</div>
-            `;
-        }
+function oUF(id){const u=id?D.us.find(x=>x.ID_Usuario===id):null;$('MFT').textContent=u?'Editar Usuario':'Nuevo Usuario';
+$('MFB').innerHTML='<div class="fg"><label>ID</label><input id="fu1" value="'+(u?.ID_Usuario||'USR-'+String(D.us.length+1).padStart(3,'0'))+'" '+(u?'readonly':'')+'></div><div class="fg"><label>Nombre</label><input id="fu2" value="'+(u?.Nombre||'')+'"></div><div class="fg"><label>Email Personal</label><input id="fu3" value="'+(u?.Email_Personal||'')+'"></div><div class="fg"><label>Email Corporativo</label><input id="fu4" value="'+(u?.Email_Corporativo||'')+'"></div><div class="fg"><label>Rol</label><select id="fu5"><option value="Usuario" '+(u?.Rol==='Usuario'?'selected':'')+'>Usuario</option><option value="Admin" '+(u?.Rol==='Admin'?'selected':'')+'>Admin</option><option value="Master" '+(u?.Rol==='Master'?'selected':'')+'>Master</option></select></div><div class="fg"><label>Cargo</label><input id="fu6" value="'+(u?.Cargo||'')+'"></div><div class="fg"><label>Corporación</label><input id="fu7" value="'+(u?.Corporacion||'CUBI-K')+'"></div><div class="fg"><label>Teléfono</label><input id="fu8" value="'+(u?.Telefono||'')+'"></div><div class="fg"><label>Skill Prompting (0-10)</label><input id="fu9" type="number" min="0" max="10" value="'+(Number(u?.Skill_Prompting)||0)+'"></div><div class="fg"><label>Skill Herramientas (0-10)</label><input id="fu10" type="number" min="0" max="10" value="'+(Number(u?.Skill_Herramientas_IA)||0)+'"></div><div class="fg"><label>Skill Análisis (0-10)</label><input id="fu11" type="number" min="0" max="10" value="'+(Number(u?.Skill_Analisis)||0)+'"></div><div class="fg"><label>Stacks</label><input id="fu12" value="'+(u?.Skill_Staks||'')+'"></div><div class="fg"><label>Drive URL</label><input id="fu13" value="'+(u?.Drive_Alumno_URL||'')+'"></div>';
+$('MFS').onclick=async()=>{const d={ID_Usuario:$('fu1').value,Nombre:$('fu2').value,Email_Personal:$('fu3').value,Email_Corporativo:$('fu4').value,Rol:$('fu5').value,Cargo:$('fu6').value,Corporacion:$('fu7').value,Telefono:$('fu8').value,Progreso_JSON:'{}',Skill_Prompting:Number($('fu9').value),Skill_Herramientas_IA:Number($('fu10').value),Skill_Analisis:Number($('fu11').value),Skill_Staks:$('fu12').value,Drive_Alumno_URL:$('fu13').value,Activo:true};if(!d.ID_Usuario||!d.Nombre){toast('ID y Nombre requeridos','er');return}await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){d.Progreso_JSON=D.us[i].Progreso_JSON;D.us[i]={...D.us[i],...d}}}else D.us.push(d);cM('MF');popLogin();rAll()};oM('MF')}
 
-        function generarHTMLTabla(arrayDatos) {
-            if (!arrayDatos || arrayDatos.length === 0) return '<p>No hay datos.</p>';
-            const headers = Object.keys(arrayDatos[0]);
-            let html = '<table class="db-table"><thead><tr>';
-            headers.forEach(h => html += `<th>${h}</th>`);
-            html += '</tr></thead><tbody>';
-            
-            arrayDatos.forEach(row => {
-                html += '<tr>';
-                headers.forEach(h => {
-                    let val = row[h] || '';
-                    // Acortar strings muy largos (como JSON o URLs) para la vista DB
-                    if(val.length > 40) val = val.substring(0,40) + '...'; 
-                    html += `<td>${val}</td>`;
-                });
-                html += '</tr>';
-            });
-            html += '</tbody></table>';
-            return html;
-        }
+function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.pr.length+' entregas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Link</th><th>Nota</th><th>Fecha</th><th>Comentario</th><th>Evaluar</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;return'<tr><td>'+p.ID_Entrega+'</td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(p.URL_Proyecto?'<a href="'+p.URL_Proyecto+'" target="_blank">🔗</a>':'—')+'</td><td><strong style="color:var(--ac)">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td>'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs s" onclick="oEF(\''+p.ID_Entrega+'\')">📝</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:30px">Sin entregas</td></tr>')+'</tbody></table></div>'}
 
-        // ==========================================
-        // MODALES Y ACCIONES POST SIN ERRORES
-        // ==========================================
-        function abrirModalClase(idClase = null) {
-            document.getElementById('modal-clase').classList.remove('hidden');
-            if (idClase) {
-                // Modo Edición (puedes implementarlo buscando la clase)
-            } else {
-                // Modo Creación
-                document.getElementById('form-clase').reset();
-                document.getElementById('form-id-clase').value = 'CLS-' + Math.floor(Math.random() * 10000);
-            }
-        }
+function oEF(id){const p=D.pr.find(x=>x.ID_Entrega===id);if(!p)return;$('MFT').textContent='Evaluar '+id;$('MFB').innerHTML='<div class="fg"><label>Nota (1-7)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="'+(p.Nota_Evaluacion||'')+'"></div><div class="fg"><label>Comentarios</label><textarea id="fec">'+(p.Comentarios_Admin||'')+'</textarea></div>';$('MFS').onclick=async()=>{await aPost({action:'evaluarProyecto',id_entrega:id,nota:$('fen').value,comentarios:$('fec').value});const i=D.pr.findIndex(x=>x.ID_Entrega===id);if(i>=0){D.pr[i].Nota_Evaluacion=$('fen').value;D.pr[i].Comentarios_Admin=$('fec').value}cM('MF');rAPR()};oM('MF')}
 
-        function cerrarModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
+function rAK(){$('APK').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Vista de Configuraciones Sincronizadas</span><button class="ba p" onclick="openSheet()">📊 Acceder al Sheet BDD</button></div><div class="atw"><table class="ata"><thead><tr><th>Clave</th><th>Valor</th><th>Editar</th></tr></thead><tbody>'+D.cfr.map(r=>'<tr><td style="font-family:var(--m);font-size:12px">'+r.Clave+'</td><td>'+(r.Valor||'—')+'</td><td><button class="bs s" onclick="eCfg(\''+r.Clave+'\',\''+((r.Valor||'').replace(/'/g,"\\'"))+'\')">✏️</button></td></tr>').join('')+'</tbody></table></div><p style="margin-top:12px;font-size:12px;color:var(--t3)">Los usuarios de clase Admin y Master pueden acceder directamente a la base de datos Google Sheets si cuentan con la contraseña correspondiente.</p>'}
 
-        async function guardarClase(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.textContent = "Guardando..."; btn.disabled = true;
+function openSheet() {
+  const p = prompt("Por favor, ingresa tu clave Master/Admin para abrir la Base de Datos completa en Google Sheets:");
+  if (p === MPW || p === APW) {
+    window.open('https://docs.google.com/spreadsheets/d/1kHkPRF4FBeyHeJtCLLciBs7XZkDe-AQ4v1y4VekMV78/edit', '_blank');
+  } else if (p !== null) {
+    toast('Clave incorrecta', 'er');
+  }
+}
 
-            const nuevaClase = {
-                ID_Clase: document.getElementById('form-id-clase').value,
-                Fase_ID: document.getElementById('form-fase').value,
-                Titulo_Clase: document.getElementById('form-titulo').value,
-                Descripcion_Clase: document.getElementById('form-desc').value,
-                Video_Meet_URL: document.getElementById('form-video').value,
-                Material_Drive_URL: document.getElementById('form-drive').value,
-                // Puedes agregar el resto de campos vacíos para mantener la estructura de la DB
-                Tipo_Modulo: "Normal", Fecha_Clase: new Date().toISOString().split('T')[0]
-            };
+function eCfg(k,v){$('MFT').textContent='Editar: '+k;$('MFB').innerHTML='<div class="fg"><label>'+k+'</label><input id="fkv" value="'+v+'"></div>';$('MFS').onclick=async()=>{const nv=$('fkv').value;await aPost({action:'updateConfig',clave:k,valor:nv});D.cf[k]=nv;const r=D.cfr.find(x=>x.Clave===k);if(r)r.Valor=nv;cM('MF');rAK();rAU()};oM('MF')}
 
-            // Estructura exacta que requiere el nuevo backend (v3.gs)
-            const payload = {
-                action: 'createClase',
-                claseData: nuevaClase
-            };
+function cDel(t,id){$('DM').textContent='¿Eliminar '+(t==='c'?'clase':'usuario')+' '+id+'?';$('DY').onclick=async()=>{await aPost({action:t==='c'?'deleteClase':'deleteUsuario',id:id});if(t==='c')D.cl=D.cl.filter(c=>c.ID_Clase!==id);else{D.us=D.us.filter(u=>u.ID_Usuario!==id);popLogin()}cM('MD');rAll()};oM('MD')}
 
-            await aPost(payload);
-            
-            // Actualizar UI Locamente sin recargar
-            D.clases.push(nuevaClase);
-            renderizarClases();
-            
-            cerrarModal('modal-clase');
-            btn.textContent = "Guardar Cambios"; btn.disabled = false;
-            alert("Clase agregada exitosamente a la base de datos.");
-            if(document.getElementById('vista-config').classList.contains('hidden') === false) renderizarTablasDB();
-        }
+function oM(id){$(id).classList.add('on')}function cM(id){$(id).classList.remove('on')}
+document.querySelectorAll('.mo').forEach(m=>{m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.mo.on').forEach(m=>m.classList.remove('on'))});
 
-        async function eliminarClase(idClase) {
-            if(!confirm(`¿Estás seguro de eliminar la clase ${idClase}?`)) return;
-            
-            await aPost({ action: 'deleteClase', idClase: idClase });
-            
-            // Quitar localmente
-            D.clases = D.clases.filter(c => c.ID_Clase !== idClase);
-            renderizarClases();
-            if(document.getElementById('vista-config').classList.contains('hidden') === false) renderizarTablasDB();
-            alert("Clase eliminada.");
-        }
-
-    </script>
+init();
+</script>
 </body>
 </html>
