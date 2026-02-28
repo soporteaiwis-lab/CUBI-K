@@ -300,7 +300,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 <div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Confirmar</button></div></div></div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbxug0D8a2lmpwGryT1yLGfez5cAiibqTQ9Pn5GAVc9xak0hPffvkAYurNZu7pijRBrL3A/exec';
+const API='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJNeR7asbeMcaaGKzoLwiqECkFcNPMLhlGgPVsRQ3kg/exec';
 const MPW='123123';
 const APW='admin123';
 const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
@@ -312,7 +312,16 @@ const fd=d=>{if(!d)return'—';try{return new Date(d).toLocaleDateString('es-CL'
 const pp=j=>{if(!j||j==='{}'||j==='')return{};try{return typeof j==='string'?JSON.parse(j):j}catch{return{}}};
 function eurl(u){if(!u)return null;let m=u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);if(m)return'https://www.youtube.com/embed/'+m[1];m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);if(m)return'https://drive.google.com/file/d/'+m[1]+'/preview';return null}
 
-// LOGICA DE DEADLINES
+// LOGICA DE STATUS DE ENTREGA (unificada para dashboard y admin)
+function getEntStatus(proj) {
+  const hasUrl = proj && proj.URL_Proyecto && String(proj.URL_Proyecto).trim() !== '';
+  const ntStr = String(proj?.Nota_Evaluacion || "").replace(',', '.');
+  const nt = parseFloat(ntStr);
+  const hasGrade = !isNaN(nt) && nt > 0;
+  if (hasGrade) return { code:'evaluado', label:'✅ Evaluado', badge:'background:rgba(0,212,170,.15);color:#00d4aa;border:1px solid rgba(0,212,170,.3)', nota: nt };
+  if (hasUrl)   return { code:'entregado', label:'📦 Entregado', badge:'background:rgba(99,102,241,.15);color:#6366f1;border:1px solid rgba(99,102,241,.3)', nota: null };
+  return { code:'pendiente', label:'⏳ Pendiente', badge:'background:rgba(85,99,128,.15);color:#8896b3;border:1px solid rgba(85,99,128,.3)', nota: null };
+}
 function getCD(dateStr) {
   if(!dateStr) return {text:'', class:'', active: true};
   const d = new Date(dateStr);
@@ -430,16 +439,17 @@ function rHOME(){
 
   let hG = `<div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); overflow-x:auto;">
     <table class="ata" style="width:100%; font-size:14px;">
-      <thead><tr style="background:var(--bg3);"><th style="padding:18px 20px;">Fase / Clase</th><th style="padding:18px 20px;">Tipo</th><th style="padding:18px 20px;">Link Entrega</th><th style="padding:18px 20px;">Nota</th><th style="padding:18px 20px;">Comentarios Mentor</th></tr></thead>
+      <thead><tr style="background:var(--bg3);"><th style="padding:18px 20px;">Fase / Clase</th><th style="padding:18px 20px;">Tipo</th><th style="padding:18px 20px;">Estado</th><th style="padding:18px 20px;">Link Entrega</th><th style="padding:18px 20px;">Nota</th><th style="padding:18px 20px;">Comentarios Mentor</th></tr></thead>
       <tbody>`;
   let sum=0, cnt=0;
   
   if(myP.length>0){
     myP.forEach(p=>{
       const c = D.cl.find(x=>x.ID_Clase===p.ID_Clase);
+      const st = getEntStatus(p);
       const ntStr = String(p.Nota_Evaluacion || "").replace(',', '.');
       const nt = parseFloat(ntStr);
-      const hasGrade = !isNaN(nt);
+      const hasGrade = !isNaN(nt) && nt > 0;
       const isAppr = hasGrade && nt >= 4.0;
       
       const badgeBg = !hasGrade ? 'var(--bg3)' : (isAppr ? 'var(--acg)' : 'var(--errg)');
@@ -449,52 +459,67 @@ function rHOME(){
       hG+=`<tr>
         <td style="padding:16px 20px;"><strong style="font-size:15px;color:var(--t1);display:block;margin-bottom:4px">${c?c.Titulo_Clase:p.ID_Clase}</strong><span style="font-size:11px;color:var(--t3)">Fase ${c?c.Fase_ID:''}</span></td>
         <td style="padding:16px 20px; color:var(--t2)">${c?c.Tipo_Modulo:'—'}</td>
-        <td style="padding:16px 20px;">${p.URL_Proyecto?`<a href="${p.URL_Proyecto}" target="_blank" style="color:var(--ac2);font-weight:600;display:inline-flex;align-items:center;gap:6px">🔗 Ver Repo</a>`:'<span style="color:var(--t3)">—</span>'}</td>
+        <td style="padding:16px 20px;"><span style="${st.badge};font-size:11px;padding:4px 10px;border-radius:6px;font-weight:700;display:inline-block">${st.label}</span></td>
+        <td style="padding:16px 20px;">${p.URL_Proyecto&&String(p.URL_Proyecto).trim()!==''?`<a href="${p.URL_Proyecto}" target="_blank" style="color:var(--ac2);font-weight:600;display:inline-flex;align-items:center;gap:6px">🔗 Ver Repo</a>`:'<span style="color:var(--t3)">—</span>'}</td>
         <td style="padding:16px 20px;"><span style="background:${badgeBg}; color:${badgeCol}; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; display:inline-block">${notaTxt}</span></td>
         <td style="padding:16px 20px;"><span style="font-size:13px;color:var(--t2);line-height:1.5;display:block;max-width:300px;white-space:normal">${p.Comentarios_Admin||'—'}</span></td>
       </tr>`;
       if(hasGrade){ sum+=nt; cnt++; }
     });
     const avg = cnt>0 ? (sum/cnt).toFixed(1) : 0;
-    hG+=`</tbody><tfoot><tr style="background:var(--bg2h);border-top:1px solid var(--bd)"><td colspan="3" style="text-align:right;padding:24px;font-size:14px;color:var(--t1);font-weight:600;">PROMEDIO FINAL DEL CURSO:</td><td colspan="2" style="padding:24px"><span style="background:var(--ac);color:#0a0e1a;padding:8px 18px;border-radius:10px;font-size:18px;font-weight:800;box-shadow:0 4px 15px rgba(0,212,170,.3)">${avg>0?avg:'—'}</span></td></tr></tfoot></table></div>`;
+    hG+=`</tbody><tfoot><tr style="background:var(--bg2h);border-top:1px solid var(--bd)"><td colspan="4" style="text-align:right;padding:24px;font-size:14px;color:var(--t1);font-weight:600;">PROMEDIO FINAL DEL CURSO:</td><td colspan="2" style="padding:24px"><span style="background:var(--ac);color:#0a0e1a;padding:8px 18px;border-radius:10px;font-size:18px;font-weight:800;box-shadow:0 4px 15px rgba(0,212,170,.3)">${avg>0?avg:'—'}</span></td></tr></tfoot></table></div>`;
   } else {
-    hG+=`<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--t3);font-size:15px">Aún no tienes calificaciones registradas.</td></tr></tbody></table></div>`;
+    hG+=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--t3);font-size:15px">Aún no tienes calificaciones registradas.</td></tr></tbody></table></div>`;
   }
   $('HGRADES').innerHTML = hG;
 
   const talleres = D.cl.filter(c => c.Tipo_Modulo === 'Taller');
   let hTalleres = `<div class="hw-c" style="flex:1; margin-top:10px;">
     <h4>🚀 Mis Entregas y Talleres</h4>
+    <p style="font-size:12px;color:var(--t3);margin:-12px 0 16px 38px;line-height:1.5">Sube tu enlace antes del deadline. Una vez evaluado por el mentor, la entrega queda bloqueada.</p>
     <div class="atw"><table class="ata" style="width:100%">
-      <thead><tr><th>Taller Asignado</th><th>Fecha Límite (Deadline)</th><th>Estado del Plazo</th><th>Acción Permitida</th></tr></thead>
+      <thead><tr><th>Taller Asignado</th><th>Fecha Límite</th><th>Estado</th><th>Acción</th></tr></thead>
       <tbody>`;
   
   if(talleres.length > 0){
     talleres.forEach(t => {
       const cd = getCD(t.Fecha_Clase);
       const proj = D.pr.find(p => p.ID_Clase === t.ID_Clase && p.ID_Usuario === D.u.ID_Usuario);
-      const hasUrl = proj && proj.URL_Proyecto && String(proj.URL_Proyecto).trim() !== '';
-      const statusBadge = hasUrl ? `<span class="cd-badge cd-ok">✅ Entregado el ${fd(proj.Fecha_Entrega)}</span>` : `<span class="cd-badge ${cd.class}">${cd.text}</span>`;
+      const st = getEntStatus(proj);
       const adm = D.u.Rol==='Master'||D.u.Rol==='Admin';
       
-      let actionBtn = '';
-      if (hasUrl) {
-         if (cd.active) {
-           actionBtn = `<button class="bs s" onclick="oSUB('${t.ID_Clase}')">✏️ Editar Link</button>`;
-           if (adm) {
-             actionBtn += ` <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🗑 Eliminar</button>`;
-           } else {
-             actionBtn += ` <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🧹 Limpiar</button>`;
-           }
-         } else {
-           actionBtn = `<span style="font-size:11px;color:var(--t3);background:var(--bg3);padding:4px 8px;border-radius:4px">Bloqueado (Plazo Cerrado)</span>`;
-         }
+      // Badge de estado
+      let statusBadge = '';
+      if(st.code === 'evaluado'){
+        statusBadge = `<span class="cd-badge" style="${st.badge};font-size:11px;padding:5px 10px;border-radius:8px;font-weight:700">${st.label} (${st.nota.toFixed(1)})</span>`;
+      } else if(st.code === 'entregado'){
+        statusBadge = `<span class="cd-badge" style="${st.badge};font-size:11px;padding:5px 10px;border-radius:8px;font-weight:700">${st.label} el ${fd(proj.Fecha_Entrega)}</span>`;
       } else {
-         if (cd.active) {
-           actionBtn = `<button class="bs w" onclick="oSUB('${t.ID_Clase}')">⬆️ Realizar Entrega</button>`;
-         } else {
-           actionBtn = `<span style="font-size:11px;color:var(--err);background:var(--errg);padding:4px 8px;border-radius:4px">Plazo Vencido</span>`;
-         }
+        statusBadge = `<span class="cd-badge ${cd.class}">${cd.text}</span>`;
+      }
+      
+      // Botones de acción según estado
+      let actionBtn = '';
+      if(st.code === 'evaluado'){
+        // BLOQUEADO: ya fue evaluado con nota
+        actionBtn = `<span style="font-size:11px;color:var(--ac);background:var(--acg);padding:5px 10px;border-radius:6px;border:1px solid rgba(0,212,170,.2);font-weight:600">🔒 Calificado</span>`;
+      } else if(st.code === 'entregado'){
+        if(cd.active){
+          actionBtn = `<button class="bs s" onclick="oSUB('${t.ID_Clase}')">✏️ Editar Link</button>`;
+          if(adm){
+            actionBtn += ` <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🗑 Eliminar</button>`;
+          } else {
+            actionBtn += ` <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🧹 Limpiar</button>`;
+          }
+        } else {
+          actionBtn = `<span style="font-size:11px;color:var(--t3);background:var(--bg3);padding:4px 8px;border-radius:4px">Plazo Cerrado</span>`;
+        }
+      } else {
+        if(cd.active){
+          actionBtn = `<button class="bs w" onclick="oSUB('${t.ID_Clase}')">⬆️ Realizar Entrega</button>`;
+        } else {
+          actionBtn = `<span style="font-size:11px;color:var(--err);background:var(--errg);padding:4px 8px;border-radius:4px">Plazo Vencido</span>`;
+        }
       }
       
       hTalleres += `<tr>
@@ -643,7 +668,7 @@ function rCL(){
             ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':''}
             ${c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':''}
             ${(actMod.isT && !haS)?`<button class="bs w" onclick="event.stopPropagation();oSUB('${c.ID_Clase}')" ${!cd.active?'disabled':''}>⬆️ Entregar</button>`:''}
-            ${(actMod.isT && haS)?`<span class="bs" style="background:var(--bg3);color:var(--ac);border:1px solid var(--bd)">✅ Entregado</span>`:''}
+            ${(actMod.isT && haS)?`<span class="bs" style="background:${getEntStatus(proj).code==='evaluado'?'var(--acg)':'var(--bg3)'};color:${getEntStatus(proj).code==='evaluado'?'var(--ac)':'#6366f1'};border:1px solid var(--bd);font-weight:700">${getEntStatus(proj).code==='evaluado'?'🔒 Evaluado':'📦 Entregado'}</span>`:''}
             ${adm?`<button class="bs s" onclick="event.stopPropagation();oCF('${c.ID_Clase}')">✏️ Editar</button>`:''}
           </div>
         </div>`;
@@ -654,6 +679,12 @@ function rCL(){
 
 function oSUB(id_c){
   const proj = D.pr.find(p=>p.ID_Clase===id_c && p.ID_Usuario===D.u.ID_Usuario);
+  // BLOQUEO: si ya tiene nota asignada, no se puede editar
+  const st = getEntStatus(proj);
+  if(st.code === 'evaluado'){
+    toast('🔒 Esta entrega ya fue evaluada con nota '+st.nota.toFixed(1)+'. No se puede modificar.','er');
+    return;
+  }
   const hasUrl = proj && proj.URL_Proyecto && String(proj.URL_Proyecto).trim() !== '';
   $('MFT').textContent = hasUrl ? 'Editar URL de Entrega' : 'Entregar Proyecto/Taller';
   $('MFB').innerHTML=`
@@ -684,6 +715,12 @@ function oSUB(id_c){
 }
 
 function cDelProj(id_clase){
+  const proj = D.pr.find(p=>p.ID_Clase===id_clase && p.ID_Usuario===D.u.ID_Usuario);
+  const st = getEntStatus(proj);
+  if(st.code === 'evaluado'){
+    toast('🔒 Esta entrega ya fue evaluada ('+st.nota.toFixed(1)+'). No se puede modificar.','er');
+    return;
+  }
   const adm = D.u.Rol==='Master'||D.u.Rol==='Admin';
   if(adm){
     // Admin/Master: pueden eliminar la fila completa
@@ -762,7 +799,55 @@ function oUF(id){const u=id?D.us.find(x=>x.ID_Usuario===id):null;$('MFT').textCo
 $('MFB').innerHTML='<div class="fg"><label>ID Usuario</label><input id="fu1" value="'+(u?.ID_Usuario||'USR-'+String(D.us.length+1).padStart(3,'0'))+'" '+(u?'readonly':'')+'></div><div class="fg"><label>Nombre Completo</label><input id="fu2" value="'+(u?.Nombre||'')+'"></div><div class="fg"><label>Email Personal</label><input id="fu3" value="'+(u?.Email_Personal||'')+'"></div><div class="fg"><label>Email Corporativo</label><input id="fu4" value="'+(u?.Email_Corporativo||'')+'"></div><div class="fg"><label>Rol en el Sistema</label><select id="fu5"><option value="Usuario" '+(u?.Rol==='Usuario'?'selected':'')+'>Usuario Estudiante</option><option value="Admin" '+(u?.Rol==='Admin'?'selected':'')+'>Administrador Mentor</option><option value="Master" '+(u?.Rol==='Master'?'selected':'')+'>Master Root</option></select></div><div class="fg"><label>Cargo Laboral</label><input id="fu6" value="'+(u?.Cargo||'')+'"></div><div class="fg"><label>Empresa / Corporación</label><input id="fu7" value="'+(u?.Corporacion||'CUBI-K')+'"></div><div class="fg"><label>Teléfono (WhatsApp)</label><input id="fu8" value="'+(u?.Telefono||'')+'"></div><div class="fg"><label>Skill Prompting (0-10)</label><input id="fu9" type="number" min="0" max="10" value="'+(Number(u?.Skill_Prompting)||0)+'"></div><div class="fg"><label>Skill Herramientas (0-10)</label><input id="fu10" type="number" min="0" max="10" value="'+(Number(u?.Skill_Herramientas_IA)||0)+'"></div><div class="fg"><label>Skill Análisis (0-10)</label><input id="fu11" type="number" min="0" max="10" value="'+(Number(u?.Skill_Analisis)||0)+'"></div><div class="fg"><label>Tecnologías / Stacks</label><input id="fu12" value="'+(u?.Skill_Staks||'')+'"></div><div class="fg"><label>URL Carpeta Drive Personal</label><input id="fu13" value="'+(u?.Drive_Alumno_URL||'')+'"></div>';
 $('MFS').onclick=async()=>{const d={ID_Usuario:$('fu1').value,Nombre:$('fu2').value,Email_Personal:$('fu3').value,Email_Corporativo:$('fu4').value,Rol:$('fu5').value,Cargo:$('fu6').value,Corporacion:$('fu7').value,Telefono:$('fu8').value,Progreso_JSON:'{}',Skill_Prompting:Number($('fu9').value),Skill_Herramientas_IA:Number($('fu10').value),Skill_Analisis:Number($('fu11').value),Skill_Staks:$('fu12').value,Drive_Alumno_URL:$('fu13').value,Activo:true};if(!d.ID_Usuario||!d.Nombre){toast('ID y Nombre requeridos','er');return}await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){d.Progreso_JSON=D.us[i].Progreso_JSON;D.us[i]={...D.us[i],...d}}}else D.us.push(d);cM('MF');popLogin();rAll()};oM('MF')}
 
-function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Historial de Proyectos: '+D.pr.length+' entregas registradas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Enlace</th><th>Nota Final</th><th>Fecha Entrega</th><th>Comentario Mentor</th><th>Acciones</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;const hasUrl=p.URL_Proyecto&&String(p.URL_Proyecto).trim()!=='';return'<tr><td><strong style="color:var(--t1)">'+p.ID_Entrega+'</strong></td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(hasUrl?'<a href="'+p.URL_Proyecto+'" target="_blank" style="color:var(--ac2)">🔗 Abrir</a>':'<span style="color:var(--t3)">—</span>')+'</td><td><strong style="color:var(--ac);font-size:14px">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td style="max-width:250px">'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs p" style="padding:6px 10px" onclick="oEF(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">Corregir 📝</button> <button class="bs d" style="padding:6px 10px" onclick="cDelProjAdmin(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">🗑</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:40px;font-size:15px">Aún no existen entregas de alumnos</td></tr>')+'</tbody></table></div>'}
+function rAPR(){
+  const cntPend = D.pr.filter(p=>getEntStatus(p).code==='pendiente').length;
+  const cntEntr = D.pr.filter(p=>getEntStatus(p).code==='entregado').length;
+  const cntEval = D.pr.filter(p=>getEntStatus(p).code==='evaluado').length;
+  
+  let html = '<div class="atb" style="flex-wrap:wrap;gap:10px;align-items:flex-start">';
+  html += '<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">';
+  html += '<span style="font-size:13px;color:var(--t2)">'+D.pr.length+' entregas totales</span>';
+  html += '<span style="font-size:11px;padding:4px 10px;border-radius:6px;font-weight:700;background:rgba(85,99,128,.15);color:#8896b3;border:1px solid rgba(85,99,128,.3)">⏳ '+cntPend+' Pendientes</span>';
+  html += '<span style="font-size:11px;padding:4px 10px;border-radius:6px;font-weight:700;background:rgba(99,102,241,.15);color:#6366f1;border:1px solid rgba(99,102,241,.3)">📦 '+cntEntr+' Entregados</span>';
+  html += '<span style="font-size:11px;padding:4px 10px;border-radius:6px;font-weight:700;background:rgba(0,212,170,.15);color:#00d4aa;border:1px solid rgba(0,212,170,.3)">✅ '+cntEval+' Evaluados</span>';
+  html += '</div></div>';
+  
+  // LABEL DE AYUDA PARA MENTORES
+  html += '<div style="background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(0,212,170,.08));border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:14px 18px;margin:12px 0;display:flex;gap:12px;align-items:flex-start">';
+  html += '<span style="font-size:22px;flex-shrink:0">📋</span>';
+  html += '<div style="font-size:12px;color:var(--t2);line-height:1.7">';
+  html += '<strong style="color:var(--t1);font-size:13px">Guía rápida para Mentores:</strong><br>';
+  html += '① <strong>⏳ Pendiente</strong> → El alumno aún no entregó su enlace. No hay acción requerida.<br>';
+  html += '② <strong>📦 Entregado</strong> → El alumno subió su URL. <strong style="color:#6366f1">Haz clic en "Evaluar 📝"</strong> para revisarlo y asignar nota.<br>';
+  html += '③ <strong>✅ Evaluado</strong> → Ya tiene nota asignada. El alumno no puede modificar su entrega. Puedes re-evaluar si lo necesitas.</div></div>';
+  
+  html += '<div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Estado</th><th>Enlace</th><th>Nota</th><th>Fecha</th><th>Comentario</th><th>Acciones</th></tr></thead><tbody>';
+  
+  if(D.pr.length){
+    D.pr.forEach(p => {
+      const un = D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;
+      const hasUrl = p.URL_Proyecto && String(p.URL_Proyecto).trim()!=='';
+      const st = getEntStatus(p);
+      const evalBtn = st.code==='entregado'
+        ? '<button class="bs p" style="padding:6px 10px;font-weight:700" onclick="oEF(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">Evaluar 📝</button>'
+        : '<button class="bs s" style="padding:6px 10px" onclick="oEF(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">'+( st.code==='evaluado' ? 'Re-evaluar ✏️' : 'Evaluar 📝' )+'</button>';
+      
+      html += '<tr><td><strong style="color:var(--t1)">'+p.ID_Entrega+'</strong></td>';
+      html += '<td>'+un+'</td>';
+      html += '<td>'+p.ID_Clase+'</td>';
+      html += '<td><span style="'+st.badge+';font-size:11px;padding:4px 10px;border-radius:6px;font-weight:700;display:inline-block;white-space:nowrap">'+st.label+'</span></td>';
+      html += '<td>'+(hasUrl?'<a href="'+p.URL_Proyecto+'" target="_blank" style="color:var(--ac2)">🔗 Abrir</a>':'<span style="color:var(--t3)">—</span>')+'</td>';
+      html += '<td><strong style="color:'+(st.code==='evaluado'?'var(--ac)':'var(--t3)')+';font-size:14px">'+(p.Nota_Evaluacion||'—')+'</strong></td>';
+      html += '<td style="font-size:12px">'+fd(p.Fecha_Entrega)+'</td>';
+      html += '<td style="max-width:200px;font-size:12px">'+(p.Comentarios_Admin||'—')+'</td>';
+      html += '<td style="white-space:nowrap">'+evalBtn+' <button class="bs d" style="padding:6px 10px" onclick="cDelProjAdmin(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">🗑</button></td></tr>';
+    });
+  } else {
+    html += '<tr><td colspan="9" style="text-align:center;color:var(--t3);padding:40px;font-size:15px">Aún no existen entregas de alumnos</td></tr>';
+  }
+  html += '</tbody></table></div>';
+  $('APP').innerHTML = html;
+}
 
 function cDelProjAdmin(id_u, id_c){
   const un=D.us.find(u=>u.ID_Usuario===id_u)?.Nombre||id_u;
@@ -781,11 +866,20 @@ function cDelProjAdmin(id_u, id_c){
 function oEF(id_u, id_c){
   const p=D.pr.find(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
   if(!p)return;
-  $('MFT').textContent='Evaluar: ' + (D.us.find(u=>u.ID_Usuario===id_u)?.Nombre||id_u);
+  const un = D.us.find(u=>u.ID_Usuario===id_u)?.Nombre||id_u;
+  const st = getEntStatus(p);
+  const cls = D.cl.find(x=>x.ID_Clase===id_c);
+  $('MFT').textContent = (st.code==='evaluado' ? 'Re-evaluar' : 'Evaluar') + ': ' + un;
   $('MFB').innerHTML=`
-    <div class="fg"><label>URL Proyecto Entregado (Corregible)</label><input id="feu" value="${p.URL_Proyecto||''}"></div>
-    <div class="fg"><label>Nota Asignada (Escala 1 al 7)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="${p.Nota_Evaluacion||''}"></div>
-    <div class="fg"><label>Comentarios / Feedback para el alumno</label><textarea id="fec" style="min-height:100px">${p.Comentarios_Admin||''}</textarea></div>`;
+    <div style="background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(0,212,170,.08));border:1px solid rgba(99,102,241,.2);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:12px;line-height:1.6;color:var(--t2)">
+      <strong style="color:var(--t1)">📋 Info de la Entrega</strong><br>
+      <strong>Alumno:</strong> ${un} &nbsp;|&nbsp; <strong>Taller:</strong> ${cls?cls.Titulo_Clase:id_c} &nbsp;|&nbsp; <strong>Estado:</strong> <span style="${st.badge};padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px">${st.label}</span>
+      ${p.Fecha_Entrega ? '<br><strong>Entregado el:</strong> '+fd(p.Fecha_Entrega) : ''}
+    </div>
+    <div class="fg"><label>URL Proyecto Entregado</label><input id="feu" value="${p.URL_Proyecto||''}" placeholder="El alumno aún no ha subido URL"></div>
+    <div class="fg"><label>Nota Asignada (Escala 1.0 al 7.0)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="${p.Nota_Evaluacion||''}"></div>
+    <div class="fg"><label>Comentarios / Feedback para el alumno</label><textarea id="fec" style="min-height:100px" placeholder="Escribe retroalimentación constructiva...">${p.Comentarios_Admin||''}</textarea></div>
+    <p style="font-size:11px;color:var(--t3);margin-top:8px;line-height:1.5;border-top:1px solid var(--bd);padding-top:10px">💡 <strong>Nota:</strong> Al asignar nota, la entrega del alumno se bloqueará automáticamente y no podrá modificar su URL. Puedes re-evaluar en cualquier momento desde este panel.</p>`;
   $('MFS').onclick=async()=>{
     const i=D.pr.findIndex(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
     if(i>=0){D.pr[i].Nota_Evaluacion=$('fen').value;D.pr[i].Comentarios_Admin=$('fec').value;D.pr[i].URL_Proyecto=$('feu').value;}
