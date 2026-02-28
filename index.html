@@ -68,7 +68,6 @@ input,select,textarea{font-family:var(--f);outline:none}
 .vp{display:none}.vp.von{display:block;animation:fi .25s ease}
 .cbanner{background:var(--ac3g);border:1px solid rgba(245,158,11,.3);border-radius:var(--rs);padding:14px 20px;margin-bottom:20px;font-size:13px;color:#fbbf24;display:none}
 .cbanner.vis{display:block}
-.cbanner code{background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-family:var(--m);font-size:12px}
 
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px}
 .sh h3{font-size:22px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
@@ -199,6 +198,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 <div id="LS"><div class="ldr"></div><div class="lt">Cargando Portal CUBI-K...</div></div>
 <div class="tc" id="TC"></div>
 
+<!-- LOGIN -->
 <div id="LOGIN">
 <div class="lbox">
 <div class="lbrand"><h1>CUBI-K</h1><p>Portal IA Educativo &bull; Powered by AIWIS</p></div>
@@ -219,6 +219,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 </div>
 </div>
 
+<!-- DASHBOARD MAIN -->
 <div id="DASH">
 <div class="tb">
 <div class="tb-b"><h2>CUBI-K</h2><span class="tag" id="UTAG">Portal</span></div>
@@ -264,8 +265,8 @@ input,select,textarea{font-family:var(--f);outline:none}
 <!-- VISTA ESTUDIANTES -->
 <div id="VE" class="vp"><div class="sh"><h3>👥 Estudiantes Registrados</h3><span class="badge" id="NE">0</span></div><div class="sg" id="SB"></div></div>
 
-<!-- VISTA AULA -->
-<div id="VA" class="vp"><div class="sh"><h3>🎓 Aula Virtual y Recursos</h3></div><div class="ic" id="AB"></div></div>
+<!-- VISTA AULA VIRTUAL -->
+<div id="VA" class="vp"><div class="sh"><h3>🎓 Aula Virtual y Recursos</h3></div><div id="AB"></div></div>
 
 <!-- VISTA ADMIN -->
 <div id="VD" class="vp">
@@ -280,12 +281,12 @@ input,select,textarea{font-family:var(--f);outline:none}
 
 <!-- MODALS -->
 <div class="mo" id="MC"><div class="mb" style="max-width:750px"><div class="mh"><h3 id="MCT">Clase</h3><button class="mx" onclick="cM('MC')">✕</button></div><div class="mbd" id="MCB"></div></div></div>
-<div class="mo" id="MF"><div class="mb"><div class="mh"><h3 id="MFT">Form</h3><button class="mx" onclick="cM('MF')">✕</button></div><div class="mbd" id="MFB"></div><div class="mft"><button class="ba s" onclick="cM('MF')">Cancelar</button><button class="ba p" id="MFS">Guardar</button></div></div></div>
+<div class="mo" id="MF"><div class="mb" style="max-width:750px"><div class="mh"><h3 id="MFT">Form</h3><button class="mx" onclick="cM('MF')">✕</button></div><div class="mbd" id="MFB"></div><div class="mft"><button class="ba s" onclick="cM('MF')">Cancelar</button><button class="ba p" id="MFS">Guardar</button></div></div></div>
 <div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Confirmar</button></div></div></div>
 
 <script>
-// ¡ATENCIÓN! Si generaste una Nueva Implementación del código de Google Apps Script, reemplaza esta URL.
-const API='https://script.google.com/macros/s/AKfycbzuK_PRl4ZAr3QdAVn99WGAGo8_yAZxaGEZjWMKWAvRLF2VTc-EFzcqBbsHGu8B8VT2sQ/exec';
+// ==================== CONFIGURACIÓN ====================
+const API='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJNeR7asbeMcaaGKzoLwiqECkFcNPMLhlGgPVsRQ3kg/exec';
 const MPW='123123';
 const APW='admin123';
 const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
@@ -348,14 +349,11 @@ async function aPost(b){
 
 function demoD(){return{configuracion:[],usuarios:[],clases:[],proyectos:[]}}
 
+// ==================== INICIALIZACIÓN ====================
 async function load(){const d=await aGet();D.cfr=d.configuracion||[];D.cf={};D.cfr.forEach(r=>{if(r.Clave)D.cf[r.Clave]=r.Valor});D.us=(d.usuarios||[]).filter(u=>String(u.Activo).toLowerCase()==='true'||u.Activo===true);D.cl=(d.clases||[]).filter(c=>c.ID_Clase);D.pr=(d.proyectos||[]).filter(p=>p.ID_Entrega)}
 
 async function init(){await load();popLogin();$('LS').classList.add('off')}
-async function doRefresh(){
-  toast('Recargando base de datos...', 'ok');
-  await load();
-  if(D.u){ const f=D.us.find(u=>u.ID_Usuario===D.u.ID_Usuario); if(f) D.u=f; rAll(); }
-}
+async function doRefresh(){toast('Recargando base de datos...', 'ok');await load();if(D.u){ const f=D.us.find(u=>u.ID_Usuario===D.u.ID_Usuario); if(f) D.u=f; rAll(); }}
 
 function popLogin(){const s=$('LSEL');s.innerHTML='<option value="">— Selecciona tu usuario —</option>';D.us.forEach(u=>{s.innerHTML+='<option value="'+(u.Email_Corporativo||u.Email_Personal)+'">'+u.Nombre+' ('+u.Rol+')</option>'})}
 
@@ -380,15 +378,18 @@ $('MLNK').addEventListener('click',()=>{$('LN').style.display='none';$('LM').sty
 $('BKLNK').addEventListener('click',()=>{$('LM').style.display='none';$('LN').style.display='block'});
 $('MLOG').addEventListener('click',function(){if($('MPW').value!==MPW){$('MERR').textContent='Contraseña incorrecta';return}const m=D.us.find(u=>u.Rol==='Master');if(!m){$('MERR').textContent='No hay usuario Master';return}D.u=m;enter()});
 
-function enter(){$('LOGIN').classList.add('off');$('DASH').classList.add('on');$('UNM').textContent=D.u.Nombre;$('UAV').textContent=ini(D.u.Nombre);$('UTAG').textContent=D.u.Rol;
-const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
-const nv=[{i:'H',ic:'🏠',l:'Inicio'},{i:'C',ic:'📚',l:'Clases'},{i:'E',ic:'👥',l:'Estudiantes'},{i:'A',ic:'🎓',l:'Aula'}];if(adm)nv.push({i:'D',ic:'⚙️',l:'Admin'});
-$('TBN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')">'+n.ic+' '+n.l+'</button>').join('');
-$('MN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')"><span class="ni">'+n.ic+'</span>'+n.l+'</button>').join('');
-if(DEMO)$('CBAN').classList.add('vis');rAll();sv('H');toast('Bienvenido, '+D.u.Nombre)}
+function enter(){
+  $('LOGIN').classList.add('off');$('DASH').classList.add('on');
+  $('UNM').textContent=D.u.Nombre;$('UAV').textContent=ini(D.u.Nombre);$('UTAG').textContent=D.u.Rol;
+  const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
+  const nv=[{i:'H',ic:'🏠',l:'Inicio'},{i:'C',ic:'📚',l:'Clases'},{i:'E',ic:'👥',l:'Estudiantes'},{i:'A',ic:'🎓',l:'Aula'}];if(adm)nv.push({i:'D',ic:'⚙️',l:'Admin'});
+  $('TBN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')">'+n.ic+' '+n.l+'</button>').join('');
+  $('MN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')"><span class="ni">'+n.ic+'</span>'+n.l+'</button>').join('');
+  if(DEMO)$('CBAN').classList.add('vis');
+  rAll(); sv('H'); toast('Bienvenido, '+D.u.Nombre);
+}
 
 function doLogout(){D.u=null;$('DASH').classList.remove('on');$('LOGIN').classList.remove('off');$('LSEL').value='';$('LPW').value='';$('PWF').classList.remove('vis');$('LM').style.display='none';$('LN').style.display='block'}
-
 function sv(v){document.querySelectorAll('.vp').forEach(p=>p.classList.remove('von'));const m={H:'VH',C:'VC',E:'VE',A:'VA',D:'VD'};const el=$(m[v]);if(el)el.classList.add('von');document.querySelectorAll('.tb-n button,.mnav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
 
 function updateProgressTop(){
@@ -399,41 +400,118 @@ function updateProgressTop(){
   $('UPROG').textContent=`${pc}% ✅`;
 }
 
-function rAll(){updateProgressTop();rHOME();rPB();rCL();rST();rAU();if(D.u.Rol==='Master'||D.u.Rol==='Admin')rAD()}
+function rAll(){
+  updateProgressTop();
+  rHOME(); rPB(); rCL(); rST(); rAU(); 
+  if(D.u.Rol==='Master'||D.u.Rol==='Admin') rAD();
+}
 
+// ==================== GENERAR LIBRETA DE NOTAS HTML ====================
+function exportGrades(){
+  let rows = '';
+  const myP = D.pr.filter(p=>p.ID_Usuario===D.u.ID_Usuario);
+  let sum=0, cnt=0;
+  
+  if (myP.length === 0) {
+      toast('No tienes notas registradas para exportar.','er');
+      return;
+  }
+  
+  myP.forEach(p => {
+     const c = D.cl.find(x => x.ID_Clase === p.ID_Clase);
+     const ntStr = String(p.Nota_Evaluacion || "").replace(',', '.');
+     const nt = parseFloat(ntStr);
+     let gradeHtml = '<span class="grade fail" style="background:#2a3550;color:#8896b3">S/N</span>';
+     if(!isNaN(nt) && nt > 0){
+        sum+=nt; cnt++;
+        gradeHtml = `<span class="grade ${nt>=4?'pass':'fail'}">${nt.toFixed(1)}</span>`;
+     }
+     rows += `<tr>
+        <td><strong>${c?c.Titulo_Clase:p.ID_Clase}</strong><br><small>Fase ${c?c.Fase_ID:''}</small></td>
+        <td>${c?c.Tipo_Modulo:'—'}</td>
+        <td>${gradeHtml}</td>
+        <td style="line-height:1.5">${p.Comentarios_Admin||'—'}</td>
+     </tr>`;
+  });
+  
+  const avg = cnt>0 ? (sum/cnt).toFixed(1) : 0;
+  
+  const html = `<!DOCTYPE html>
+  <html lang="es"><head><meta charset="utf-8"><title>Libreta de Calificaciones - ${D.u.Nombre}</title>
+  <style>
+     body { background: #0a0e1a; color: #e8ecf4; font-family: 'Segoe UI', system-ui, sans-serif; padding: 40px; margin: 0; }
+     .container { max-width: 900px; margin: 0 auto; background: #111827; border: 1px solid #2a3550; border-radius: 16px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+     .header { text-align: center; border-bottom: 2px solid #2a3550; padding-bottom: 30px; margin-bottom: 30px; }
+     h1 { color: #00d4aa; margin: 0 0 10px 0; font-size: 32px; letter-spacing: -1px; }
+     .info { display: flex; justify-content: space-around; color: #8896b3; background: #1a2236; padding: 24px; border-radius: 12px; margin-bottom: 40px; border: 1px solid #2a3550; }
+     .info div { text-align: center; }
+     .info strong { display: block; color: #e8ecf4; font-size: 18px; margin-top: 6px; }
+     table { width: 100%; border-collapse: collapse; }
+     th { background: #0f1629; color: #8896b3; text-transform: uppercase; padding: 16px; text-align: left; font-size: 13px; letter-spacing: 1px; border-bottom: 1px solid #2a3550; }
+     td { padding: 18px 16px; border-bottom: 1px solid #2a3550; font-size: 15px; }
+     small { color: #556380; font-size: 13px; }
+     .grade { font-weight: bold; padding: 8px 14px; border-radius: 8px; display: inline-block; font-size: 16px; }
+     .grade.pass { background: rgba(0, 212, 170, 0.15); color: #00d4aa; }
+     .grade.fail { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+     tfoot td { border-top: 2px solid #3a4a6b; border-bottom: none; font-size: 16px; padding-top: 30px; }
+     .avg { background: #00d4aa; color: #000; padding: 12px 24px; border-radius: 10px; font-weight: 800; font-size: 22px; box-shadow: 0 4px 15px rgba(0,212,170,0.3); display: inline-block; }
+  </style>
+  </head><body>
+    <div class="container">
+      <div class="header">
+        <h1>Reporte de Calificaciones</h1>
+        <p style="color:#8896b3; margin:0; font-size:16px;">CUBI-K Portal Educativo IA &bull; ${new Date().toLocaleDateString('es-CL')}</p>
+      </div>
+      <div class="info">
+        <div>Estudiante<strong>${D.u.Nombre}</strong></div>
+        <div>Corporación<strong>${D.u.Corporacion||'CUBI-K'}</strong></div>
+        <div>Rol Registrado<strong>${D.u.Rol}</strong></div>
+      </div>
+      <table>
+        <thead><tr><th>Módulo / Proyecto</th><th>Tipo</th><th>Calificación</th><th>Feedback del Mentor</th></tr></thead>
+        <tbody>${rows}</tbody>
+        <tfoot><tr><td colspan="2" style="text-align:right;"><strong>PROMEDIO FINAL CURSO:</strong></td><td colspan="2"><span class="avg">${avg>0?avg:'—'}</span></td></tr></tfoot>
+      </table>
+    </div>
+  </body></html>`;
+  
+  const blob = new Blob([html], {type: 'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `CUBIK_Reporte_${D.u.Nombre.replace(/\s+/g,'_')}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  toast('Reporte descargado correctamente');
+}
+
+// ==================== DASHBOARD / INICIO ====================
 function rHOME(){
-  const pg=pp(D.u.Progreso_JSON);
-  const dn=Object.values(pg).filter(p=>p.visto).length;
-  const tt=D.cl.length||1;
-  const pc=Math.round(dn/tt*100);
+  const pg=pp(D.u.Progreso_JSON); const dn=Object.values(pg).filter(p=>p.visto).length; const tt=D.cl.length||1; const pc=Math.round(dn/tt*100);
   const myP=D.pr.filter(p=>p.ID_Usuario===D.u.ID_Usuario);
   const myDelivered=myP.filter(p=>p.URL_Proyecto && String(p.URL_Proyecto).trim()!=='');
   
   $('HPROG').innerHTML=`
     <div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); padding:24px; display:flex; flex-direction:column; gap:24px;">
-      <div>
-        <div style="font-size:46px; font-weight:800; color:var(--ac); line-height:1; margin-bottom:14px;">${pc}%</div>
+      <div><div style="font-size:46px; font-weight:800; color:var(--ac); line-height:1; margin-bottom:14px;">${pc}%</div>
         <div style="height:14px; background:var(--bg3); border-radius:7px; overflow:hidden; border:1px solid var(--bd);">
           <div style="height:100%; background:linear-gradient(90deg,var(--ac),var(--ac2)); width:${pc}%; box-shadow: 0 0 10px var(--acg); transition:width 1s ease;"></div>
-        </div>
-      </div>
+        </div></div>
       <div style="display:flex; gap:16px;">
         <div style="flex:1; background:var(--bg3); padding:18px 14px; border-radius:12px; text-align:center; border:1px solid var(--bd);">
           <div style="font-size:26px; color:var(--t1); font-weight:700; margin-bottom:6px;">${dn}</div>
-          <div style="font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600;">Clases Vistas</div>
+          <div style="font-size:11px; color:var(--t3); text-transform:uppercase; font-weight:600;">Clases Vistas</div>
         </div>
         <div style="flex:1; background:var(--bg3); padding:18px 14px; border-radius:12px; text-align:center; border:1px solid var(--bd);">
           <div style="font-size:26px; color:var(--ac3); font-weight:700; margin-bottom:6px;">${myDelivered.length}</div>
-          <div style="font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600;">Entregas Hechas</div>
+          <div style="font-size:11px; color:var(--t3); text-transform:uppercase; font-weight:600;">Entregas Hechas</div>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
   let hG = `<div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); overflow-x:auto;">
     <table class="ata" style="width:100%; font-size:14px;">
-      <thead><tr style="background:var(--bg3);"><th style="padding:18px 20px;">Fase / Clase</th><th style="padding:18px 20px;">Tipo</th><th style="padding:18px 20px;">Estado</th><th style="padding:18px 20px;">Link Entrega</th><th style="padding:18px 20px;">Nota</th><th style="padding:18px 20px;">Comentarios Mentor</th></tr></thead>
-      <tbody>`;
+      <thead><tr style="background:var(--bg3);"><th style="padding:18px 20px;">Fase / Clase</th><th style="padding:18px 20px;">Tipo</th><th style="padding:18px 20px;">Estado</th><th style="padding:18px 20px;">Link Entrega</th><th style="padding:18px 20px;">Nota</th><th style="padding:18px 20px;">Comentarios Mentor</th></tr></thead><tbody>`;
   let sum=0, cnt=0;
   
   if(myP.length>0){
@@ -444,7 +522,6 @@ function rHOME(){
       const nt = parseFloat(ntStr);
       const hasGrade = !isNaN(nt) && nt > 0;
       const isAppr = hasGrade && nt >= 4.0;
-      
       const badgeBg = !hasGrade ? 'var(--bg3)' : (isAppr ? 'var(--acg)' : 'var(--errg)');
       const badgeCol = !hasGrade ? 'var(--t3)' : (isAppr ? 'var(--ac)' : 'var(--err)');
       const notaTxt = hasGrade ? nt.toFixed(1) : 'S/N';
@@ -461,9 +538,7 @@ function rHOME(){
     });
     const avg = cnt>0 ? (sum/cnt).toFixed(1) : 0;
     hG+=`</tbody><tfoot><tr style="background:var(--bg2h);border-top:1px solid var(--bd)"><td colspan="4" style="text-align:right;padding:24px;font-size:14px;color:var(--t1);font-weight:600;">PROMEDIO FINAL DEL CURSO:</td><td colspan="2" style="padding:24px"><span style="background:var(--ac);color:#0a0e1a;padding:8px 18px;border-radius:10px;font-size:18px;font-weight:800;box-shadow:0 4px 15px rgba(0,212,170,.3)">${avg>0?avg:'—'}</span></td></tr></tfoot></table></div>`;
-  } else {
-    hG+=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--t3);font-size:15px">Aún no tienes calificaciones registradas.</td></tr></tbody></table></div>`;
-  }
+  } else { hG+=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--t3);font-size:15px">Aún no tienes calificaciones registradas.</td></tr></tbody></table></div>`; }
   $('HGRADES').innerHTML = hG;
 
   const talleres = D.cl.filter(c => c.Tipo_Modulo === 'Taller');
@@ -471,8 +546,7 @@ function rHOME(){
     <h4>🚀 Mis Entregas y Talleres</h4>
     <p style="font-size:12px;color:var(--t3);margin:-12px 0 16px 38px;line-height:1.5">Sube tu enlace antes del deadline. Una vez evaluado por el mentor, la entrega queda bloqueada.</p>
     <div class="atw"><table class="ata" style="width:100%">
-      <thead><tr><th>Taller Asignado</th><th>Fecha Límite</th><th>Estado</th><th>Acción</th></tr></thead>
-      <tbody>`;
+      <thead><tr><th>Taller Asignado</th><th>Fecha Límite</th><th>Estado</th><th>Acción</th></tr></thead><tbody>`;
   
   if(talleres.length > 0){
     talleres.forEach(t => {
@@ -506,17 +580,12 @@ function rHOME(){
         <td style="padding:16px;display:flex;gap:6px;align-items:center;min-height:50px">${actionBtn}</td>
       </tr>`;
     });
-  } else {
-    hTalleres += `<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--t3)">No hay talleres prácticos asignados en el programa.</td></tr>`;
-  }
+  } else { hTalleres += `<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--t3)">No hay talleres prácticos asignados en el programa.</td></tr>`; }
   hTalleres += `</tbody></table></div></div>`;
   $('HTALLERES').innerHTML = hTalleres;
 }
 
-function exportGrades(){
-  // Omitido para mantener la limpieza, misma lógica
-}
-
+// ==================== CLASES ====================
 function rPB(){
   const ps=[...new Set(D.cl.map(c=>Number(c.Fase_ID)))].filter(Boolean).sort();
   if(!ps.length)ps.push(1);
@@ -549,6 +618,7 @@ function rCL(){
   $('MB').innerHTML = mKeys.map(k => `<button class="mtab ${D.md === k ? 'on' : ''}" onclick="D.md='${k}';rCL()">${ms[k].isT ? `🔧 Taller ${ms[k].id}` : `📖 Módulo ${ms[k].id}`}</button>`).join('');
   const actMod = ms[D.md];
   let h = `<div class="c-row"><button class="c-btn left" onclick="scrollTrack(this, -1)">❮</button><div class="c-track">`;
+  
   actMod.it.forEach(c=>{
     const sn = pg[c.ID_Clase]?.visto;
     const proj = D.pr.find(x=>x.ID_Clase===c.ID_Clase && x.ID_Usuario===D.u.ID_Usuario);
@@ -560,7 +630,7 @@ function rCL(){
           <p class="ds">${c.Descripcion_Clase||'—'}</p>
           <div class="cm"><span>📅 ${fd(c.Fecha_Clase)}</span> ${cd.text?`<span class="cd-badge ${cd.class}">${cd.text}</span>`:''}</div>
           <div class="ca">
-            ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':''}
+            ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Ver Video</a>':''}
             ${(actMod.isT && !haS)?`<button class="bs w" onclick="event.stopPropagation();oSUB('${c.ID_Clase}')" ${!cd.active?'disabled':''}>⬆️ Entregar</button>`:''}
             ${(actMod.isT && haS)?`<span class="bs" style="background:${getEntStatus(proj).code==='evaluado'?'var(--acg)':'var(--bg3)'};color:${getEntStatus(proj).code==='evaluado'?'var(--ac)':'#6366f1'};border:1px solid var(--bd);font-weight:700">${getEntStatus(proj).code==='evaluado'?'🔒 Evaluado':'📦 Entregado'}</span>`:''}
             ${adm?`<button class="bs s" onclick="event.stopPropagation();oCF('${c.ID_Clase}')">✏️ Editar</button>`:''}
@@ -571,7 +641,37 @@ function rCL(){
   $('CB').innerHTML=h;
 }
 
-// LOGICA ENTREGAS Y EVALUACIONES FRONTEND (MODIFICADA)
+function oC(id){
+  const c=D.cl.find(x=>x.ID_Clase===id);if(!c)return;
+  const pg=pp(D.u?.Progreso_JSON);const sn=pg[id]?.visto;const ev=eurl(c.Video_Meet_URL);
+  $('MCT').textContent=c.ID_Clase+' — '+c.Titulo_Clase;
+  $('MCB').innerHTML=`
+    <div style="width:100%;aspect-ratio:16/9;background:var(--bg3);border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid var(--bd)">
+      ${ev?'<iframe src="'+ev+'" style="width:100%;height:100%;border:none" allowfullscreen></iframe>':'<span style="color:var(--t3)">📹 Video no disponible</span>'}
+    </div>
+    <p style="color:var(--t2);font-size:14px;margin-bottom:16px;line-height:1.6">${c.Descripcion_Clase||'Sin descripción.'}</p>
+    <div class="cm" style="font-size:13px"><span>📅 ${fd(c.Fecha_Clase)}</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
+      ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p">▶ Ver Video Original</a>':''}
+      ${c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s">📄 Transcripción Doc</a>':''}
+      ${c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s">❓ Ir al Quiz</a>':''}
+      ${c.Material_Drive_URL?'<a href="'+c.Material_Drive_URL+'" target="_blank" class="bs s">📁 Material de Drive</a>':''}
+    </div>
+    <div style="margin-top:24px;border-top:1px solid var(--bd);padding-top:20px">
+      ${sn?`<button class="ba" style="background:var(--acg);color:var(--ac);border:1px solid var(--ac)" onclick="mToggleSeen('${id}',false)">✅ Clase Vista (Click para desmarcar)</button>`:`<button class="ba p" onclick="mToggleSeen('${id}',true)">☑️ Marcar Clase como Vista</button>`}
+    </div>`;
+  oM('MC');
+}
+
+async function mToggleSeen(id, state){
+  let pg = pp(D.u.Progreso_JSON);
+  if(state) pg[id]={visto:true, fecha_visto:new Date().toISOString()}; else delete pg[id];
+  D.u.Progreso_JSON = JSON.stringify(pg); const i = D.us.findIndex(u=>u.ID_Usuario===D.u.ID_Usuario); if(i>=0) D.us[i].Progreso_JSON = D.u.Progreso_JSON;
+  oC(id); rCL(); updateProgressTop(); rHOME(); toast(state ? '✅ Marcado como visto' : 'Desmarcado');
+  await aPost({action:'updateProgreso',email:D.u.Email_Corporativo||D.u.Email_Personal,progreso:pg});
+}
+
+// ==================== ENTREGAS ====================
 function oSUB(id_c){
   const proj = D.pr.find(p=>p.ID_Clase===id_c && p.ID_Usuario===D.u.ID_Usuario);
   const st = getEntStatus(proj);
@@ -619,18 +719,7 @@ function cDelProj(id_clase){
   }; oM('MD');
 }
 
-function oC(id){const c=D.cl.find(x=>x.ID_Clase===id);if(!c)return;const pg=pp(D.u?.Progreso_JSON);const sn=pg[id]?.visto;const ev=eurl(c.Video_Meet_URL);
-$('MCT').textContent=c.ID_Clase+' — '+c.Titulo_Clase;
-$('MCB').innerHTML='<div style="width:100%;aspect-ratio:16/9;background:var(--bg3);border-radius:12px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid var(--bd)">'+(ev?'<iframe src="'+ev+'" style="width:100%;height:100%;border:none" allowfullscreen></iframe>':'<span style="color:var(--t3)">📹 Video no disponible</span>')+'</div><p style="color:var(--t2);font-size:14px;margin-bottom:16px;line-height:1.6">'+(c.Descripcion_Clase||'Sin descripción proporcionada.')+'</p><div class="cm" style="font-size:13px"><span>📅 '+fd(c.Fecha_Clase)+'</span></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">'+(c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p">▶ Ver en YouTube</a>':'')+(c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s">📄 Transcripción Doc</a>':'')+(c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s">❓ Ir al Quiz</a>':'')+(c.Material_Drive_URL?'<a href="'+c.Material_Drive_URL+'" target="_blank" class="bs s">📁 Material de Drive</a>':'')+'</div><div style="margin-top:24px;border-top:1px solid var(--bd);padding-top:20px">'+(sn?'<button class="ba" style="background:var(--acg);color:var(--ac);border:1px solid var(--ac)" onclick="mToggleSeen(\''+id+'\',false)">✅ Clase Vista (Click para desmarcar)</button>':'<button class="ba p" onclick="mToggleSeen(\''+id+'\',true)">☑️ Marcar Clase como Vista</button>')+'</div>'; oM('MC')}
-
-async function mToggleSeen(id, state){
-  let pg = pp(D.u.Progreso_JSON);
-  if(state) pg[id]={visto:true, fecha_visto:new Date().toISOString()}; else delete pg[id];
-  D.u.Progreso_JSON = JSON.stringify(pg); const i = D.us.findIndex(u=>u.ID_Usuario===D.u.ID_Usuario); if(i>=0) D.us[i].Progreso_JSON = D.u.Progreso_JSON;
-  oC(id); rCL(); updateProgressTop(); rHOME(); toast(state ? '✅ Marcado como visto' : 'Desmarcado');
-  await aPost({action:'updateProgreso',email:D.u.Email_Corporativo||D.u.Email_Personal,progreso:pg});
-}
-
+// ==================== ESTUDIANTES ====================
 function filterUsersGrid(){
   const v = $('fsSearch').value.toLowerCase();
   document.querySelectorAll('.user-card').forEach(c => { c.style.display = c.dataset.search.includes(v) ? '' : 'none'; });
@@ -646,9 +735,87 @@ function rST(){
   }).join('');
 }
 
-function rAU(){const c=D.cf;$('AB').innerHTML='<div class="icc"><h4>🏢 '+(c.Empresa_Mentor||'AIWIS')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Mentor||'—')+'</p></div><div class="icc"><h4>🎯 '+(c.Empresa_Cliente||'CUBI-K')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Cliente||'—')+'</p></div>'}
+// ==================== AULA VIRTUAL ====================
+function rAU(){
+  const c = D.cf;
+  const adm = (D.u && (D.u.Rol === 'Master' || D.u.Rol === 'Admin'));
+  
+  let html = '';
+  if (adm) {
+    html += '<div style="margin-bottom:20px"><button class="ba p" onclick="oEditAula()">✏️ Editar Datos del Aula (Config DB)</button></div>';
+  }
+  
+  html += '<div class="ic">';
+  html += '<div class="icc"><h4>🏢 '+(c.Empresa_Mentor||'AIWIS')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Mentor||'—')+'</p><p><strong>Mentores:</strong> '+(c['01_Mentor_AIWIS']||'')+', '+(c['02_Mentor_AIWIS']||'')+'</p><a href="mailto:'+(c.Email_Soporte||'')+'" class="bs s" style="margin-top:10px">📧 Correo de Soporte</a></div>';
+  html += '<div class="icc"><h4>🎯 '+(c.Empresa_Cliente||'CUBI-K')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Cliente||'—')+'</p><p>Portal educativo de IA corporativa integral.</p></div>';
+  html += '<div class="icc"><h4>🐙 GitHub</h4><p>Repositorios de código e integración.</p><a href="'+(c.Github_Aiwis||'#')+'" target="_blank" class="bs p" style="margin-top:10px">🔗 Ver Repositorio</a></div>';
+  html += '<div class="icc"><h4>📁 Google Drive</h4><p>Materiales oficiales del curso.</p><a href="'+(c.Drive_Cubik_Aiwis||'#')+'" target="_blank" class="bs p" style="margin-top:10px">🔗 Abrir Carpeta</a></div>';
+  html += '<div class="icc"><h4>📹 Google Meet</h4><p>Enlace de la sala para clases en vivo.</p><a href="'+(c.Meet_Sala_Virtual||'https://meet.google.com/')+'" target="_blank" class="bs p" style="margin-top:10px">🔗 Entrar a Sala Virtual</a></div>';
+  html += '</div>';
 
-// ADMIN
+  html += '<h3 style="margin:40px 0 20px 0; font-size:20px; color:var(--t1)">🛠️ Herramientas y Recursos IA</h3>';
+  html += '<div class="ic">';
+  
+  const tools =[
+    { name: 'Google AI Studio', icon: '✨', url: c.Url_Google_AI_Studio || 'https://aistudio.google.com/' },
+    { name: 'VS Code', icon: '💻', url: c.Url_VS_Code || 'https://code.visualstudio.com/download' },
+    { name: 'Databricks', icon: '📊', url: c.Url_Databricks || 'https://community.cloud.databricks.com/' },
+    { name: 'Antigravity', icon: '🚀', url: c.Url_Antigravity || '#' },
+    { name: 'Gemini', icon: '♊', url: c.Url_Gemini || 'https://gemini.google.com/' },
+    { name: 'Claude', icon: '🤖', url: c.Url_Claude || 'https://claude.ai/' },
+    { name: 'ChatGPT', icon: '💬', url: c.Url_ChatGPT || 'https://chatgpt.com/' },
+    { name: 'Google Cloud', icon: '☁️', url: c.Url_Google_Cloud || 'https://cloud.google.com/' },
+    { name: 'Google Docs', icon: '📄', url: c.Url_Google_Docs || 'https://docs.google.com/' }
+  ];
+
+  tools.forEach(t => {
+    html += `<div class="icc" style="display:flex;align-items:center;gap:14px;padding:16px">
+               <div style="font-size:32px">${t.icon}</div>
+               <div><h4 style="margin-bottom:4px;font-size:15px">${t.name}</h4><a href="${t.url}" target="_blank" style="font-size:12px;color:var(--ac2);font-weight:600">🔗 Acceder al sitio</a></div>
+             </div>`;
+  });
+  
+  html += '</div>';
+  $('AB').innerHTML = html;
+}
+
+function oEditAula() {
+  $('MFT').textContent = 'Editar Variables del Aula Virtual';
+  const keys =['Empresa_Mentor', 'CEO_Mentor', '01_Mentor_AIWIS', '02_Mentor_AIWIS', 'Email_Soporte', 'Empresa_Cliente', 'CEO_Cliente', 'Github_Aiwis', 'Drive_Cubik_Aiwis', 'Meet_Sala_Virtual', 'Url_Google_AI_Studio', 'Url_VS_Code', 'Url_Databricks', 'Url_Antigravity', 'Url_Gemini', 'Url_Claude', 'Url_ChatGPT', 'Url_Google_Cloud', 'Url_Google_Docs'];
+  
+  let html = '<p style="font-size:12px;color:var(--t2);margin-bottom:15px">Modifica los datos y URLs. Se actualizará en la BD y en el Aula secuencialmente.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+  keys.forEach(k => {
+    html += `<div class="fg" style="margin-bottom:8px"><label>${k.replace(/_/g, ' ')}</label><input id="fe_${k}" value="${D.cf[k] || ''}"></div>`;
+  });
+  html += '</div>';
+  
+  $('MFB').innerHTML = html;
+  $('MFS').onclick = async () => {
+    let changed =[];
+    keys.forEach(k => {
+      let val = $(`fe_${k}`).value;
+      if (D.cf[k] !== val) {
+        D.cf[k] = val;
+        let r = D.cfr.find(x => x.Clave === k);
+        if(r) r.Valor = val; else D.cfr.push({Clave: k, Valor: val});
+        changed.push({clave: k, valor: val});
+      }
+    });
+    
+    cM('MF');
+    if (changed.length > 0) {
+      toast('Actualizando Aula en BD...', 'ok');
+      rAU();
+      for(let ch of changed){
+         await aPost({action: 'updateConfig', clave: ch.clave, valor: ch.valor});
+      }
+      toast('✅ Aula guardada correctamente');
+    } else { toast('No se hicieron cambios.'); }
+  };
+  oM('MF');
+}
+
+// ==================== PANEL ADMINISTRACION ====================
 function rAD(){$('ATBS').innerHTML=[{i:'APC',l:'📚 Clases'},{i:'APU',l:'👥 Usuarios'},{i:'APP',l:'📦 Proyectos / Entregas'},{i:'APK',l:'🔧 Config DB'}].map((t,x)=>'<button class="at'+(x===0?' on':'')+'" onclick="sAT(\''+t.i+'\',this)">'+t.l+'</button>').join('');rAC();rAU2();rAPR();rAK()}
 function sAT(id,b){document.querySelectorAll('.ap').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.at').forEach(t=>t.classList.remove('on'));$(id).classList.add('on');if(b)b.classList.add('on')}
 
@@ -656,10 +823,60 @@ function rAC(){
   $('APC').innerHTML=`<div class="atb"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:13px;color:var(--t2)">${D.cl.length} clases</span><input type="text" id="fcSearch" placeholder="🔍 Buscar clase..." onkeyup="filterT('fcSearch','tbClases')" style="padding:8px 12px;border-radius:8px;background:var(--bg3);border:1px solid var(--bd);color:var(--t1);outline:none;font-size:13px;min-width:250px"></div><button class="ba p" onclick="oCF()">+ Crear Clase Nueva</button></div><div class="atw"><table class="ata" id="tbClases"><thead><tr><th>ID</th><th>Fase</th><th>Tipo</th><th>Mód</th><th>Título</th><th>Fecha</th><th>Video</th><th>Acc.</th></tr></thead><tbody>`+D.cl.map(c=>`<tr><td><strong style="color:var(--t1)">${c.ID_Clase}</strong></td><td>${c.Fase_ID}</td><td>${c.Tipo_Modulo}</td><td>${c.Tipo_Modulo==='Taller'?'T-'+c.Sub_ID:c.Modulo_ID}</td><td>${c.Titulo_Clase}</td><td>${fd(c.Fecha_Clase)}</td><td>${c.Video_Meet_URL?'✅':'—'}</td><td><button class="bs s" onclick="oCF('${c.ID_Clase}')">✏️</button> <button class="bs d" onclick="cDel('c','${c.ID_Clase}')">🗑</button></td></tr>`).join('')+`</tbody></table></div>`;
 }
 
-function oCF(id){ /* ...misma lógica... */ } // Por espacio se asume su existencia como antes
+function oCF(id){
+  const c=id?D.cl.find(x=>x.ID_Clase===id):null;
+  $('MFT').textContent=c?'Editar Clase Existente':'Crear Nueva Clase';
+  $('MFB').innerHTML=`
+    <div class="fg"><label>ID Clase</label><input id="fc1" value="${c?.ID_Clase||'CLS-'+String(D.cl.length+1).padStart(3,'0')}" ${c?'readonly':''}></div>
+    <div class="fg"><label>Fase ID (Numérico)</label><input id="fc2" type="number" value="${c?.Fase_ID||1}" min="1"></div>
+    <div class="fg"><label>Título de la Fase</label><input id="fc3" value="${c?.Titulo_Fase||''}"></div>
+    <div class="fg"><label>Tipo de Módulo</label><select id="fc4"><option value="Normal" ${c?.Tipo_Modulo!=='Taller'?'selected':''}>Normal</option><option value="Taller" ${c?.Tipo_Modulo==='Taller'?'selected':''}>Taller Práctico</option></select></div>
+    <div class="fg"><label>Módulo ID (Ej: 1)</label><input id="fc5" value="${c?.Modulo_ID||1}"></div>
+    <div class="fg"><label>Sub ID (Ej: A, B)</label><input id="fc6" value="${c?.Sub_ID||''}"></div>
+    <div class="fg"><label>Título de la Clase / Taller</label><input id="fc7" value="${c?.Titulo_Clase||''}"></div>
+    <div class="fg"><label>Descripción Breve</label><textarea id="fc8">${c?.Descripcion_Clase||''}</textarea></div>
+    <div class="fg"><label>Fecha de Clase / Límite</label><input id="fc9" type="datetime-local" value="${c?.Fecha_Clase?String(c.Fecha_Clase).substring(0,16):''}"></div>
+    <div class="fg"><label>URL Video Original / Meet</label><input id="fc10" value="${c?.Video_Meet_URL||''}"></div>
+    <div class="fg"><label>URL Meet Calendario</label><input id="fc11" value="${c?.Google_Calendar_Meet_URL||''}"></div>
+    <div class="fg"><label>URL Transcripción Doc</label><input id="fc12" value="${c?.Transcripcion_URL||''}"></div>
+    <div class="fg"><label>URL del Quiz</label><input id="fc13" value="${c?.Quiz_URL||''}"></div>
+    <div class="fg"><label>URL Material Drive</label><input id="fc14" value="${c?.Material_Drive_URL||''}"></div>`;
+  $('MFS').onclick=async()=>{
+    const d={ID_Clase:$('fc1').value,Fase_ID:Number($('fc2').value),Titulo_Fase:$('fc3').value,Tipo_Modulo:$('fc4').value,Modulo_ID:$('fc5').value,Sub_ID:$('fc6').value,Titulo_Clase:$('fc7').value,Descripcion_Clase:$('fc8').value,Fecha_Clase:$('fc9').value,Video_Meet_URL:$('fc10').value,Google_Calendar_Meet_URL:$('fc11').value,Transcripcion_URL:$('fc12').value,Quiz_URL:$('fc13').value,Material_Drive_URL:$('fc14').value};
+    if(!d.ID_Clase||!d.Titulo_Clase){toast('ID y Título requeridos','er');return}
+    cM('MF'); toast('Guardando clase...', 'ok');
+    if(id){const i=D.cl.findIndex(x=>x.ID_Clase===id);if(i>=0)D.cl[i]={...D.cl[i],...d}}else D.cl.push(d); rAll();
+    await aPost({action:id?'updateClase':'addClass',clase:d,id_clase:id||d.ID_Clase});
+  }; oM('MF');
+}
 
 function rAU2(){
   $('APU').innerHTML=`<div class="atb"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:13px;color:var(--t2)">${D.us.length} usuarios</span><input type="text" id="fuSearch" placeholder="🔍 Buscar usuario..." onkeyup="filterT('fuSearch','tbUsers')" style="padding:8px 12px;border-radius:8px;background:var(--bg3);border:1px solid var(--bd);color:var(--t1);outline:none;font-size:13px;min-width:250px"></div><button class="ba p" onclick="oUF()">+ Registrar Estudiante</button></div><div class="atw"><table class="ata" id="tbUsers"><thead><tr><th>ID</th><th>Nombre</th><th>Rol</th><th>Email</th><th>Skills</th><th>Acc.</th></tr></thead><tbody>`+D.us.map(u=>`<tr><td><strong style="color:var(--t1)">${u.ID_Usuario}</strong></td><td>${u.Nombre}</td><td>${u.Rol}</td><td style="font-size:11px;color:var(--ac2)">${u.Email_Corporativo||u.Email_Personal||'—'}</td><td>${Number(u.Skill_Prompting)||0}/${Number(u.Skill_Herramientas_IA)||0}/${Number(u.Skill_Analisis)||0}</td><td><button class="bs s" onclick="oUF('${u.ID_Usuario}')">✏️</button> ${u.Rol!=='Master'?`<button class="bs d" onclick="cDel('u','${u.ID_Usuario}')">🗑</button>`:''}</td></tr>`).join('')+`</tbody></table></div>`;
+}
+
+function oUF(id){
+  const u=id?D.us.find(x=>x.ID_Usuario===id):null;
+  $('MFT').textContent=u?'Editar Usuario':'Nuevo Usuario';
+  $('MFB').innerHTML=`
+    <div class="fg"><label>ID Usuario</label><input id="fu1" value="${u?.ID_Usuario||'USR-'+String(D.us.length+1).padStart(3,'0')}" ${u?'readonly':''}></div>
+    <div class="fg"><label>Nombre</label><input id="fu2" value="${u?.Nombre||''}"></div>
+    <div class="fg"><label>Email Personal</label><input id="fu3" value="${u?.Email_Personal||''}"></div>
+    <div class="fg"><label>Email Corporativo</label><input id="fu4" value="${u?.Email_Corporativo||''}"></div>
+    <div class="fg"><label>Rol</label><select id="fu5"><option value="Usuario" ${u?.Rol==='Usuario'?'selected':''}>Usuario</option><option value="Admin" ${u?.Rol==='Admin'?'selected':''}>Admin/Mentor</option><option value="Master" ${u?.Rol==='Master'?'selected':''}>Master Root</option></select></div>
+    <div class="fg"><label>Cargo Laboral</label><input id="fu6" value="${u?.Cargo||''}"></div>
+    <div class="fg"><label>Empresa</label><input id="fu7" value="${u?.Corporacion||'CUBI-K'}"></div>
+    <div class="fg"><label>Teléfono (Wsp)</label><input id="fu8" value="${u?.Telefono||''}"></div>
+    <div class="fg"><label>Skill Prompting (0-10)</label><input id="fu9" type="number" value="${Number(u?.Skill_Prompting)||0}"></div>
+    <div class="fg"><label>Skill Herramientas (0-10)</label><input id="fu10" type="number" value="${Number(u?.Skill_Herramientas_IA)||0}"></div>
+    <div class="fg"><label>Skill Análisis (0-10)</label><input id="fu11" type="number" value="${Number(u?.Skill_Analisis)||0}"></div>
+    <div class="fg"><label>Drive Personal Alumno</label><input id="fu13" value="${u?.Drive_Alumno_URL||''}"></div>`;
+  $('MFS').onclick=async()=>{
+    const d={ID_Usuario:$('fu1').value,Nombre:$('fu2').value,Email_Personal:$('fu3').value,Email_Corporativo:$('fu4').value,Rol:$('fu5').value,Cargo:$('fu6').value,Corporacion:$('fu7').value,Telefono:$('fu8').value,Progreso_JSON:'{}',Skill_Prompting:Number($('fu9').value),Skill_Herramientas_IA:Number($('fu10').value),Skill_Analisis:Number($('fu11').value),Drive_Alumno_URL:$('fu13').value,Activo:true};
+    if(!d.ID_Usuario||!d.Nombre){toast('Requerido ID y Nombre','er');return}
+    cM('MF'); toast('Guardando usuario...','ok');
+    if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){d.Progreso_JSON=D.us[i].Progreso_JSON;D.us[i]={...D.us[i],...d}}}else D.us.push(d); popLogin(); rAll();
+    await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});
+  }; oM('MF');
 }
 
 function rAPR(){
@@ -742,12 +959,11 @@ function cDelProjAdmin(id_u, id_c){
   }; oM('MD');
 }
 
-function rAK(){$('APK').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Variables de BD</span><button class="ba p" onclick="openSheet()">📊 Google Sheets</button></div><div class="atw"><table class="ata"><thead><tr><th>Clave</th><th>Valor</th><th>Editar</th></tr></thead><tbody>'+D.cfr.map(r=>`<tr><td style="color:var(--ac3)">${r.Clave}</td><td>${r.Valor||'—'}</td><td><button class="bs s" onclick="eCfg('${r.Clave}','${r.Valor||''}')">✏️</button></td></tr>`).join('')+'</tbody></table></div>'}
-function openSheet(){const p = prompt("Clave Master/Admin para abrir BD:"); if(p===MPW||p===APW) window.open('https://docs.google.com/spreadsheets/d/'+SPREADSHEET_ID+'/edit','_blank'); else if(p!==null) toast('Clave incorrecta','er')}
-function eCfg(k,v){$('MFT').textContent='Editar: '+k;$('MFB').innerHTML='<div class="fg"><label>'+k+'</label><input id="fkv" value="'+v+'"></div>';$('MFS').onclick=async()=>{const nv=$('fkv').value;await aPost({action:'updateConfig',clave:k,valor:nv});D.cf[k]=nv;const r=D.cfr.find(x=>x.Clave===k);if(r)r.Valor=nv;cM('MF');rAK();rAU()};oM('MF')}
+function rAK(){$('APK').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Variables de DB (Avanzado)</span><button class="ba p" onclick="openSheet()">📊 Ver en Google Sheets</button></div><div class="atw"><table class="ata"><thead><tr><th>Clave</th><th>Valor</th><th>Editar</th></tr></thead><tbody>'+D.cfr.map(r=>`<tr><td style="color:var(--ac3)">${r.Clave}</td><td>${r.Valor||'—'}</td><td><button class="bs s" onclick="eCfg('${r.Clave}','${r.Valor||''}')">✏️</button></td></tr>`).join('')+'</tbody></table></div>'}
+function openSheet(){const p = prompt("Clave Master/Admin para abrir BD:"); if(p===MPW||p===APW) window.open('https://docs.google.com/spreadsheets/d/1kHkPRF4FBeyHeJtCLLciBs7XZkDe-AQ4v1y4VekMV78/edit','_blank'); else if(p!==null) toast('Clave incorrecta','er')}
+function eCfg(k,v){$('MFT').textContent='Editar Variable: '+k;$('MFB').innerHTML='<div class="fg"><label>'+k+'</label><input id="fkv" value="'+v+'"></div>';$('MFS').onclick=async()=>{const nv=$('fkv').value;await aPost({action:'updateConfig',clave:k,valor:nv});D.cf[k]=nv;const r=D.cfr.find(x=>x.Clave===k);if(r)r.Valor=nv;cM('MF');rAK();rAU()};oM('MF')}
 
-function oUF(id){/* ...misma lógica... */}
-function cDel(t,id){$('DM').textContent='¿Seguro? No se deshace.';$('DY').onclick=async()=>{await aPost({action:t==='c'?'deleteClase':'deleteUsuario',id:id});if(t==='c')D.cl=D.cl.filter(c=>c.ID_Clase!==id);else{D.us=D.us.filter(u=>u.ID_Usuario!==id);popLogin()}cM('MD');rAll()};oM('MD')}
+function cDel(t,id){$('DM').textContent='¿Seguro que deseas eliminar? No se puede deshacer.';$('DY').onclick=async()=>{cM('MD');toast('Eliminando...','ok');await aPost({action:t==='c'?'deleteClase':'deleteUsuario',id:id});if(t==='c')D.cl=D.cl.filter(c=>c.ID_Clase!==id);else{D.us=D.us.filter(u=>u.ID_Usuario!==id);popLogin()}rAll()};oM('MD')}
 
 function oM(id){$(id).classList.add('on')}function cM(id){$(id).classList.remove('on')}
 document.querySelectorAll('.mo').forEach(m=>{m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')})});
