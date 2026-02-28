@@ -300,7 +300,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 <div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Confirmar</button></div></div></div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbxNkwuTwRoBCq_7nGqPhTEUCkmnsaqNKzvb7vHD7_7QB_XX9WvSPPYJr12_8WMQWHX_nw/exec';
+const API='https://script.google.com/macros/s/AKfycbxug0D8a2lmpwGryT1yLGfez5cAiibqTQ9Pn5GAVc9xak0hPffvkAYurNZu7pijRBrL3A/exec';
 const MPW='123123';
 const APW='admin123';
 const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
@@ -405,6 +405,7 @@ function rHOME(){
   const tt=D.cl.length||1;
   const pc=Math.round(dn/tt*100);
   const myP=D.pr.filter(p=>p.ID_Usuario===D.u.ID_Usuario);
+  const myDelivered=myP.filter(p=>p.URL_Proyecto && String(p.URL_Proyecto).trim()!=='');
   
   $('HPROG').innerHTML=`
     <div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); padding:24px; display:flex; flex-direction:column; gap:24px;">
@@ -420,7 +421,7 @@ function rHOME(){
           <div style="font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600;">Clases Vistas</div>
         </div>
         <div style="flex:1; background:var(--bg3); padding:18px 14px; border-radius:12px; text-align:center; border:1px solid var(--bd);">
-          <div style="font-size:26px; color:var(--ac3); font-weight:700; margin-bottom:6px;">${myP.length}</div>
+          <div style="font-size:26px; color:var(--ac3); font-weight:700; margin-bottom:6px;">${myDelivered.length}</div>
           <div style="font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600;">Entregas Hechas</div>
         </div>
       </div>
@@ -472,13 +473,19 @@ function rHOME(){
     talleres.forEach(t => {
       const cd = getCD(t.Fecha_Clase);
       const proj = D.pr.find(p => p.ID_Clase === t.ID_Clase && p.ID_Usuario === D.u.ID_Usuario);
-      const statusBadge = proj ? `<span class="cd-badge cd-ok">✅ Entregado el ${fd(proj.Fecha_Entrega)}</span>` : `<span class="cd-badge ${cd.class}">${cd.text}</span>`;
+      const hasUrl = proj && proj.URL_Proyecto && String(proj.URL_Proyecto).trim() !== '';
+      const statusBadge = hasUrl ? `<span class="cd-badge cd-ok">✅ Entregado el ${fd(proj.Fecha_Entrega)}</span>` : `<span class="cd-badge ${cd.class}">${cd.text}</span>`;
+      const adm = D.u.Rol==='Master'||D.u.Rol==='Admin';
       
       let actionBtn = '';
-      if (proj) {
+      if (hasUrl) {
          if (cd.active) {
-           actionBtn = `<button class="bs s" onclick="oSUB('${t.ID_Clase}')">✏️ Editar Link</button>
-                        <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🗑 Borrar</button>`;
+           actionBtn = `<button class="bs s" onclick="oSUB('${t.ID_Clase}')">✏️ Editar Link</button>`;
+           if (adm) {
+             actionBtn += ` <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🗑 Eliminar</button>`;
+           } else {
+             actionBtn += ` <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🧹 Limpiar</button>`;
+           }
          } else {
            actionBtn = `<span style="font-size:11px;color:var(--t3);background:var(--bg3);padding:4px 8px;border-radius:4px">Bloqueado (Plazo Cerrado)</span>`;
          }
@@ -623,7 +630,7 @@ function rCL(){
   actMod.it.forEach(c=>{
     const sn = pg[c.ID_Clase]?.visto;
     const proj = D.pr.find(x=>x.ID_Clase===c.ID_Clase && x.ID_Usuario===D.u.ID_Usuario);
-    const haS = !!proj;
+    const haS = proj && proj.URL_Proyecto && String(proj.URL_Proyecto).trim() !== '';
     const cd = getCD(c.Fecha_Clase);
     const cdBadge = cd.text ? `<span class="cd-badge ${cd.class}">${cd.text}</span>` : '';
     
@@ -647,10 +654,11 @@ function rCL(){
 
 function oSUB(id_c){
   const proj = D.pr.find(p=>p.ID_Clase===id_c && p.ID_Usuario===D.u.ID_Usuario);
-  $('MFT').textContent = proj ? 'Editar URL de Entrega' : 'Entregar Proyecto/Taller';
+  const hasUrl = proj && proj.URL_Proyecto && String(proj.URL_Proyecto).trim() !== '';
+  $('MFT').textContent = hasUrl ? 'Editar URL de Entrega' : 'Entregar Proyecto/Taller';
   $('MFB').innerHTML=`
     <div class="fg"><label>ID Clase / Taller</label><input value="${id_c}" readonly style="color:var(--t3);font-family:var(--m)"></div>
-    <div class="fg"><label>URL Repositorio o Google Colab</label><input id="fsub" placeholder="https://..." type="url" value="${proj ? proj.URL_Proyecto : ''}"></div>
+    <div class="fg"><label>URL Repositorio o Google Colab</label><input id="fsub" placeholder="https://..." type="url" value="${hasUrl ? proj.URL_Proyecto : ''}"></div>
     <p style="font-size:12px;color:var(--t3);margin-top:10px;line-height:1.5">Asegúrate de que el enlace sea público o tenga permisos de lectura para que los mentores puedan evaluar tu trabajo.</p>
   `;
   $('MFS').onclick=async()=>{
@@ -658,11 +666,14 @@ function oSUB(id_c){
     if(!u){toast('Ingresa una URL válida','er');return}
     cM('MF'); toast('Guardando entrega...', 'ok');
     
-    if(proj){
-      proj.URL_Proyecto = u;
-      proj.Fecha_Entrega = new Date().toISOString();
+    // SIEMPRE buscar por dupla (ID_Usuario + ID_Clase) - la fila ya existe en Sheets
+    const existing = D.pr.find(p=>p.ID_Clase===id_c && p.ID_Usuario===D.u.ID_Usuario);
+    if(existing){
+      existing.URL_Proyecto = u;
+      existing.Fecha_Entrega = new Date().toISOString();
     } else {
-      D.pr.push({ID_Entrega:'ENT-'+Date.now(), ID_Usuario:D.u.ID_Usuario, ID_Clase:id_c, URL_Proyecto:u, Fecha_Entrega:new Date().toISOString()});
+      // Fila no encontrada localmente (raro, pero posible si datos no sincronizados)
+      D.pr.push({ID_Entrega:'TEMP', ID_Usuario:D.u.ID_Usuario, ID_Clase:id_c, URL_Proyecto:u, Fecha_Entrega:new Date().toISOString()});
     }
     rAll(); 
     const res = await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_c, url_proyecto: u});
@@ -673,15 +684,31 @@ function oSUB(id_c){
 }
 
 function cDelProj(id_clase){
-  $('DM').textContent='¿Estás seguro que deseas eliminar tu entrega actual? Podrás subirla nuevamente siempre que el plazo no haya finalizado.';
-  $('DY').onclick=async()=>{
-    cM('MD'); toast('Eliminando...', 'ok');
-    D.pr = D.pr.filter(p => !(p.ID_Clase === id_clase && p.ID_Usuario === D.u.ID_Usuario));
-    rAll();
-    const res = await aPost({action:'deleteProyecto', id_clase: id_clase, id_usuario: D.u.ID_Usuario});
-    if(res && res.success) toast('Entrega borrada con éxito');
-    else toast(res?.message || 'Error en borrado remoto', 'er');
-  };
+  const adm = D.u.Rol==='Master'||D.u.Rol==='Admin';
+  if(adm){
+    // Admin/Master: pueden eliminar la fila completa
+    $('DM').textContent='¿Estás seguro que deseas eliminar esta entrega de la base de datos? Esta acción es solo para administradores.';
+    $('DY').onclick=async()=>{
+      cM('MD'); toast('Eliminando...', 'ok');
+      D.pr = D.pr.filter(p => !(p.ID_Clase === id_clase && p.ID_Usuario === D.u.ID_Usuario));
+      rAll();
+      const res = await aPost({action:'deleteProyecto', id_clase: id_clase, id_usuario: D.u.ID_Usuario});
+      if(res && res.success) toast('Entrega eliminada');
+      else toast(res?.message || 'Error en borrado remoto', 'er');
+    };
+  } else {
+    // Usuario normal: solo puede limpiar su URL, la fila sigue existiendo
+    $('DM').textContent='¿Quieres limpiar tu enlace de entrega? La fila se mantendrá y podrás volver a subir tu proyecto.';
+    $('DY').onclick=async()=>{
+      cM('MD'); toast('Limpiando enlace...', 'ok');
+      const proj = D.pr.find(p=>p.ID_Clase===id_clase && p.ID_Usuario===D.u.ID_Usuario);
+      if(proj){ proj.URL_Proyecto=''; proj.Fecha_Entrega=''; }
+      rAll();
+      const res = await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_clase, url_proyecto: ''});
+      if(res && res.success) toast('Enlace limpiado correctamente');
+      else toast(res?.message || 'Error al limpiar', 'er');
+    };
+  }
   oM('MD');
 }
 
@@ -735,7 +762,21 @@ function oUF(id){const u=id?D.us.find(x=>x.ID_Usuario===id):null;$('MFT').textCo
 $('MFB').innerHTML='<div class="fg"><label>ID Usuario</label><input id="fu1" value="'+(u?.ID_Usuario||'USR-'+String(D.us.length+1).padStart(3,'0'))+'" '+(u?'readonly':'')+'></div><div class="fg"><label>Nombre Completo</label><input id="fu2" value="'+(u?.Nombre||'')+'"></div><div class="fg"><label>Email Personal</label><input id="fu3" value="'+(u?.Email_Personal||'')+'"></div><div class="fg"><label>Email Corporativo</label><input id="fu4" value="'+(u?.Email_Corporativo||'')+'"></div><div class="fg"><label>Rol en el Sistema</label><select id="fu5"><option value="Usuario" '+(u?.Rol==='Usuario'?'selected':'')+'>Usuario Estudiante</option><option value="Admin" '+(u?.Rol==='Admin'?'selected':'')+'>Administrador Mentor</option><option value="Master" '+(u?.Rol==='Master'?'selected':'')+'>Master Root</option></select></div><div class="fg"><label>Cargo Laboral</label><input id="fu6" value="'+(u?.Cargo||'')+'"></div><div class="fg"><label>Empresa / Corporación</label><input id="fu7" value="'+(u?.Corporacion||'CUBI-K')+'"></div><div class="fg"><label>Teléfono (WhatsApp)</label><input id="fu8" value="'+(u?.Telefono||'')+'"></div><div class="fg"><label>Skill Prompting (0-10)</label><input id="fu9" type="number" min="0" max="10" value="'+(Number(u?.Skill_Prompting)||0)+'"></div><div class="fg"><label>Skill Herramientas (0-10)</label><input id="fu10" type="number" min="0" max="10" value="'+(Number(u?.Skill_Herramientas_IA)||0)+'"></div><div class="fg"><label>Skill Análisis (0-10)</label><input id="fu11" type="number" min="0" max="10" value="'+(Number(u?.Skill_Analisis)||0)+'"></div><div class="fg"><label>Tecnologías / Stacks</label><input id="fu12" value="'+(u?.Skill_Staks||'')+'"></div><div class="fg"><label>URL Carpeta Drive Personal</label><input id="fu13" value="'+(u?.Drive_Alumno_URL||'')+'"></div>';
 $('MFS').onclick=async()=>{const d={ID_Usuario:$('fu1').value,Nombre:$('fu2').value,Email_Personal:$('fu3').value,Email_Corporativo:$('fu4').value,Rol:$('fu5').value,Cargo:$('fu6').value,Corporacion:$('fu7').value,Telefono:$('fu8').value,Progreso_JSON:'{}',Skill_Prompting:Number($('fu9').value),Skill_Herramientas_IA:Number($('fu10').value),Skill_Analisis:Number($('fu11').value),Skill_Staks:$('fu12').value,Drive_Alumno_URL:$('fu13').value,Activo:true};if(!d.ID_Usuario||!d.Nombre){toast('ID y Nombre requeridos','er');return}await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){d.Progreso_JSON=D.us[i].Progreso_JSON;D.us[i]={...D.us[i],...d}}}else D.us.push(d);cM('MF');popLogin();rAll()};oM('MF')}
 
-function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Historial de Proyectos: '+D.pr.length+' entregas registradas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Enlace</th><th>Nota Final</th><th>Fecha Entrega</th><th>Comentario Mentor</th><th>Evaluar</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;return'<tr><td><strong style="color:var(--t1)">'+p.ID_Entrega+'</strong></td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(p.URL_Proyecto?'<a href="'+p.URL_Proyecto+'" target="_blank" style="color:var(--ac2)">🔗 Abrir</a>':'—')+'</td><td><strong style="color:var(--ac);font-size:14px">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td style="max-width:250px">'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs p" style="padding:6px 10px" onclick="oEF(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">Corregir 📝</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:40px;font-size:15px">Aún no existen entregas de alumnos</td></tr>')+'</tbody></table></div>'}
+function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Historial de Proyectos: '+D.pr.length+' entregas registradas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Enlace</th><th>Nota Final</th><th>Fecha Entrega</th><th>Comentario Mentor</th><th>Acciones</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;const hasUrl=p.URL_Proyecto&&String(p.URL_Proyecto).trim()!=='';return'<tr><td><strong style="color:var(--t1)">'+p.ID_Entrega+'</strong></td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(hasUrl?'<a href="'+p.URL_Proyecto+'" target="_blank" style="color:var(--ac2)">🔗 Abrir</a>':'<span style="color:var(--t3)">—</span>')+'</td><td><strong style="color:var(--ac);font-size:14px">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td style="max-width:250px">'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs p" style="padding:6px 10px" onclick="oEF(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">Corregir 📝</button> <button class="bs d" style="padding:6px 10px" onclick="cDelProjAdmin(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">🗑</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:40px;font-size:15px">Aún no existen entregas de alumnos</td></tr>')+'</tbody></table></div>'}
+
+function cDelProjAdmin(id_u, id_c){
+  const un=D.us.find(u=>u.ID_Usuario===id_u)?.Nombre||id_u;
+  $('DM').textContent='¿Eliminar la entrega de '+un+' para la clase '+id_c+'? Se borrará la fila completa de la base de datos.';
+  $('DY').onclick=async()=>{
+    cM('MD'); toast('Eliminando entrega...', 'ok');
+    D.pr = D.pr.filter(p => !(p.ID_Clase===id_c && p.ID_Usuario===id_u));
+    rAll();
+    const res = await aPost({action:'deleteProyecto', id_clase:id_c, id_usuario:id_u});
+    if(res && res.success) toast('Entrega eliminada por administrador');
+    else toast(res?.message || 'Error al eliminar', 'er');
+  };
+  oM('MD');
+}
 
 function oEF(id_u, id_c){
   const p=D.pr.find(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
