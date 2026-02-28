@@ -7,1349 +7,342 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ==========================================
-   CSS VARIABLES & RESET
-   ========================================== */
-:root {
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: #1a2236;
-  --bg-card-hover: #1f2a42;
-  --bg-input: #0f1629;
-  --border: #2a3550;
-  --border-light: #3a4a6b;
-  --accent: #00d4aa;
-  --accent-glow: rgba(0,212,170,.15);
-  --accent-dim: #00a888;
-  --accent2: #6366f1;
-  --accent2-glow: rgba(99,102,241,.15);
-  --accent3: #f59e0b;
-  --accent3-glow: rgba(245,158,11,.15);
-  --danger: #ef4444;
-  --danger-glow: rgba(239,68,68,.12);
-  --text-primary: #e8ecf4;
-  --text-secondary: #8896b3;
-  --text-muted: #556380;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --radius-xs: 6px;
-  --font: 'Outfit', sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-  --shadow: 0 4px 24px rgba(0,0,0,.4);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,.5);
-  --transition: .2s cubic-bezier(.4,0,.2,1);
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-a { color: var(--accent); text-decoration: none; }
-button { font-family: var(--font); cursor: pointer; border: none; outline: none; }
-input, select, textarea { font-family: var(--font); outline: none; }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+:root{--bg0:#0a0e1a;--bg1:#111827;--bg2:#1a2236;--bg2h:#1f2a42;--bg3:#0f1629;--bd:#2a3550;--bdl:#3a4a6b;--ac:#00d4aa;--acg:rgba(0,212,170,.15);--acd:#00a888;--ac2:#6366f1;--ac2g:rgba(99,102,241,.15);--ac3:#f59e0b;--ac3g:rgba(245,158,11,.15);--err:#ef4444;--errg:rgba(239,68,68,.12);--t1:#e8ecf4;--t2:#8896b3;--t3:#556380;--r:12px;--rs:8px;--rx:6px;--f:'Outfit',sans-serif;--m:'JetBrains Mono',monospace;--sh:0 4px 24px rgba(0,0,0,.4);--shl:0 8px 40px rgba(0,0,0,.5);--tr:.2s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--bg0);color:var(--t1);min-height:100vh;overflow-x:hidden}
+a{color:var(--ac);text-decoration:none}button{font-family:var(--f);cursor:pointer;border:none;outline:none}
+input,select,textarea{font-family:var(--f);outline:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg0)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 
-/* ==========================================
-   LOADING SCREEN
-   ========================================== */
-#loading-screen {
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--bg-primary);
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 20px;
-  transition: opacity .4s, visibility .4s;
-}
-#loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loader-text { color: var(--text-secondary); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+/* LOADING */
+#LS{position:fixed;inset:0;z-index:9999;background:var(--bg0);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .4s,visibility .4s}
+#LS.off{opacity:0;visibility:hidden;pointer-events:none}
+.ldr{width:48px;height:48px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.lt{color:var(--t2);font-size:14px;letter-spacing:2px;text-transform:uppercase}
 
-/* ==========================================
-   SCREEN MANAGEMENT
-   ========================================== */
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: block; animation: fadeIn .3s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* LOGIN */
+#LOGIN{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg0);background-image:radial-gradient(ellipse at 20% 50%,rgba(0,212,170,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(99,102,241,.05) 0%,transparent 50%)}
+#LOGIN.off{display:none!important}
+.lbox{background:var(--bg2);border:1px solid var(--bd);border-radius:16px;padding:48px 40px;width:100%;max-width:440px;box-shadow:var(--shl)}
+.lbrand{text-align:center;margin-bottom:36px}
+.lbrand h1{font-size:32px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lbrand p{color:var(--t2);font-size:13px;margin-top:6px;letter-spacing:1px;text-transform:uppercase}
+.fg{margin-bottom:18px}
+.fg label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px}
+.fg select,.fg input,.fg textarea{width:100%;padding:12px 16px;background:var(--bg3);color:var(--t1);border:1px solid var(--bd);border-radius:var(--rs);font-size:14px;transition:var(--tr)}
+.fg select:focus,.fg input:focus,.fg textarea:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.fg select option{background:var(--bg1);color:var(--t1)}
+.fg textarea{resize:vertical;min-height:70px}
+.pwf{display:none;margin-bottom:18px}
+.pwf.vis{display:block}
+.pwf label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px}
+.pwf input{width:100%;padding:12px 16px;background:var(--bg3);color:var(--t1);border:1px solid var(--bd);border-radius:var(--rs);font-size:14px;transition:var(--tr)}
+.pwf input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.bl{width:100%;padding:14px;background:linear-gradient(135deg,var(--ac),var(--acd));color:#0a0e1a;font-size:15px;font-weight:700;border-radius:var(--rs);letter-spacing:.5px;text-transform:uppercase;transition:var(--tr);margin-bottom:6px}
+.bl:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,212,170,.3)}
+.lerr{color:var(--err);font-size:13px;text-align:center;min-height:20px;margin-top:6px}
+.lfoot{text-align:center;margin-top:20px}.lfoot span{font-size:12px;color:var(--t3)}
+.mlink{display:block;text-align:center;margin-top:14px;padding:10px;font-size:12px;color:var(--ac2);border:1px dashed var(--bd);border-radius:var(--rs);transition:var(--tr);cursor:pointer}
+.mlink:hover{border-color:var(--ac2);background:var(--ac2g)}
 
-/* ==========================================
-   LOGIN SCREEN
-   ========================================== */
-#login-screen {
-  display: flex; align-items: center; justify-content: center;
-  background: var(--bg-primary);
-  background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(0,212,170,.06) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(99,102,241,.05) 0%, transparent 50%);
-}
-.login-box {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 48px 40px;
-  width: 100%; max-width: 440px;
-  box-shadow: var(--shadow-lg);
-}
-.login-brand {
-  text-align: center; margin-bottom: 36px;
-}
-.login-brand h1 {
-  font-size: 32px; font-weight: 800; letter-spacing: -1px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.login-brand p { color: var(--text-secondary); font-size: 13px; margin-top: 6px; letter-spacing: 1px; text-transform: uppercase; }
-.form-group { margin-bottom: 20px; }
-.form-group label {
-  display: block; font-size: 12px; font-weight: 600;
-  color: var(--text-secondary); margin-bottom: 8px;
-  text-transform: uppercase; letter-spacing: .8px;
-}
-.form-group select, .form-group input {
-  width: 100%; padding: 12px 16px;
-  background: var(--bg-input); color: var(--text-primary);
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  font-size: 14px; transition: var(--transition);
-}
-.form-group select:focus, .form-group input:focus {
-  border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
-}
-.form-group select option { background: var(--bg-secondary); color: var(--text-primary); }
-#password-group { display: none; }
-.btn-login {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dim));
-  color: #0a0e1a; font-size: 15px; font-weight: 700;
-  border-radius: var(--radius-sm);
-  letter-spacing: .5px; text-transform: uppercase;
-  transition: var(--transition);
-}
-.btn-login:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,212,170,.3); }
-.btn-login:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-.login-footer { text-align: center; margin-top: 24px; }
-.login-footer span { font-size: 12px; color: var(--text-muted); }
-.login-error { color: var(--danger); font-size: 13px; text-align: center; margin-top: 12px; display: none; }
+/* DASHBOARD */
+#DASH{display:none;min-height:100vh}
+#DASH.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ==========================================
-   TOPBAR
-   ========================================== */
-.topbar {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(10,14,26,.92); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 28px; height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.topbar-brand { display: flex; align-items: center; gap: 12px; }
-.topbar-brand h2 { font-size: 18px; font-weight: 700; letter-spacing: -.5px; }
-.topbar-brand .tag {
-  font-size: 10px; font-weight: 600; padding: 3px 8px;
-  background: var(--accent-glow); color: var(--accent);
-  border-radius: 4px; text-transform: uppercase; letter-spacing: .5px;
-}
-.topbar-nav { display: flex; gap: 4px; }
-.topbar-nav button {
-  padding: 8px 16px; background: transparent;
-  color: var(--text-secondary); font-size: 13px; font-weight: 500;
-  border-radius: var(--radius-xs); transition: var(--transition);
-  display: flex; align-items: center; gap: 6px;
-}
-.topbar-nav button:hover { color: var(--text-primary); background: rgba(255,255,255,.04); }
-.topbar-nav button.active { color: var(--accent); background: var(--accent-glow); }
-.topbar-right { display: flex; align-items: center; gap: 16px; }
-.user-pill {
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 14px 6px 8px; background: var(--bg-card);
-  border: 1px solid var(--border); border-radius: 20px;
-  font-size: 13px; color: var(--text-secondary);
-}
-.user-pill .avatar {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: #fff;
-}
-.btn-logout {
-  padding: 6px 14px; background: transparent;
-  border: 1px solid var(--border); color: var(--text-secondary);
-  font-size: 12px; font-weight: 500; border-radius: var(--radius-xs);
-  transition: var(--transition);
-}
-.btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+/* TOPBAR */
+.tb{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.tb-b{display:flex;align-items:center;gap:12px}
+.tb-b h2{font-size:18px;font-weight:700;letter-spacing:-.5px}
+.tag{font-size:10px;font-weight:600;padding:3px 8px;background:var(--acg);color:var(--ac);border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.tb-n{display:flex;gap:4px}
+.tb-n button{padding:8px 14px;background:transparent;color:var(--t2);font-size:13px;font-weight:500;border-radius:var(--rx);transition:var(--tr);display:flex;align-items:center;gap:6px}
+.tb-n button:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.tb-n button.on{color:var(--ac);background:var(--acg)}
+.tb-r{display:flex;align-items:center;gap:12px}
+.upill{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:var(--bg2);border:1px solid var(--bd);border-radius:20px;font-size:13px;color:var(--t2)}
+.upill .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.blo{padding:6px 14px;background:transparent;border:1px solid var(--bd);color:var(--t2);font-size:12px;font-weight:500;border-radius:var(--rx);transition:var(--tr)}
+.blo:hover{border-color:var(--err);color:var(--err)}
+.brf{padding:6px 10px;background:transparent;border:1px solid var(--bd);color:var(--t2);font-size:14px;border-radius:var(--rx);transition:var(--tr)}
+.brf:hover{border-color:var(--ac);color:var(--ac)}
 
-/* ==========================================
-   MAIN LAYOUT
-   ========================================== */
-.main-content { padding: 28px; max-width: 1400px; margin: 0 auto; }
+/* MAIN */
+.mc{padding:24px;max-width:1400px;margin:0 auto}
+.vp{display:none}.vp.von{display:block;animation:fi .25s ease}
 
-/* ==========================================
-   PHASE SELECTOR
-   ========================================== */
-.phase-bar {
-  display: flex; gap: 8px; margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.phase-btn {
-  padding: 10px 20px; background: var(--bg-card);
-  border: 1px solid var(--border); color: var(--text-secondary);
-  font-size: 13px; font-weight: 600; border-radius: var(--radius-sm);
-  transition: var(--transition);
-}
-.phase-btn:hover { border-color: var(--accent); color: var(--text-primary); }
-.phase-btn.active {
-  background: var(--accent-glow); border-color: var(--accent);
-  color: var(--accent);
-}
+/* BANNER */
+.cbanner{background:var(--ac3g);border:1px solid rgba(245,158,11,.3);border-radius:var(--rs);padding:14px 20px;margin-bottom:20px;font-size:13px;color:#fbbf24;display:none}
+.cbanner.vis{display:block}
+.cbanner code{background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-family:var(--m);font-size:12px}
 
-/* ==========================================
-   SECTION HEADERS
-   ========================================== */
-.section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 20px;
-}
-.section-header h3 {
-  font-size: 20px; font-weight: 700; letter-spacing: -.3px;
-}
-.section-header .badge {
-  font-size: 11px; font-weight: 600; padding: 4px 10px;
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 12px; color: var(--text-secondary);
-}
+/* PHASE BAR */
+.pbar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.pb{padding:10px 20px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr)}
+.pb:hover{border-color:var(--ac);color:var(--t1)}.pb.on{background:var(--acg);border-color:var(--ac);color:var(--ac)}
 
-/* ==========================================
-   MODULE BLOCKS
-   ========================================== */
-.module-block { margin-bottom: 32px; }
-.module-title {
-  font-size: 14px; font-weight: 600; color: var(--text-secondary);
-  margin-bottom: 14px; padding-left: 4px;
-  display: flex; align-items: center; gap: 8px;
-}
-.module-title .dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent2);
-}
-.module-title.taller .dot { background: var(--accent3); }
+/* SECTION */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.sh h3{font-size:20px;font-weight:700;letter-spacing:-.3px}
+.badge{font-size:11px;font-weight:600;padding:4px 10px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;color:var(--t2)}
 
-/* ==========================================
-   CLASS CARDS GRID
-   ========================================== */
-.class-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-}
-.class-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 20px;
-  transition: var(--transition); position: relative; overflow: hidden;
-}
-.class-card:hover { border-color: var(--border-light); background: var(--bg-card-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
-.class-card.viewed { border-left: 3px solid var(--accent); }
-.class-card.taller-card { border-left: 3px solid var(--accent3); }
-.class-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
-.class-id { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
-.class-badge {
-  font-size: 10px; font-weight: 600; padding: 3px 8px;
-  border-radius: 4px; text-transform: uppercase; letter-spacing: .5px;
-}
-.class-badge.visto { background: rgba(0,212,170,.12); color: var(--accent); }
-.class-badge.pendiente { background: rgba(99,102,241,.12); color: var(--accent2); }
-.class-badge.taller { background: rgba(245,158,11,.12); color: var(--accent3); }
-.class-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-.class-card .desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
-.class-meta {
-  display: flex; align-items: center; gap: 12px;
-  font-size: 12px; color: var(--text-muted); margin-bottom: 14px;
-}
-.class-meta span { display: flex; align-items: center; gap: 4px; }
-.class-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn-sm {
-  padding: 6px 12px; font-size: 11px; font-weight: 600;
-  border-radius: var(--radius-xs); transition: var(--transition);
-  display: inline-flex; align-items: center; gap: 4px;
-  text-decoration: none;
-}
-.btn-sm.primary { background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(0,212,170,.2); }
-.btn-sm.primary:hover { background: var(--accent); color: #0a0e1a; }
-.btn-sm.secondary { background: var(--bg-input); color: var(--text-secondary); border: 1px solid var(--border); }
-.btn-sm.secondary:hover { border-color: var(--border-light); color: var(--text-primary); }
-.btn-sm.warn { background: var(--accent3-glow); color: var(--accent3); border: 1px solid rgba(245,158,11,.2); }
-.btn-sm.warn:hover { background: var(--accent3); color: #0a0e1a; }
+/* MODULE */
+.mblk{margin-bottom:28px}
+.mtit{font-size:14px;font-weight:600;color:var(--t2);margin-bottom:12px;padding-left:4px;display:flex;align-items:center;gap:8px}
+.mtit .dot{width:8px;height:8px;border-radius:50%;background:var(--ac2)}.mtit.tw .dot{background:var(--ac3)}
 
-/* ==========================================
-   STUDENTS VIEW
-   ========================================== */
-.students-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-}
-.student-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 22px;
-  transition: var(--transition);
-}
-.student-card:hover { border-color: var(--border-light); transform: translateY(-2px); box-shadow: var(--shadow); }
-.student-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-.student-avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0;
-}
-.student-info h4 { font-size: 15px; font-weight: 600; }
-.student-info p { font-size: 12px; color: var(--text-secondary); }
-.skill-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.skill-label { font-size: 11px; color: var(--text-secondary); width: 110px; flex-shrink: 0; }
-.skill-bar {
-  flex: 1; height: 6px; background: var(--bg-input);
-  border-radius: 3px; overflow: hidden;
-}
-.skill-fill { height: 100%; border-radius: 3px; transition: width .5s ease; }
-.skill-fill.prompting { background: linear-gradient(90deg, var(--accent), #00e6b8); }
-.skill-fill.herramientas { background: linear-gradient(90deg, var(--accent2), #818cf8); }
-.skill-fill.analisis { background: linear-gradient(90deg, var(--accent3), #fbbf24); }
-.skill-val { font-family: var(--mono); font-size: 11px; color: var(--text-muted); width: 30px; text-align: right; }
-.student-progress { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.progress-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; display: flex; justify-content: space-between; }
-.progress-bar { height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 4px; transition: width .6s ease; }
-.progress-stats { display: flex; gap: 16px; margin-top: 8px; font-size: 11px; color: var(--text-muted); }
-.student-contact { display: flex; gap: 8px; margin-top: 12px; }
+/* CLASS GRID */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:20px;transition:var(--tr);cursor:pointer;position:relative}
+.cc:hover{border-color:var(--bdl);background:var(--bg2h);transform:translateY(-2px);box-shadow:var(--sh)}
+.cc.vd{border-left:3px solid var(--ac)}.cc.tw{border-left:3px solid var(--ac3)}
+.cct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.cid{font-family:var(--m);font-size:11px;color:var(--t3)}
+.cb{font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.cb.v{background:rgba(0,212,170,.12);color:var(--ac)}.cb.p{background:rgba(99,102,241,.12);color:var(--ac2)}.cb.t{background:rgba(245,158,11,.12);color:var(--ac3)}
+.cc h4{font-size:16px;font-weight:600;margin-bottom:6px}
+.cc .ds{font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5}
+.cm{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t3);margin-bottom:12px}.cm span{display:flex;align-items:center;gap:4px}
+.ca{display:flex;gap:6px;flex-wrap:wrap}
+.bs{padding:6px 12px;font-size:11px;font-weight:600;border-radius:var(--rx);transition:var(--tr);display:inline-flex;align-items:center;gap:4px;text-decoration:none;cursor:pointer}
+.bs.p{background:var(--acg);color:var(--ac);border:1px solid rgba(0,212,170,.2)}.bs.p:hover{background:var(--ac);color:#0a0e1a}
+.bs.s{background:var(--bg3);color:var(--t2);border:1px solid var(--bd)}.bs.s:hover{border-color:var(--bdl);color:var(--t1)}
+.bs.d{background:var(--errg);color:var(--err);border:1px solid rgba(239,68,68,.2)}.bs.d:hover{background:var(--err);color:#fff}
+.bs.w{background:var(--ac3g);color:var(--ac3);border:1px solid rgba(245,158,11,.2)}
 
-/* ==========================================
-   ADMIN PANEL
-   ========================================== */
-.admin-tabs { display: flex; gap: 4px; margin-bottom: 24px; }
-.admin-tab {
-  padding: 10px 20px; background: var(--bg-card);
-  border: 1px solid var(--border); color: var(--text-secondary);
-  font-size: 13px; font-weight: 600; border-radius: var(--radius-sm);
-  transition: var(--transition);
-}
-.admin-tab:hover { border-color: var(--accent2); color: var(--text-primary); }
-.admin-tab.active { background: var(--accent2-glow); border-color: var(--accent2); color: var(--accent2); }
-.admin-panel { display: none; }
-.admin-panel.active { display: block; }
-.admin-table-wrap {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: auto;
-}
-.admin-table {
-  width: 100%; border-collapse: collapse; font-size: 13px;
-}
-.admin-table th {
-  text-align: left; padding: 12px 16px;
-  background: var(--bg-input); color: var(--text-secondary);
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .5px; border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-.admin-table td {
-  padding: 10px 16px; border-bottom: 1px solid rgba(42,53,80,.5);
-  color: var(--text-primary); max-width: 200px;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.admin-table tr:hover td { background: rgba(255,255,255,.02); }
-.admin-toolbar {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px;
-}
-.btn-action {
-  padding: 8px 18px; font-size: 13px; font-weight: 600;
-  border-radius: var(--radius-sm); transition: var(--transition);
-}
-.btn-action.primary { background: var(--accent); color: #0a0e1a; }
-.btn-action.primary:hover { box-shadow: 0 4px 16px rgba(0,212,170,.3); }
-.btn-action.danger { background: var(--danger-glow); color: var(--danger); border: 1px solid rgba(239,68,68,.2); }
-.btn-action.danger:hover { background: var(--danger); color: #fff; }
+/* STUDENTS */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:22px;transition:var(--tr)}
+.sc:hover{border-color:var(--bdl);transform:translateY(-2px);box-shadow:var(--sh)}
+.stp{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sav{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.si h4{font-size:15px;font-weight:600}.si p{font-size:12px;color:var(--t2)}
+.sr{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.sl{font-size:11px;color:var(--t2);width:100px;flex-shrink:0}
+.sbr{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.sf{height:100%;border-radius:3px;transition:width .5s ease}
+.sf.s1{background:linear-gradient(90deg,var(--ac),#00e6b8)}.sf.s2{background:linear-gradient(90deg,var(--ac2),#818cf8)}.sf.s3{background:linear-gradient(90deg,var(--ac3),#fbbf24)}
+.sv{font-family:var(--m);font-size:11px;color:var(--t3);width:28px;text-align:right}
+.spr{margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)}
+.spl{font-size:12px;color:var(--t2);margin-bottom:6px;display:flex;justify-content:space-between}
+.spb{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.spf{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:4px;transition:width .6s ease}
+.sps{display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--t3)}
+.scn{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 
-/* ==========================================
-   MODAL
-   ========================================== */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 200;
-  background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
-  display: none; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-  background: var(--bg-secondary); border: 1px solid var(--border);
-  border-radius: 16px; width: 100%; max-width: 560px;
-  max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg);
-}
-.modal-header {
-  padding: 20px 24px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.modal-header h3 { font-size: 17px; font-weight: 700; }
-.modal-close {
-  width: 32px; height: 32px; background: var(--bg-card);
-  border: 1px solid var(--border); border-radius: 8px;
-  color: var(--text-secondary); font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: var(--transition);
-}
-.modal-close:hover { border-color: var(--danger); color: var(--danger); }
-.modal-body { padding: 24px; }
-.modal-body .form-group { margin-bottom: 16px; }
-.modal-body .form-group input,
-.modal-body .form-group select,
-.modal-body .form-group textarea {
-  width: 100%; padding: 10px 14px;
-  background: var(--bg-input); color: var(--text-primary);
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  font-size: 13px;
-}
-.modal-body textarea { resize: vertical; min-height: 80px; }
-.modal-footer {
-  padding: 16px 24px; border-top: 1px solid var(--border);
-  display: flex; justify-content: flex-end; gap: 10px;
-}
+/* ADMIN */
+.atabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.at{padding:10px 18px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr)}
+.at:hover{border-color:var(--ac2);color:var(--t1)}.at.on{background:var(--ac2g);border-color:var(--ac2);color:var(--ac2)}
+.ap{display:none}.ap.on{display:block}
+.atb{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.atw{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);overflow-x:auto}
+.ata{width:100%;border-collapse:collapse;font-size:13px}
+.ata th{text-align:left;padding:12px 14px;background:var(--bg3);color:var(--t2);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd);white-space:nowrap}
+.ata td{padding:10px 14px;border-bottom:1px solid rgba(42,53,80,.4);color:var(--t1);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ata tr:hover td{background:rgba(255,255,255,.02)}
+.ba{padding:8px 18px;font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr);display:inline-flex;align-items:center;gap:6px}
+.ba.p{background:var(--ac);color:#0a0e1a}.ba.p:hover{box-shadow:0 4px 16px rgba(0,212,170,.3)}
+.ba.d{background:var(--errg);color:var(--err);border:1px solid rgba(239,68,68,.2)}.ba.d:hover{background:var(--err);color:#fff}
+.ba.s{background:var(--bg2);color:var(--t2);border:1px solid var(--bd)}
 
-/* ==========================================
-   CLASS DETAIL MODAL
-   ========================================== */
-.class-detail-video {
-  width: 100%; aspect-ratio: 16/9; background: var(--bg-input);
-  border-radius: var(--radius-sm); margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-.class-detail-video iframe { width: 100%; height: 100%; border: none; border-radius: var(--radius-sm); }
-.class-detail-video .no-video { color: var(--text-muted); font-size: 14px; }
-.class-detail-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+/* INFO CARDS */
+.ic{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.icc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:22px;transition:var(--tr)}
+.icc:hover{border-color:var(--bdl);transform:translateY(-2px)}
+.icc h4{font-size:15px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.icc p{font-size:13px;color:var(--t2);line-height:1.6}
+.icc a{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
 
-/* ==========================================
-   AULA VIRTUAL / GUIA
-   ========================================== */
-.info-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.info-card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 22px;
-  transition: var(--transition);
-}
-.info-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
-.info-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-.info-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-.info-card a { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 600; }
+/* MODAL */
+.mo{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
+.mo.on{display:flex}
+.mb{background:var(--bg1);border:1px solid var(--bd);border-radius:16px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;box-shadow:var(--shl)}
+.mh{padding:20px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg1);z-index:1;border-radius:16px 16px 0 0}
+.mh h3{font-size:17px;font-weight:700}
+.mx{width:32px;height:32px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.mx:hover{border-color:var(--err);color:var(--err)}
+.mbd{padding:24px}
+.mbd .fg{margin-bottom:14px}
+.mft{padding:16px 24px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--bg1);border-radius:0 0 16px 16px}
 
-/* ==========================================
-   TOAST NOTIFICATIONS
-   ========================================== */
-.toast-container { position: fixed; top: 20px; right: 20px; z-index: 300; display: flex; flex-direction: column; gap: 8px; }
-.toast {
-  padding: 12px 20px; background: var(--bg-card);
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  font-size: 13px; color: var(--text-primary);
-  box-shadow: var(--shadow); animation: slideIn .3s ease;
-  display: flex; align-items: center; gap: 8px;
-}
-.toast.success { border-left: 3px solid var(--accent); }
-.toast.error { border-left: 3px solid var(--danger); }
-@keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+/* TOAST */
+.tc{position:fixed;top:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px}
+.tt{padding:12px 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--rs);font-size:13px;color:var(--t1);box-shadow:var(--sh);animation:si .3s ease;display:flex;align-items:center;gap:8px}
+.tt.ok{border-left:3px solid var(--ac)}.tt.er{border-left:3px solid var(--err)}
+@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
 
-/* ==========================================
-   RESPONSIVE
-   ========================================== */
-@media (max-width: 768px) {
-  .topbar { padding: 0 14px; }
-  .topbar-nav { display: none; }
-  .main-content { padding: 16px; }
-  .login-box { padding: 32px 24px; margin: 16px; }
-  .class-grid, .students-grid, .info-cards {
-    grid-template-columns: 1fr;
-  }
-  .mobile-nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(10,14,26,.95); backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
-    display: flex; justify-content: space-around;
-    padding: 8px 0 env(safe-area-inset-bottom, 8px);
-    z-index: 100;
-  }
-  .mobile-nav button {
-    padding: 8px 12px; background: transparent;
-    color: var(--text-muted); font-size: 10px; font-weight: 600;
-    display: flex; flex-direction: column; align-items: center; gap: 2px;
-    border-radius: var(--radius-xs);
-  }
-  .mobile-nav button.active { color: var(--accent); }
-  .mobile-nav .nav-icon { font-size: 18px; }
+/* RESPONSIVE */
+@media(max-width:768px){
+  .tb{padding:0 12px}.tb-n{display:none}.mc{padding:14px}.lbox{padding:32px 22px;margin:16px}
+  .cg,.sg,.ic{grid-template-columns:1fr}
+  .mnav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,14,26,.96);backdrop-filter:blur(12px);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:8px 0 env(safe-area-inset-bottom,8px);z-index:100}
+  .mnav button{padding:6px 10px;background:transparent;color:var(--t3);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:var(--rx)}
+  .mnav button.on{color:var(--ac)}
+  .mnav .ni{font-size:18px}
+  #DASH.on{padding-bottom:70px}
 }
-@media (min-width: 769px) {
-  .mobile-nav { display: none; }
-}
-
-/* ==========================================
-   CONFIG URL BANNER
-   ========================================== */
-.config-banner {
-  background: var(--danger-glow); border: 1px solid rgba(239,68,68,.3);
-  border-radius: var(--radius-sm); padding: 14px 20px;
-  margin-bottom: 20px; font-size: 13px; color: #fca5a5;
-  display: none;
-}
-.config-banner code {
-  background: rgba(0,0,0,.3); padding: 2px 6px;
-  border-radius: 4px; font-family: var(--mono); font-size: 12px;
-}
+@media(min-width:769px){.mnav{display:none}}
 </style>
 </head>
 <body>
+<div id="LS"><div class="ldr"></div><div class="lt">Cargando Portal CUBI-K...</div></div>
+<div class="tc" id="TC"></div>
 
-<!-- ==========================================
-     LOADING SCREEN
-     ========================================== -->
-<div id="loading-screen">
-  <div class="loader"></div>
-  <div class="loader-text">Cargando Portal CUBI-K...</div>
+<!-- LOGIN -->
+<div id="LOGIN">
+<div class="lbox">
+<div class="lbrand"><h1>CUBI-K</h1><p>Portal IA Educativo &bull; Powered by AIWIS</p></div>
+<div id="LN">
+<div class="fg"><label>Selecciona tu usuario</label><select id="LSEL"><option value="">— Cargando usuarios —</option></select></div>
+<div class="pwf" id="PWF"><label>Contraseña Master</label><input type="password" id="LPW" placeholder="Ingresa la contraseña"></div>
+<button class="bl" id="BLOG">Ingresar al Portal</button>
+<div class="lerr" id="LERR"></div>
+<div class="mlink" id="MLNK">🔑 Acceso directo Master / Root</div>
+</div>
+<div id="LM" style="display:none">
+<div class="fg"><label>🔑 Acceso Master Root</label><input type="password" id="MPW" placeholder="Contraseña Master Root"></div>
+<button class="bl" id="MLOG">Acceder como Master Root</button>
+<div class="lerr" id="MERR"></div>
+<div class="mlink" id="BKLNK">← Volver al login normal</div>
+</div>
+<div class="lfoot"><span>AIWIS &copy; 2026 &bull; Armin Wildo Salazar</span></div>
+</div>
 </div>
 
-<!-- ==========================================
-     TOAST CONTAINER
-     ========================================== -->
-<div class="toast-container" id="toast-container"></div>
-
-<!-- ==========================================
-     LOGIN SCREEN
-     ========================================== -->
-<div id="login-screen" class="screen active">
-  <div class="login-box">
-    <div class="login-brand">
-      <h1>CUBI-K</h1>
-      <p>Portal IA Educativo &bull; Powered by AIWIS</p>
-    </div>
-    <div class="form-group">
-      <label>Selecciona tu usuario</label>
-      <select id="login-select">
-        <option value="">— Cargando usuarios —</option>
-      </select>
-    </div>
-    <div class="form-group" id="password-group">
-      <label>Contraseña (Master)</label>
-      <input type="password" id="login-password" placeholder="Ingresa contraseña">
-    </div>
-    <button class="btn-login" id="btn-login" disabled>Ingresar al Portal</button>
-    <div class="login-error" id="login-error"></div>
-    <div class="login-footer">
-      <span>AIWIS &copy; 2026 &bull; Armin Wildo Salazar</span>
-    </div>
-  </div>
+<!-- DASHBOARD -->
+<div id="DASH">
+<div class="tb">
+<div class="tb-b"><h2>CUBI-K</h2><span class="tag" id="UTAG">Portal</span></div>
+<div class="tb-n" id="TBN"></div>
+<div class="tb-r">
+<button class="brf" onclick="doRefresh()" title="Recargar datos">🔄</button>
+<div class="upill"><div class="av" id="UAV">A</div><span id="UNM">User</span></div>
+<button class="blo" onclick="doLogout()">Salir</button>
+</div>
+</div>
+<div class="mc">
+<div class="cbanner" id="CBAN">⚠️ <strong>Modo Demo:</strong> Configura la variable <code>APP_SCRIPT_URL</code> con tu URL de Google Apps Script desplegado para conectar con la base de datos real.</div>
+<div id="VC" class="vp"><div class="sh"><h3>📚 Clases</h3><span class="badge" id="NC">0</span></div><div class="pbar" id="PB"></div><div id="CB"></div></div>
+<div id="VE" class="vp"><div class="sh"><h3>👥 Estudiantes</h3><span class="badge" id="NE">0</span></div><div class="sg" id="SB"></div></div>
+<div id="VA" class="vp"><div class="sh"><h3>🎓 Aula Virtual</h3></div><div class="ic" id="AB"></div></div>
+<div id="VD" class="vp"><div class="sh"><h3>⚙️ Panel de Administración</h3><span class="badge">Master / Admin</span></div><div class="atabs" id="ATBS"></div><div id="APC" class="ap on"></div><div id="APU" class="ap"></div><div id="APP" class="ap"></div><div id="APK" class="ap"></div></div>
+</div>
+<div class="mnav" id="MN"></div>
 </div>
 
-<!-- ==========================================
-     DASHBOARD SCREEN
-     ========================================== -->
-<div id="dashboard-screen" class="screen">
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="topbar-brand">
-      <h2>CUBI-K</h2>
-      <span class="tag" id="topbar-role-tag">Portal</span>
-    </div>
-    <div class="topbar-nav">
-      <button class="active" onclick="switchView('clases')">📚 Clases</button>
-      <button onclick="switchView('estudiantes')">👥 Estudiantes</button>
-      <button onclick="switchView('aula')">🎓 Aula Virtual</button>
-      <button onclick="switchView('admin')" id="nav-admin" style="display:none">⚙️ Admin</button>
-    </div>
-    <div class="topbar-right">
-      <div class="user-pill">
-        <div class="avatar" id="user-avatar">A</div>
-        <span id="user-name-display">Usuario</span>
-      </div>
-      <button class="btn-logout" onclick="logout()">Salir</button>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div class="main-content">
-    <div class="config-banner" id="config-banner">
-      ⚠️ <strong>Configura tu App Script URL:</strong> Abre este archivo y cambia la variable <code>APP_SCRIPT_URL</code> con la URL de tu Google Apps Script desplegado. <a href="https://developers.google.com/apps-script/guides/web" target="_blank">Instrucciones →</a>
-    </div>
-
-    <!-- VIEW: CLASES -->
-    <div id="view-clases" class="view-panel">
-      <div class="section-header">
-        <h3>📚 Clases</h3>
-        <span class="badge" id="clases-count">0 clases</span>
-      </div>
-      <div class="phase-bar" id="phase-bar"></div>
-      <div id="clases-container"></div>
-    </div>
-
-    <!-- VIEW: ESTUDIANTES -->
-    <div id="view-estudiantes" class="view-panel" style="display:none">
-      <div class="section-header">
-        <h3>👥 Estudiantes</h3>
-        <span class="badge" id="students-count">0 alumnos</span>
-      </div>
-      <div class="students-grid" id="students-container"></div>
-    </div>
-
-    <!-- VIEW: AULA VIRTUAL -->
-    <div id="view-aula" class="view-panel" style="display:none">
-      <div class="section-header">
-        <h3>🎓 Aula Virtual</h3>
-      </div>
-      <div class="info-cards" id="aula-container"></div>
-    </div>
-
-    <!-- VIEW: ADMIN -->
-    <div id="view-admin" class="view-panel" style="display:none">
-      <div class="section-header">
-        <h3>⚙️ Panel de Administración</h3>
-        <span class="badge">Solo Master</span>
-      </div>
-      <div class="admin-tabs">
-        <button class="admin-tab active" onclick="switchAdminTab('admin-clases')">📚 Clases</button>
-        <button class="admin-tab" onclick="switchAdminTab('admin-usuarios')">👥 Usuarios</button>
-        <button class="admin-tab" onclick="switchAdminTab('admin-proyectos')">📦 Proyectos</button>
-        <button class="admin-tab" onclick="switchAdminTab('admin-config')">🔧 Config</button>
-      </div>
-      <div id="admin-clases" class="admin-panel active"></div>
-      <div id="admin-usuarios" class="admin-panel"></div>
-      <div id="admin-proyectos" class="admin-panel"></div>
-      <div id="admin-config" class="admin-panel"></div>
-    </div>
-  </div>
-
-  <!-- MOBILE NAV -->
-  <div class="mobile-nav">
-    <button class="active" onclick="switchView('clases')"><span class="nav-icon">📚</span>Clases</button>
-    <button onclick="switchView('estudiantes')"><span class="nav-icon">👥</span>Alumnos</button>
-    <button onclick="switchView('aula')"><span class="nav-icon">🎓</span>Aula</button>
-    <button onclick="switchView('admin')" id="mobile-nav-admin" style="display:none"><span class="nav-icon">⚙️</span>Admin</button>
-  </div>
-</div>
-
-<!-- ==========================================
-     CLASS DETAIL MODAL
-     ========================================== -->
-<div class="modal-overlay" id="modal-class-detail">
-  <div class="modal-box" style="max-width:700px;">
-    <div class="modal-header">
-      <h3 id="modal-class-title">Clase</h3>
-      <button class="modal-close" onclick="closeModal('modal-class-detail')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="class-detail-video" id="modal-class-video"></div>
-      <p style="color:var(--text-secondary);font-size:13px;margin-bottom:12px;" id="modal-class-desc"></p>
-      <div class="class-meta" id="modal-class-meta"></div>
-      <div class="class-detail-links" id="modal-class-links"></div>
-      <div style="margin-top:16px;" id="modal-class-actions"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ==========================================
-     GENERIC EDIT MODAL
-     ========================================== -->
-<div class="modal-overlay" id="modal-edit">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h3 id="modal-edit-title">Editar</h3>
-      <button class="modal-close" onclick="closeModal('modal-edit')">✕</button>
-    </div>
-    <div class="modal-body" id="modal-edit-body"></div>
-    <div class="modal-footer">
-      <button class="btn-action secondary" onclick="closeModal('modal-edit')">Cancelar</button>
-      <button class="btn-action primary" id="modal-edit-save">Guardar</button>
-    </div>
-  </div>
-</div>
-
+<!-- MODALS -->
+<div class="mo" id="MC"><div class="mb" style="max-width:700px"><div class="mh"><h3 id="MCT">Clase</h3><button class="mx" onclick="cM('MC')">✕</button></div><div class="mbd" id="MCB"></div></div></div>
+<div class="mo" id="MF"><div class="mb"><div class="mh"><h3 id="MFT">Form</h3><button class="mx" onclick="cM('MF')">✕</button></div><div class="mbd" id="MFB"></div><div class="mft"><button class="ba s" onclick="cM('MF')">Cancelar</button><button class="ba p" id="MFS">Guardar</button></div></div></div>
+<div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Eliminar</button></div></div></div>
 
 <script>
-// ==========================================
-// CONFIGURACIÓN — CAMBIAR ESTA URL
-// ==========================================
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzV2mfy4H2sBt4SQN2qzCqxou8jsp5Gv7LdgW-lYQKZwOiHGAStbE6yK82sfUlmr4uYXA/exec';
-// Despliega tu App Script como Web App y pega la URL aquí.
-// Formato: https://script.google.com/macros/s/XXXXXX/exec
+const API='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJNeR7asbeMcaaGKzoLwiqECkFcNPMLhlGgPVsRQ3kg/exec';
+const MPW='123123';
+const DEMO=API==='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJNeR7asbeMcaaGKzoLwiqECkFcNPMLhlGgPVsRQ3kg/exec';
+let D={u:null,us:[],cl:[],pr:[],cf:{},cfr:[],ph:1};
+const $=i=>document.getElementById(i);
+const toast=(m,t='ok')=>{const e=document.createElement('div');e.className='tt '+t;e.innerHTML=(t==='ok'?'✅':'❌')+' '+m;$('TC').appendChild(e);setTimeout(()=>e.remove(),3500)};
+const ini=n=>n?n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase():'??';
+const fd=d=>{if(!d)return'—';try{return new Date(d).toLocaleDateString('es-CL',{day:'2-digit',month:'short',year:'numeric'})}catch{return String(d)}};
+const pp=j=>{if(!j||j==='{}'||j==='')return{};try{return typeof j==='string'?JSON.parse(j):j}catch{return{}}};
+function eurl(u){if(!u)return null;let m=u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);if(m)return'https://www.youtube.com/embed/'+m[1];m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);if(m)return'https://drive.google.com/file/d/'+m[1]+'/preview';return null}
 
-const MASTER_PASSWORD = '123123';
-
-// ==========================================
-// ESTADO GLOBAL
-// ==========================================
-let STATE = {
-  currentUser: null,
-  usuarios: [],
-  clases: [],
-  proyectos: [],
-  configuracion: {},
-  selectedPhase: 1,
-  loaded: false
-};
-
-// ==========================================
-// UTILIDADES
-// ==========================================
-function $(id) { return document.getElementById(id); }
-function show(el) { if (typeof el === 'string') el = $(el); if (el) el.style.display = ''; }
-function hide(el) { if (typeof el === 'string') el = $(el); if (el) el.style.display = 'none'; }
-
-function toast(msg, type = 'success') {
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.innerHTML = `${type === 'success' ? '✅' : '❌'} ${msg}`;
-  $('toast-container').appendChild(t);
-  setTimeout(() => t.remove(), 3500);
+async function aGet(){
+  if(DEMO)return demoD();
+  try{const r=await fetch(API+'?action=getTodo&_='+Date.now());const j=await r.json();if(j.success)return j.data;throw new Error(j.message)}
+  catch(e){console.error(e);toast('Error: '+e.message,'er');return demoD()}
+}
+async function aPost(b){
+  if(DEMO){toast('Demo: configura APP_SCRIPT_URL','er');return{success:false}}
+  try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});const j=await r.json();if(j.success)toast(j.message||'OK');else toast(j.message||'Error','er');return j}
+  catch(e){console.error(e);toast('Conexión fallida','er');return{success:false}}
 }
 
-function getInitials(name) {
-  return name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-}
+function demoD(){return{configuracion:[{Clave:'Empresa_Mentor',Valor:'AIWIS'},{Clave:'CEO_Mentor',Valor:'Armin Wildo Salazar'},{Clave:'01_Mentor_AIWIS',Valor:'Sebastian Rosas'},{Clave:'02_Mentor_AIWIS',Valor:'Mentor 2'},{Clave:'Empresa_Cliente',Valor:'CUBI-K'},{Clave:'CEO_Cliente',Valor:'Ricardo Figueroa Zamora'},{Clave:'Email_Soporte',Valor:'soporte.aiwis@gmail.com'},{Clave:'Github_Aiwis',Valor:'https://github.com/soporteaiwis-lab'},{Clave:'Drive_Cubik_Aiwis',Valor:'https://drive.google.com/drive/folders/1-txWTTgpbZAeif7frARrBn9V5Pi-60dr'}],usuarios:[{ID_Usuario:'USR-022',Nombre:'Armin Salazar',Email_Personal:'soporte.aiwis@gmail.com',Email_Corporativo:'soporte.aiwis@gmail.com',Rol:'Master',Cargo:'CEO AIWIS',Corporacion:'AIWIS',Telefono:'+56939580988',Progreso_JSON:'{}',Skill_Prompting:8,Skill_Herramientas_IA:9,Skill_Analisis:7,Skill_Staks:'Full-Stack,AI,RPA',Drive_Alumno_URL:'',Activo:true},{ID_Usuario:'USR-001',Nombre:'Ricardo Figueroa',Email_Personal:'ricardo.figueroa.cubik@gmail.com',Email_Corporativo:'ricardo.figueroa@externos.bci.cl',Rol:'Admin',Cargo:'CEO CUBIK',Corporacion:'CUBI-K',Telefono:'+56998215651',Progreso_JSON:'{}',Skill_Prompting:3,Skill_Herramientas_IA:2,Skill_Analisis:4,Skill_Staks:'Cobol,BD,Web',Drive_Alumno_URL:'',Activo:true},{ID_Usuario:'USR-002',Nombre:'Alejandro Fuentealba',Email_Personal:'Fuentealba.alejandro7@gmail.com',Email_Corporativo:'alejandro.fuentealba@externos.bci.cl',Rol:'Usuario',Cargo:'Soporte Técnico',Corporacion:'CUBI-K',Telefono:'+56968475294',Progreso_JSON:'{}',Skill_Prompting:1,Skill_Herramientas_IA:2,Skill_Analisis:1,Skill_Staks:'',Drive_Alumno_URL:'',Activo:true},{ID_Usuario:'USR-003',Nombre:'Alfredo Aguayo',Email_Personal:'aguayo.alfredo@gmail.com',Email_Corporativo:'alfredo.aguayo@externos.bci.cl',Rol:'Admin',Cargo:'Supervisor',Corporacion:'CUBI-K',Telefono:'+56995195912',Progreso_JSON:'{}',Skill_Prompting:2,Skill_Herramientas_IA:1,Skill_Analisis:3,Skill_Staks:'',Drive_Alumno_URL:'',Activo:true}],clases:[{ID_Clase:'CLS-001',Fase_ID:1,Titulo_Fase:'Adopción de IA Corporativa',Tipo_Modulo:'Normal',Modulo_ID:1,Sub_ID:'',Titulo_Clase:'Clase 1',Descripcion_Clase:'Introducción a la IA Corporativa',Google_Calendar_Meet_URL:'https://meet.google.com/ryy-peau-kej',Fecha_Clase:'2024-03-01',Video_Meet_URL:'https://youtube.com/watch?v=XuWMWPwdlik',Transcripcion_URL:'https://docs.google.com',Quiz_URL:'',Material_Drive_URL:'https://drive.google.com'},{ID_Clase:'CLS-002',Fase_ID:1,Titulo_Fase:'Adopción de IA Corporativa',Tipo_Modulo:'Normal',Modulo_ID:1,Sub_ID:'',Titulo_Clase:'Clase 2',Descripcion_Clase:'Herramientas de IA',Google_Calendar_Meet_URL:'https://meet.google.com/ryy-peau-kej',Fecha_Clase:'2024-03-04',Video_Meet_URL:'',Transcripcion_URL:'',Quiz_URL:'',Material_Drive_URL:''},{ID_Clase:'CLS-003',Fase_ID:1,Titulo_Fase:'Adopción de IA Corporativa',Tipo_Modulo:'Normal',Modulo_ID:1,Sub_ID:'',Titulo_Clase:'Clase 3',Descripcion_Clase:'Prompt Engineering básico',Google_Calendar_Meet_URL:'',Fecha_Clase:'2024-03-08',Video_Meet_URL:'https://youtube.com/watch?v=XuWMWPwdlik',Transcripcion_URL:'',Quiz_URL:'',Material_Drive_URL:''},{ID_Clase:'CLS-004',Fase_ID:1,Titulo_Fase:'Adopción de IA Corporativa',Tipo_Modulo:'Normal',Modulo_ID:1,Sub_ID:'',Titulo_Clase:'Clase 4',Descripcion_Clase:'Automatización con IA',Google_Calendar_Meet_URL:'',Fecha_Clase:'2024-03-11',Video_Meet_URL:'',Transcripcion_URL:'',Quiz_URL:'',Material_Drive_URL:''},{ID_Clase:'CLS-005',Fase_ID:1,Titulo_Fase:'Adopción de IA Corporativa',Tipo_Modulo:'Taller',Modulo_ID:'T',Sub_ID:'A',Titulo_Clase:'Miniproyecto A',Descripcion_Clase:'Primer proyecto práctico',Google_Calendar_Meet_URL:'',Fecha_Clase:'2024-03-15',Video_Meet_URL:'',Transcripcion_URL:'',Quiz_URL:'',Material_Drive_URL:''},{ID_Clase:'CLS-006',Fase_ID:1,Titulo_Fase:'Adopción de IA Corporativa',Tipo_Modulo:'Normal',Modulo_ID:2,Sub_ID:'',Titulo_Clase:'Clase 5',Descripcion_Clase:'IA para análisis de datos',Google_Calendar_Meet_URL:'',Fecha_Clase:'2024-03-18',Video_Meet_URL:'',Transcripcion_URL:'',Quiz_URL:'',Material_Drive_URL:''}],proyectos:[{ID_Entrega:'ENT-001',ID_Usuario:'USR-002',ID_Clase:'CLS-005',URL_Proyecto:'https://gemini.google.com/gem/ejemplo',Nota_Evaluacion:'6.0',Fecha_Entrega:'2026-03-16',Comentarios_Admin:'Buen trabajo'}]}}
 
-function parseProgress(json) {
-  if (!json || json === '{}' || json === '') return {};
-  try { return typeof json === 'string' ? JSON.parse(json) : json; } catch { return {}; }
-}
+async function load(){const d=await aGet();D.cfr=d.configuracion||[];D.cf={};D.cfr.forEach(r=>{if(r.Clave)D.cf[r.Clave]=r.Valor});D.us=(d.usuarios||[]).filter(u=>String(u.Activo).toLowerCase()==='true'||u.Activo===true);D.cl=(d.clases||[]).filter(c=>c.ID_Clase);D.pr=(d.proyectos||[]).filter(p=>p.ID_Entrega)}
+async function init(){await load();popLogin();$('LS').classList.add('off')}
+async function doRefresh(){toast('Recargando...');await load();if(D.u){const f=D.us.find(u=>u.ID_Usuario===D.u.ID_Usuario);if(f)D.u=f;rAll()}toast('Datos actualizados ✓')}
 
-function getVideoEmbedUrl(url) {
-  if (!url) return null;
-  // YouTube
-  let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-  if (m) return `https://www.youtube.com/embed/${m[1]}`;
-  // Google Drive
-  m = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
-  if (m) return `https://drive.google.com/file/d/${m[1]}/preview`;
-  return null;
-}
+function popLogin(){const s=$('LSEL');s.innerHTML='<option value="">— Selecciona tu usuario —</option>';D.us.forEach(u=>{s.innerHTML+='<option value="'+(u.Email_Corporativo||u.Email_Personal)+'">'+u.Nombre+' ('+u.Rol+')</option>'})}
 
-function formatDate(d) {
-  if (!d) return '—';
-  try {
-    const dt = new Date(d);
-    return dt.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' });
-  } catch { return d; }
-}
+$('LSEL').addEventListener('change',function(){const u=D.us.find(x=>(x.Email_Corporativo||x.Email_Personal)===this.value);if(u&&u.Rol==='Master')$('PWF').classList.add('vis');else{$('PWF').classList.remove('vis');$('LPW').value=''}$('LERR').textContent=''});
+$('BLOG').addEventListener('click',function(){const e=$('LSEL').value;if(!e){$('LERR').textContent='Selecciona un usuario';return}const u=D.us.find(x=>(x.Email_Corporativo||x.Email_Personal)===e);if(!u){$('LERR').textContent='Usuario no encontrado';return}if(u.Rol==='Master'&&$('LPW').value!==MPW){$('LERR').textContent='Contraseña incorrecta';return}D.u=u;enter()});
+$('LPW').addEventListener('keydown',e=>{if(e.key==='Enter')$('BLOG').click()});
+$('MPW').addEventListener('keydown',e=>{if(e.key==='Enter')$('MLOG').click()});
+$('MLNK').addEventListener('click',()=>{$('LN').style.display='none';$('LM').style.display='block';$('MPW').focus()});
+$('BKLNK').addEventListener('click',()=>{$('LM').style.display='none';$('LN').style.display='block'});
+$('MLOG').addEventListener('click',function(){if($('MPW').value!==MPW){$('MERR').textContent='Contraseña incorrecta';return}const m=D.us.find(u=>u.Rol==='Master');if(!m){$('MERR').textContent='No hay usuario Master';return}D.u=m;enter()});
 
-// ==========================================
-// API — COMUNICACIÓN CON APP SCRIPT
-// ==========================================
-async function apiGet() {
-  if (APP_SCRIPT_URL === 'TU_URL_DE_APP_SCRIPT_AQUI') {
-    show('config-banner');
-    return loadDemoData();
-  }
-  try {
-    const resp = await fetch(`${APP_SCRIPT_URL}?action=getTodo`);
-    const json = await resp.json();
-    if (json.success) return json.data;
-    throw new Error(json.message);
-  } catch (err) {
-    console.error('API GET Error:', err);
-    toast('Error al cargar datos: ' + err.message, 'error');
-    return loadDemoData();
-  }
-}
+function enter(){$('LOGIN').classList.add('off');$('DASH').classList.add('on');$('UNM').textContent=D.u.Nombre;$('UAV').textContent=ini(D.u.Nombre);$('UTAG').textContent=D.u.Rol;
+const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
+const nv=[{i:'C',ic:'📚',l:'Clases'},{i:'E',ic:'👥',l:'Estudiantes'},{i:'A',ic:'🎓',l:'Aula'}];if(adm)nv.push({i:'D',ic:'⚙️',l:'Admin'});
+$('TBN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')">'+n.ic+' '+n.l+'</button>').join('');
+$('MN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')"><span class="ni">'+n.ic+'</span>'+n.l+'</button>').join('');
+if(DEMO)$('CBAN').classList.add('vis');rAll();sv('C');toast('Bienvenido, '+D.u.Nombre)}
 
-async function apiPost(body) {
-  if (APP_SCRIPT_URL === 'TU_URL_DE_APP_SCRIPT_AQUI') {
-    toast('Configura APP_SCRIPT_URL para guardar datos', 'error');
-    return { success: false };
-  }
-  try {
-    const resp = await fetch(APP_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(body)
-    });
-    const json = await resp.json();
-    if (json.success) toast(json.message || 'Guardado');
-    else toast(json.message || 'Error', 'error');
-    return json;
-  } catch (err) {
-    console.error('API POST Error:', err);
-    toast('Error de conexión', 'error');
-    return { success: false };
-  }
-}
+function doLogout(){D.u=null;$('DASH').classList.remove('on');$('LOGIN').classList.remove('off');$('LSEL').value='';$('LPW').value='';$('PWF').classList.remove('vis');$('LM').style.display='none';$('LN').style.display='block'}
 
-// ==========================================
-// DATOS DE DEMO (cuando no hay App Script)
-// ==========================================
-function loadDemoData() {
-  return {
-    configuracion: [
-      { Clave: 'Empresa_Mentor', Valor: 'AIWIS' },
-      { Clave: 'CEO_Mentor', Valor: 'Armin Wildo Salazar' },
-      { Clave: 'Empresa_Cliente', Valor: 'CUBI-K' },
-      { Clave: 'CEO_Cliente', Valor: 'Ricardo Figueroa Zamora' },
-      { Clave: 'Email_Soporte', Valor: 'soporte.aiwis@gmail.com' },
-      { Clave: 'Github_Aiwis', Valor: 'https://github.com/soporteaiwis-lab' },
-      { Clave: 'Drive_Cubik_Aiwis', Valor: 'https://drive.google.com/drive/folders/1-txWTTgpbZAeif7frARrBn9V5Pi-60dr' },
-    ],
-    usuarios: [
-      { ID_Usuario:'USR-022', Nombre:'Armin Salazar', Email_Personal:'soporte.aiwis@gmail.com', Email_Corporativo:'soporte.aiwis@gmail.com', Rol:'Master', Cargo:'CEO AIWIS', Corporacion:'AIWIS', Telefono:'+56939580988', Progreso_JSON:'{}', Skill_Prompting:8, Skill_Herramientas_IA:9, Skill_Analisis:7, Skill_Staks:'Full-Stack,AI,RPA', Drive_Alumno_URL:'', Activo:true },
-      { ID_Usuario:'USR-001', Nombre:'Ricardo Figueroa', Email_Personal:'ricardo.figueroa.cubik@gmail.com', Email_Corporativo:'ricardo.figueroa@externos.bci.cl', Rol:'Admin', Cargo:'CEO CUBIK', Corporacion:'CUBI-K', Telefono:'+56998215651', Progreso_JSON:'{}', Skill_Prompting:3, Skill_Herramientas_IA:2, Skill_Analisis:4, Skill_Staks:'Cobol,BD,Web', Drive_Alumno_URL:'', Activo:true },
-      { ID_Usuario:'USR-002', Nombre:'Alejandro Fuentealba', Email_Personal:'Fuentealba.alejandro7@gmail.com', Email_Corporativo:'alejandro.fuentealba@externos.bci.cl', Rol:'Usuario', Cargo:'Soporte Técnico', Corporacion:'CUBI-K', Telefono:'+56968475294', Progreso_JSON:'{}', Skill_Prompting:1, Skill_Herramientas_IA:2, Skill_Analisis:1, Skill_Staks:'', Drive_Alumno_URL:'', Activo:true },
-    ],
-    clases: [
-      { ID_Clase:'CLS-001', Fase_ID:1, Titulo_Fase:'Adopción de IA Corporativa', Tipo_Modulo:'Normal', Modulo_ID:1, Sub_ID:'', Titulo_Clase:'Clase 1', Descripcion_Clase:'Introducción a la IA Corporativa', Google_Calendar_Meet_URL:'https://meet.google.com/ryy-peau-kej', Fecha_Clase:'2024-03-01', Video_Meet_URL:'https://youtube.com/watch?v=XuWMWPwdlik', Transcripcion_URL:'', Quiz_URL:'', Material_Drive_URL:'' },
-      { ID_Clase:'CLS-002', Fase_ID:1, Titulo_Fase:'Adopción de IA Corporativa', Tipo_Modulo:'Normal', Modulo_ID:1, Sub_ID:'', Titulo_Clase:'Clase 2', Descripcion_Clase:'Herramientas de IA', Google_Calendar_Meet_URL:'', Fecha_Clase:'2024-03-04', Video_Meet_URL:'', Transcripcion_URL:'', Quiz_URL:'', Material_Drive_URL:'' },
-      { ID_Clase:'CLS-005', Fase_ID:1, Titulo_Fase:'Adopción de IA Corporativa', Tipo_Modulo:'Taller', Modulo_ID:'T', Sub_ID:'A', Titulo_Clase:'Miniproyecto A', Descripcion_Clase:'Proyecto práctico', Google_Calendar_Meet_URL:'', Fecha_Clase:'2024-03-15', Video_Meet_URL:'', Transcripcion_URL:'', Quiz_URL:'', Material_Drive_URL:'' },
-    ],
-    proyectos: []
-  };
-}
+function sv(v){document.querySelectorAll('.vp').forEach(p=>p.classList.remove('von'));const m={C:'VC',E:'VE',A:'VA',D:'VD'};const el=$(m[v]);if(el)el.classList.add('von');document.querySelectorAll('.tb-n button,.mnav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
 
-// ==========================================
-// INICIALIZACIÓN
-// ==========================================
-async function init() {
-  const data = await apiGet();
-  
-  // Parse config
-  STATE.configuracion = {};
-  (data.configuracion || []).forEach(r => { if (r.Clave) STATE.configuracion[r.Clave] = r.Valor; });
-  
-  // Parse users (only active)
-  STATE.usuarios = (data.usuarios || []).filter(u => u.Activo === true || u.Activo === 'TRUE' || u.Activo === 'true');
-  
-  // Parse classes
-  STATE.clases = (data.clases || []).filter(c => c.ID_Clase);
-  
-  // Parse projects
-  STATE.proyectos = (data.proyectos || []).filter(p => p.ID_Entrega);
-  
-  STATE.loaded = true;
-  populateLoginSelect();
-  $('loading-screen').classList.add('hidden');
-}
+function rAll(){rPB();rCL();rST();rAU();if(D.u.Rol==='Master'||D.u.Rol==='Admin')rAD()}
 
-// ==========================================
-// LOGIN LOGIC
-// ==========================================
-function populateLoginSelect() {
-  const sel = $('login-select');
-  sel.innerHTML = '<option value="">— Selecciona tu usuario —</option>';
-  STATE.usuarios.forEach(u => {
-    sel.innerHTML += `<option value="${u.Email_Corporativo || u.Email_Personal}">${u.Nombre} (${u.Rol})</option>`;
-  });
-  $('btn-login').disabled = false;
-}
+function rPB(){const ps=[...new Set(D.cl.map(c=>Number(c.Fase_ID)))].filter(Boolean).sort();if(!ps.length)ps.push(1);const t={};D.cl.forEach(c=>{if(c.Fase_ID&&c.Titulo_Fase)t[Number(c.Fase_ID)]=c.Titulo_Fase});$('PB').innerHTML=ps.map(p=>'<button class="pb'+(p===D.ph?' on':'')+'" onclick="D.ph='+p+';rPB();rCL()">'+(t[p]||'Fase '+p)+'</button>').join('')}
 
-$('login-select').addEventListener('change', function() {
-  const email = this.value;
-  const user = STATE.usuarios.find(u => (u.Email_Corporativo || u.Email_Personal) === email);
-  if (user && user.Rol === 'Master') {
-    show('password-group');
-  } else {
-    hide('password-group');
-    $('login-password').value = '';
-  }
-});
+function rCL(){const ls=D.cl.filter(c=>Number(c.Fase_ID)===D.ph);const pg=pp(D.u?.Progreso_JSON);$('NC').textContent=ls.length+' clases';
+const ms={};ls.forEach(c=>{const k=c.Tipo_Modulo==='Taller'?'T_'+c.Sub_ID:'M_'+c.Modulo_ID;if(!ms[k])ms[k]={t:c.Tipo_Modulo,id:c.Modulo_ID,sub:c.Sub_ID,it:[]};ms[k].it.push(c)});
+let h='';for(const[,m]of Object.entries(ms)){const iT=m.t==='Taller';h+='<div class="mblk"><div class="mtit'+(iT?' tw':'')+'"><span class="dot"></span>'+(iT?'🔧 Taller '+m.sub:'📖 Módulo '+m.id)+'</div><div class="cg">';
+m.it.forEach(c=>{const sn=pg[c.ID_Clase]?.visto;h+='<div class="cc'+(sn?' vd':'')+(iT?' tw':'')+'" onclick="oC(\''+c.ID_Clase+'\')"><div class="cct"><span class="cid">'+c.ID_Clase+'</span>'+(sn?'<span class="cb v">✓ Visto</span>':iT?'<span class="cb t">Taller</span>':'<span class="cb p">Pendiente</span>')+'</div><h4>'+(c.Titulo_Clase||'—')+'</h4><p class="ds">'+(c.Descripcion_Clase||'—')+'</p><div class="cm"><span>📅 '+fd(c.Fecha_Clase)+'</span></div><div class="ca">'+(c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':'')+(c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':'')+(c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">❓ Quiz</a>':'')+(c.Google_Calendar_Meet_URL?'<a href="'+c.Google_Calendar_Meet_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📹 Meet</a>':'')+'</div></div>'});
+h+='</div></div>'}
+if(!ls.length)h='<div style="text-align:center;padding:60px;color:var(--t3)"><p style="font-size:40px;margin-bottom:12px">📚</p><p>No hay clases en esta fase</p></div>';
+$('CB').innerHTML=h}
 
-$('btn-login').addEventListener('click', function() {
-  const email = $('login-select').value;
-  if (!email) { showLoginError('Selecciona un usuario'); return; }
-  
-  const user = STATE.usuarios.find(u => (u.Email_Corporativo || u.Email_Personal) === email);
-  if (!user) { showLoginError('Usuario no encontrado'); return; }
-  
-  if (user.Rol === 'Master') {
-    if ($('login-password').value !== MASTER_PASSWORD) {
-      showLoginError('Contraseña incorrecta');
-      return;
-    }
-  }
-  
-  STATE.currentUser = user;
-  enterDashboard();
-});
+function oC(id){const c=D.cl.find(x=>x.ID_Clase===id);if(!c)return;const pg=pp(D.u?.Progreso_JSON);const sn=pg[id]?.visto;const ev=eurl(c.Video_Meet_URL);
+$('MCT').textContent=c.ID_Clase+' — '+c.Titulo_Clase;
+$('MCB').innerHTML='<div style="width:100%;aspect-ratio:16/9;background:var(--bg3);border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;overflow:hidden">'+(ev?'<iframe src="'+ev+'" style="width:100%;height:100%;border:none" allowfullscreen></iframe>':'<span style="color:var(--t3)">📹 Video no disponible</span>')+'</div><p style="color:var(--t2);font-size:13px;margin-bottom:12px">'+(c.Descripcion_Clase||'—')+'</p><div class="cm"><span>📅 '+fd(c.Fecha_Clase)+'</span><span>📂 Fase '+c.Fase_ID+' — '+(c.Tipo_Modulo==='Taller'?'Taller '+c.Sub_ID:'Módulo '+c.Modulo_ID)+'</span></div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">'+(c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p">▶ Video</a>':'')+(c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s">📄 Transcripción</a>':'')+(c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s">❓ Quiz</a>':'')+(c.Material_Drive_URL?'<a href="'+c.Material_Drive_URL+'" target="_blank" class="bs s">📁 Material</a>':'')+(c.Google_Calendar_Meet_URL?'<a href="'+c.Google_Calendar_Meet_URL+'" target="_blank" class="bs s">📹 Meet</a>':'')+'</div><div style="margin-top:16px">'+(sn?'<button class="ba" style="background:var(--acg);color:var(--ac);cursor:default">✅ Clase vista</button>':'<button class="ba p" onclick="mSeen(\''+id+'\')">✅ Marcar como Visto</button>')+'</div>';
+oM('MC')}
 
-function showLoginError(msg) {
-  const el = $('login-error');
-  el.textContent = msg;
-  el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 3000);
-}
+async function mSeen(id){const pg=pp(D.u.Progreso_JSON);pg[id]={visto:true,fecha_visto:new Date().toISOString()};D.u.Progreso_JSON=JSON.stringify(pg);const i=D.us.findIndex(u=>u.ID_Usuario===D.u.ID_Usuario);if(i>=0)D.us[i].Progreso_JSON=D.u.Progreso_JSON;await aPost({action:'updateProgreso',email:D.u.Email_Corporativo||D.u.Email_Personal,progreso:pg});cM('MC');rCL();rST()}
 
-// ==========================================
-// ENTER DASHBOARD
-// ==========================================
-function enterDashboard() {
-  const u = STATE.currentUser;
-  
-  // Update UI
-  $('user-name-display').textContent = u.Nombre;
-  $('user-avatar').textContent = getInitials(u.Nombre);
-  $('topbar-role-tag').textContent = u.Rol;
-  
-  // Show admin nav if Master/Admin
-  if (u.Rol === 'Master' || u.Rol === 'Admin') {
-    show('nav-admin');
-    show('mobile-nav-admin');
-  }
-  
-  // Switch screens
-  $('login-screen').classList.remove('active');
-  $('dashboard-screen').classList.add('active');
-  
-  // Render
-  renderPhaseBar();
-  renderClases();
-  renderStudents();
-  renderAulaVirtual();
-  if (u.Rol === 'Master' || u.Rol === 'Admin') renderAdmin();
-  
-  toast(`Bienvenido, ${u.Nombre}`);
-}
+function rST(){const ls=D.us.filter(u=>u.Rol!=='Master');$('NE').textContent=ls.length+' alumnos';const tt=D.cl.length||1;
+$('SB').innerHTML=ls.map(u=>{const pg=pp(u.Progreso_JSON);const dn=Object.values(pg).filter(p=>p.visto).length;const pc=Math.round(dn/tt*100);const sp=Number(u.Skill_Prompting)||0,sh=Number(u.Skill_Herramientas_IA)||0,sa=Number(u.Skill_Analisis)||0;const ph=(u.Telefono||'').replace(/\+/g,'');
+return'<div class="sc"><div class="stp"><div class="sav">'+ini(u.Nombre)+'</div><div class="si"><h4>'+u.Nombre+'</h4><p>'+(u.Cargo||u.Rol)+' — '+(u.Corporacion||'')+'</p></div></div><div class="sr"><span class="sl">Prompting</span><div class="sbr"><div class="sf s1" style="width:'+sp*10+'%"></div></div><span class="sv">'+sp+'</span></div><div class="sr"><span class="sl">Herram. IA</span><div class="sbr"><div class="sf s2" style="width:'+sh*10+'%"></div></div><span class="sv">'+sh+'</span></div><div class="sr"><span class="sl">Análisis</span><div class="sbr"><div class="sf s3" style="width:'+sa*10+'%"></div></div><span class="sv">'+sa+'</span></div><div class="spr"><div class="spl"><span>Progreso</span><span>'+pc+'%</span></div><div class="spb"><div class="spf" style="width:'+pc+'%"></div></div><div class="sps"><span>✅ '+dn+'</span><span>📋 '+(tt-dn)+' pend.</span></div></div><div class="scn">'+(u.Email_Personal?'<a href="mailto:'+u.Email_Personal+'" class="bs s">✉️ Email</a>':'')+(ph?'<a href="https://wa.me/'+ph+'" target="_blank" class="bs s">💬 WhatsApp</a>':'')+(u.Drive_Alumno_URL?'<a href="'+u.Drive_Alumno_URL+'" target="_blank" class="bs s">📁 Drive</a>':'')+'</div></div>'}).join('')}
 
-function logout() {
-  STATE.currentUser = null;
-  $('dashboard-screen').classList.remove('active');
-  $('login-screen').classList.add('active');
-  $('login-select').value = '';
-  $('login-password').value = '';
-  hide('password-group');
-  hide('nav-admin');
-  hide('mobile-nav-admin');
-}
+function rAU(){const c=D.cf;const pg=pp(D.u?.Progreso_JSON);const dn=Object.values(pg).filter(p=>p.visto).length;const pc=Math.round(dn/(D.cl.length||1)*100);
+$('AB').innerHTML='<div class="icc"><h4>🏢 '+(c.Empresa_Mentor||'AIWIS')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Mentor||'—')+'</p><p><strong>Mentores:</strong> '+(c['01_Mentor_AIWIS']||'')+', '+(c['02_Mentor_AIWIS']||'')+'</p><a href="mailto:'+(c.Email_Soporte||'')+'">📧 Soporte</a></div><div class="icc"><h4>🎯 '+(c.Empresa_Cliente||'CUBI-K')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Cliente||'—')+'</p><p>Portal educativo IA corporativa</p></div><div class="icc"><h4>🐙 GitHub</h4><p>Repositorios del proyecto</p><a href="'+(c.Github_Aiwis||'#')+'" target="_blank">🔗 Ver Repo</a></div><div class="icc"><h4>📁 Google Drive</h4><p>Materiales del curso</p><a href="'+(c.Drive_Cubik_Aiwis||'#')+'" target="_blank">🔗 Abrir</a></div><div class="icc"><h4>📹 Google Meet</h4><p>Sala de clases en vivo</p><a href="https://meet.google.com/ryy-peau-kej" target="_blank">🔗 Entrar</a></div><div class="icc"><h4>📊 Mi Progreso</h4><p><strong style="color:var(--ac);font-size:28px">'+pc+'%</strong> <span style="color:var(--t3);font-size:12px">completado</span></p><p style="margin-top:4px">'+dn+' de '+D.cl.length+' clases</p></div>'}
 
-// ==========================================
-// VIEW SWITCHING
-// ==========================================
-function switchView(view) {
-  // Hide all
-  document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
-  // Show target
-  show(`view-${view}`);
-  
-  // Update nav buttons
-  document.querySelectorAll('.topbar-nav button').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.mobile-nav button').forEach(b => b.classList.remove('active'));
-  
-  const labels = { clases: '📚 Clases', estudiantes: '👥 Estudiantes', aula: '🎓 Aula Virtual', admin: '⚙️ Admin' };
-  document.querySelectorAll('.topbar-nav button').forEach(b => {
-    if (b.textContent.trim() === (labels[view] || '').trim()) b.classList.add('active');
-  });
-  document.querySelectorAll('.mobile-nav button').forEach(b => {
-    if (b.textContent.trim().toLowerCase().includes(view.substring(0, 4))) b.classList.add('active');
-  });
-}
+// ADMIN
+function rAD(){$('ATBS').innerHTML=[{i:'APC',l:'📚 Clases'},{i:'APU',l:'👥 Usuarios'},{i:'APP',l:'📦 Proyectos'},{i:'APK',l:'🔧 Config'}].map((t,x)=>'<button class="at'+(x===0?' on':'')+'" onclick="sAT(\''+t.i+'\',this)">'+t.l+'</button>').join('');rAC();rAU2();rAPR();rAK()}
+function sAT(id,b){document.querySelectorAll('.ap').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.at').forEach(t=>t.classList.remove('on'));$(id).classList.add('on');if(b)b.classList.add('on')}
 
-// ==========================================
-// RENDER PHASE BAR
-// ==========================================
-function renderPhaseBar() {
-  const phases = [...new Set(STATE.clases.map(c => Number(c.Fase_ID)))].filter(Boolean).sort();
-  if (phases.length === 0) phases.push(1);
-  
-  const phaseTitles = {};
-  STATE.clases.forEach(c => { if (c.Fase_ID && c.Titulo_Fase) phaseTitles[Number(c.Fase_ID)] = c.Titulo_Fase; });
-  
-  $('phase-bar').innerHTML = phases.map(p =>
-    `<button class="phase-btn ${p === STATE.selectedPhase ? 'active' : ''}" onclick="selectPhase(${p})">
-      Fase ${p}${phaseTitles[p] ? ' — ' + phaseTitles[p] : ''}
-    </button>`
-  ).join('');
-}
+function rAC(){$('APC').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.cl.length+' clases</span><button class="ba p" onclick="oCF()">+ Agregar Clase</button></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Fase</th><th>Tipo</th><th>Mód</th><th>Título</th><th>Fecha</th><th>Video</th><th>Acc.</th></tr></thead><tbody>'+D.cl.map(c=>'<tr><td>'+c.ID_Clase+'</td><td>'+c.Fase_ID+'</td><td>'+c.Tipo_Modulo+'</td><td>'+(c.Tipo_Modulo==='Taller'?'T-'+c.Sub_ID:c.Modulo_ID)+'</td><td>'+c.Titulo_Clase+'</td><td>'+fd(c.Fecha_Clase)+'</td><td>'+(c.Video_Meet_URL?'✅':'—')+'</td><td><button class="bs s" onclick="oCF(\''+c.ID_Clase+'\')">✏️</button> <button class="bs d" onclick="cDel(\'c\',\''+c.ID_Clase+'\')">🗑</button></td></tr>').join('')+'</tbody></table></div>'}
 
-function selectPhase(p) {
-  STATE.selectedPhase = p;
-  renderPhaseBar();
-  renderClases();
-}
+function oCF(id){const c=id?D.cl.find(x=>x.ID_Clase===id):null;$('MFT').textContent=c?'Editar Clase':'Nueva Clase';
+$('MFB').innerHTML='<div class="fg"><label>ID Clase</label><input id="fc1" value="'+(c?.ID_Clase||'CLS-'+String(D.cl.length+1).padStart(3,'0'))+'" '+(c?'readonly':'')+'></div><div class="fg"><label>Fase ID</label><input id="fc2" type="number" value="'+(c?.Fase_ID||1)+'" min="1"></div><div class="fg"><label>Título Fase</label><input id="fc3" value="'+(c?.Titulo_Fase||'')+'"></div><div class="fg"><label>Tipo</label><select id="fc4"><option value="Normal" '+(c?.Tipo_Modulo!=='Taller'?'selected':'')+'>Normal</option><option value="Taller" '+(c?.Tipo_Modulo==='Taller'?'selected':'')+'>Taller</option></select></div><div class="fg"><label>Módulo ID</label><input id="fc5" value="'+(c?.Modulo_ID||1)+'"></div><div class="fg"><label>Sub ID</label><input id="fc6" value="'+(c?.Sub_ID||'')+'"></div><div class="fg"><label>Título Clase</label><input id="fc7" value="'+(c?.Titulo_Clase||'')+'"></div><div class="fg"><label>Descripción</label><textarea id="fc8">'+(c?.Descripcion_Clase||'')+'</textarea></div><div class="fg"><label>Fecha</label><input id="fc9" type="datetime-local" value="'+(c?.Fecha_Clase?String(c.Fecha_Clase).substring(0,16):'')+'"></div><div class="fg"><label>Video URL</label><input id="fc10" value="'+(c?.Video_Meet_URL||'')+'"></div><div class="fg"><label>Meet URL</label><input id="fc11" value="'+(c?.Google_Calendar_Meet_URL||'')+'"></div><div class="fg"><label>Transcripción</label><input id="fc12" value="'+(c?.Transcripcion_URL||'')+'"></div><div class="fg"><label>Quiz URL</label><input id="fc13" value="'+(c?.Quiz_URL||'')+'"></div><div class="fg"><label>Material URL</label><input id="fc14" value="'+(c?.Material_Drive_URL||'')+'"></div>';
+$('MFS').onclick=async()=>{const d={ID_Clase:$('fc1').value,Fase_ID:Number($('fc2').value),Titulo_Fase:$('fc3').value,Tipo_Modulo:$('fc4').value,Modulo_ID:$('fc5').value,Sub_ID:$('fc6').value,Titulo_Clase:$('fc7').value,Descripcion_Clase:$('fc8').value,Fecha_Clase:$('fc9').value,Video_Meet_URL:$('fc10').value,Google_Calendar_Meet_URL:$('fc11').value,Transcripcion_URL:$('fc12').value,Quiz_URL:$('fc13').value,Material_Drive_URL:$('fc14').value};if(!d.ID_Clase||!d.Titulo_Clase){toast('ID y Título requeridos','er');return}await aPost({action:id?'updateClase':'addClass',clase:d,id_clase:id||d.ID_Clase});if(id){const i=D.cl.findIndex(x=>x.ID_Clase===id);if(i>=0)D.cl[i]={...D.cl[i],...d}}else D.cl.push(d);cM('MF');rAll()};oM('MF')}
 
-// ==========================================
-// RENDER CLASES
-// ==========================================
-function renderClases() {
-  const phaseClases = STATE.clases.filter(c => Number(c.Fase_ID) === STATE.selectedPhase);
-  const progress = parseProgress(STATE.currentUser?.Progreso_JSON);
-  
-  $('clases-count').textContent = `${phaseClases.length} clases`;
-  
-  // Group by module
-  const modules = {};
-  phaseClases.forEach(c => {
-    const key = c.Tipo_Modulo === 'Taller' ? `Taller_${c.Sub_ID || 'X'}` : `Modulo_${c.Modulo_ID}`;
-    if (!modules[key]) modules[key] = { type: c.Tipo_Modulo, id: c.Modulo_ID, sub: c.Sub_ID, clases: [] };
-    modules[key].clases.push(c);
-  });
-  
-  let html = '';
-  Object.entries(modules).forEach(([key, mod]) => {
-    const isTaller = mod.type === 'Taller';
-    const title = isTaller ? `🔧 Taller ${mod.sub}` : `📖 Módulo ${mod.id}`;
-    
-    html += `<div class="module-block">
-      <div class="module-title ${isTaller ? 'taller' : ''}">
-        <span class="dot"></span> ${title}
-      </div>
-      <div class="class-grid">`;
-    
-    mod.clases.forEach(c => {
-      const isViewed = progress[c.ID_Clase]?.visto;
-      const cardClass = isTaller ? 'taller-card' : (isViewed ? 'viewed' : '');
-      const badge = isViewed
-        ? '<span class="class-badge visto">✓ Visto</span>'
-        : isTaller
-          ? '<span class="class-badge taller">Taller</span>'
-          : '<span class="class-badge pendiente">Pendiente</span>';
-      
-      html += `<div class="class-card ${cardClass}" onclick="openClassDetail('${c.ID_Clase}')">
-        <div class="class-card-top">
-          <span class="class-id">${c.ID_Clase}</span>
-          ${badge}
-        </div>
-        <h4>${c.Titulo_Clase || 'Sin título'}</h4>
-        <p class="desc">${c.Descripcion_Clase || 'Sin descripción'}</p>
-        <div class="class-meta">
-          <span>📅 ${formatDate(c.Fecha_Clase)}</span>
-          <span>⏱ 60 min</span>
-        </div>
-        <div class="class-actions">
-          ${c.Video_Meet_URL ? `<a href="${c.Video_Meet_URL}" target="_blank" class="btn-sm primary" onclick="event.stopPropagation()">▶ Video</a>` : ''}
-          ${c.Transcripcion_URL ? `<a href="${c.Transcripcion_URL}" target="_blank" class="btn-sm secondary" onclick="event.stopPropagation()">📄 Texto</a>` : ''}
-          ${c.Quiz_URL ? `<a href="${c.Quiz_URL}" target="_blank" class="btn-sm secondary" onclick="event.stopPropagation()">❓ Quiz</a>` : ''}
-          ${c.Google_Calendar_Meet_URL ? `<a href="${c.Google_Calendar_Meet_URL}" target="_blank" class="btn-sm secondary" onclick="event.stopPropagation()">📹 Meet</a>` : ''}
-        </div>
-      </div>`;
-    });
-    
-    html += `</div></div>`;
-  });
-  
-  if (phaseClases.length === 0) {
-    html = `<div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
-      <p style="font-size:40px;margin-bottom:12px;">📚</p>
-      <p>No hay clases registradas en esta fase</p>
-    </div>`;
-  }
-  
-  $('clases-container').innerHTML = html;
-}
+function rAU2(){$('APU').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.us.length+' usuarios</span><button class="ba p" onclick="oUF()">+ Agregar Usuario</button></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Nombre</th><th>Rol</th><th>Cargo</th><th>Email</th><th>Tel</th><th>Skills</th><th>Acc.</th></tr></thead><tbody>'+D.us.map(u=>'<tr><td>'+u.ID_Usuario+'</td><td>'+u.Nombre+'</td><td>'+u.Rol+'</td><td>'+(u.Cargo||'—')+'</td><td style="font-size:11px">'+(u.Email_Corporativo||'—')+'</td><td>'+(u.Telefono||'—')+'</td><td>'+(Number(u.Skill_Prompting)||0)+'/'+(Number(u.Skill_Herramientas_IA)||0)+'/'+(Number(u.Skill_Analisis)||0)+'</td><td><button class="bs s" onclick="oUF(\''+u.ID_Usuario+'\')">✏️</button> '+(u.Rol!=='Master'?'<button class="bs d" onclick="cDel(\'u\',\''+u.ID_Usuario+'\')">🗑</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'}
 
-// ==========================================
-// CLASS DETAIL MODAL
-// ==========================================
-function openClassDetail(id) {
-  const c = STATE.clases.find(x => x.ID_Clase === id);
-  if (!c) return;
-  
-  const progress = parseProgress(STATE.currentUser?.Progreso_JSON);
-  const isViewed = progress[id]?.visto;
-  
-  $('modal-class-title').textContent = `${c.ID_Clase} — ${c.Titulo_Clase}`;
-  $('modal-class-desc').textContent = c.Descripcion_Clase || 'Sin descripción';
-  
-  // Video embed
-  const embedUrl = getVideoEmbedUrl(c.Video_Meet_URL);
-  $('modal-class-video').innerHTML = embedUrl
-    ? `<iframe src="${embedUrl}" allowfullscreen></iframe>`
-    : `<span class="no-video">📹 Video no disponible</span>`;
-  
-  // Meta
-  $('modal-class-meta').innerHTML = `
-    <span>📅 ${formatDate(c.Fecha_Clase)}</span>
-    <span>📂 Fase ${c.Fase_ID} — ${c.Tipo_Modulo === 'Taller' ? 'Taller ' + c.Sub_ID : 'Módulo ' + c.Modulo_ID}</span>
-  `;
-  
-  // Links
-  let links = '';
-  if (c.Video_Meet_URL) links += `<a href="${c.Video_Meet_URL}" target="_blank" class="btn-sm primary">▶ Ver Video</a>`;
-  if (c.Transcripcion_URL) links += `<a href="${c.Transcripcion_URL}" target="_blank" class="btn-sm secondary">📄 Transcripción</a>`;
-  if (c.Quiz_URL) links += `<a href="${c.Quiz_URL}" target="_blank" class="btn-sm secondary">❓ Quiz</a>`;
-  if (c.Material_Drive_URL) links += `<a href="${c.Material_Drive_URL}" target="_blank" class="btn-sm secondary">📁 Material</a>`;
-  if (c.Google_Calendar_Meet_URL) links += `<a href="${c.Google_Calendar_Meet_URL}" target="_blank" class="btn-sm secondary">📹 Google Meet</a>`;
-  $('modal-class-links').innerHTML = links;
-  
-  // Actions
-  $('modal-class-actions').innerHTML = isViewed
-    ? `<button class="btn-action" style="background:var(--accent-glow);color:var(--accent);cursor:default;">✅ Ya marcaste esta clase como vista</button>`
-    : `<button class="btn-action primary" onclick="markAsViewed('${id}')">✅ Marcar como Visto</button>`;
-  
-  openModal('modal-class-detail');
-}
+function oUF(id){const u=id?D.us.find(x=>x.ID_Usuario===id):null;$('MFT').textContent=u?'Editar Usuario':'Nuevo Usuario';
+$('MFB').innerHTML='<div class="fg"><label>ID</label><input id="fu1" value="'+(u?.ID_Usuario||'USR-'+String(D.us.length+1).padStart(3,'0'))+'" '+(u?'readonly':'')+'></div><div class="fg"><label>Nombre</label><input id="fu2" value="'+(u?.Nombre||'')+'"></div><div class="fg"><label>Email Personal</label><input id="fu3" value="'+(u?.Email_Personal||'')+'"></div><div class="fg"><label>Email Corporativo</label><input id="fu4" value="'+(u?.Email_Corporativo||'')+'"></div><div class="fg"><label>Rol</label><select id="fu5"><option value="Usuario" '+(u?.Rol==='Usuario'?'selected':'')+'>Usuario</option><option value="Admin" '+(u?.Rol==='Admin'?'selected':'')+'>Admin</option><option value="Master" '+(u?.Rol==='Master'?'selected':'')+'>Master</option></select></div><div class="fg"><label>Cargo</label><input id="fu6" value="'+(u?.Cargo||'')+'"></div><div class="fg"><label>Corporación</label><input id="fu7" value="'+(u?.Corporacion||'CUBI-K')+'"></div><div class="fg"><label>Teléfono</label><input id="fu8" value="'+(u?.Telefono||'')+'"></div><div class="fg"><label>Skill Prompting (0-10)</label><input id="fu9" type="number" min="0" max="10" value="'+(Number(u?.Skill_Prompting)||0)+'"></div><div class="fg"><label>Skill Herramientas (0-10)</label><input id="fu10" type="number" min="0" max="10" value="'+(Number(u?.Skill_Herramientas_IA)||0)+'"></div><div class="fg"><label>Skill Análisis (0-10)</label><input id="fu11" type="number" min="0" max="10" value="'+(Number(u?.Skill_Analisis)||0)+'"></div><div class="fg"><label>Stacks</label><input id="fu12" value="'+(u?.Skill_Staks||'')+'"></div><div class="fg"><label>Drive URL</label><input id="fu13" value="'+(u?.Drive_Alumno_URL||'')+'"></div>';
+$('MFS').onclick=async()=>{const d={ID_Usuario:$('fu1').value,Nombre:$('fu2').value,Email_Personal:$('fu3').value,Email_Corporativo:$('fu4').value,Rol:$('fu5').value,Cargo:$('fu6').value,Corporacion:$('fu7').value,Telefono:$('fu8').value,Progreso_JSON:'{}',Skill_Prompting:Number($('fu9').value),Skill_Herramientas_IA:Number($('fu10').value),Skill_Analisis:Number($('fu11').value),Skill_Staks:$('fu12').value,Drive_Alumno_URL:$('fu13').value,Activo:true};if(!d.ID_Usuario||!d.Nombre){toast('ID y Nombre requeridos','er');return}await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){d.Progreso_JSON=D.us[i].Progreso_JSON;D.us[i]={...D.us[i],...d}}}else D.us.push(d);cM('MF');popLogin();rAll()};oM('MF')}
 
-async function markAsViewed(id) {
-  const progress = parseProgress(STATE.currentUser.Progreso_JSON);
-  progress[id] = { visto: true, fecha_visto: new Date().toISOString() };
-  STATE.currentUser.Progreso_JSON = JSON.stringify(progress);
-  
-  // Update in usuarios array
-  const idx = STATE.usuarios.findIndex(u => u.ID_Usuario === STATE.currentUser.ID_Usuario);
-  if (idx >= 0) STATE.usuarios[idx].Progreso_JSON = STATE.currentUser.Progreso_JSON;
-  
-  // Send to API
-  await apiPost({
-    action: 'updateProgreso',
-    email: STATE.currentUser.Email_Corporativo || STATE.currentUser.Email_Personal,
-    progreso: progress
-  });
-  
-  closeModal('modal-class-detail');
-  renderClases();
-  renderStudents();
-}
+function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.pr.length+' entregas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Link</th><th>Nota</th><th>Fecha</th><th>Comentario</th><th>Evaluar</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;return'<tr><td>'+p.ID_Entrega+'</td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(p.URL_Proyecto?'<a href="'+p.URL_Proyecto+'" target="_blank">🔗</a>':'—')+'</td><td><strong style="color:var(--ac)">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td>'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs s" onclick="oEF(\''+p.ID_Entrega+'\')">📝</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:30px">Sin entregas</td></tr>')+'</tbody></table></div>'}
 
-// ==========================================
-// RENDER STUDENTS
-// ==========================================
-function renderStudents() {
-  const students = STATE.usuarios.filter(u => u.Rol !== 'Master');
-  $('students-count').textContent = `${students.length} alumnos`;
-  
-  const totalClases = STATE.clases.length || 1;
-  
-  $('students-container').innerHTML = students.map(u => {
-    const progress = parseProgress(u.Progreso_JSON);
-    const viewed = Object.values(progress).filter(p => p.visto).length;
-    const pct = Math.round((viewed / totalClases) * 100);
-    const sp = Number(u.Skill_Prompting) || 0;
-    const sh = Number(u.Skill_Herramientas_IA) || 0;
-    const sa = Number(u.Skill_Analisis) || 0;
-    const phone = u.Telefono ? u.Telefono.replace(/\+/g, '') : '';
-    
-    return `<div class="student-card">
-      <div class="student-top">
-        <div class="student-avatar">${getInitials(u.Nombre)}</div>
-        <div class="student-info">
-          <h4>${u.Nombre}</h4>
-          <p>${u.Cargo || u.Rol} — ${u.Corporacion || ''}</p>
-        </div>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Prompting</span>
-        <div class="skill-bar"><div class="skill-fill prompting" style="width:${sp*10}%"></div></div>
-        <span class="skill-val">${sp}</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Herram. IA</span>
-        <div class="skill-bar"><div class="skill-fill herramientas" style="width:${sh*10}%"></div></div>
-        <span class="skill-val">${sh}</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Análisis</span>
-        <div class="skill-bar"><div class="skill-fill analisis" style="width:${sa*10}%"></div></div>
-        <span class="skill-val">${sa}</span>
-      </div>
-      <div class="student-progress">
-        <div class="progress-label">
-          <span>Progreso General</span>
-          <span>${pct}%</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-        <div class="progress-stats">
-          <span>✅ Vistas: ${viewed}</span>
-          <span>📋 Pendientes: ${totalClases - viewed}</span>
-        </div>
-      </div>
-      <div class="student-contact">
-        ${u.Email_Personal ? `<a href="mailto:${u.Email_Personal}" class="btn-sm secondary" title="Email">✉️ Email</a>` : ''}
-        ${phone ? `<a href="https://wa.me/${phone}" target="_blank" class="btn-sm secondary" title="WhatsApp">💬 WhatsApp</a>` : ''}
-        ${u.Drive_Alumno_URL ? `<a href="${u.Drive_Alumno_URL}" target="_blank" class="btn-sm secondary" title="Drive">📁 Drive</a>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-}
+function oEF(id){const p=D.pr.find(x=>x.ID_Entrega===id);if(!p)return;$('MFT').textContent='Evaluar '+id;$('MFB').innerHTML='<div class="fg"><label>Nota (1-7)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="'+(p.Nota_Evaluacion||'')+'"></div><div class="fg"><label>Comentarios</label><textarea id="fec">'+(p.Comentarios_Admin||'')+'</textarea></div>';$('MFS').onclick=async()=>{await aPost({action:'evaluarProyecto',id_entrega:id,nota:$('fen').value,comentarios:$('fec').value});const i=D.pr.findIndex(x=>x.ID_Entrega===id);if(i>=0){D.pr[i].Nota_Evaluacion=$('fen').value;D.pr[i].Comentarios_Admin=$('fec').value}cM('MF');rAPR()};oM('MF')}
 
-// ==========================================
-// RENDER AULA VIRTUAL
-// ==========================================
-function renderAulaVirtual() {
-  const cfg = STATE.configuracion;
-  $('aula-container').innerHTML = `
-    <div class="info-card">
-      <h4>🏢 ${cfg.Empresa_Mentor || 'AIWIS'}</h4>
-      <p><strong>CEO Mentor:</strong> ${cfg.CEO_Mentor || '—'}</p>
-      <p><strong>Mentores:</strong> ${cfg['01_Mentor_AIWIS'] || ''}, ${cfg['02_Mentor_AIWIS'] || ''}, ${cfg['03_Mentor_AIWIS'] || ''}</p>
-      <a href="mailto:${cfg.Email_Soporte || 'soporte.aiwis@gmail.com'}">📧 Contactar Soporte</a>
-    </div>
-    <div class="info-card">
-      <h4>🎯 ${cfg.Empresa_Cliente || 'CUBI-K'}</h4>
-      <p><strong>CEO Cliente:</strong> ${cfg.CEO_Cliente || '—'}</p>
-      <p>Portal educativo para adopción de IA corporativa.</p>
-    </div>
-    <div class="info-card">
-      <h4>🐙 GitHub</h4>
-      <p>Repositorios y recursos técnicos del proyecto.</p>
-      <a href="${cfg.Github_Aiwis || cfg.Github_Cubik_Aiwis || '#'}" target="_blank">🔗 Ver Repositorio</a>
-    </div>
-    <div class="info-card">
-      <h4>📁 Google Drive</h4>
-      <p>Carpeta compartida con materiales del curso.</p>
-      <a href="${cfg.Drive_Cubik_Aiwis || '#'}" target="_blank">🔗 Abrir Drive</a>
-    </div>
-    <div class="info-card">
-      <h4>📹 Google Meet</h4>
-      <p>Link de reunión permanente para clases en vivo.</p>
-      <a href="https://meet.google.com/ryy-peau-kej" target="_blank">🔗 Entrar a Meet</a>
-    </div>
-    <div class="info-card">
-      <h4>📊 Progreso Personal</h4>
-      <p>Tu avance actual en el programa de IA.</p>
-      <p style="margin-top:8px;">
-        <strong style="color:var(--accent);font-size:24px;">
-          ${(() => {
-            const progress = parseProgress(STATE.currentUser?.Progreso_JSON);
-            const viewed = Object.values(progress).filter(p => p.visto).length;
-            const total = STATE.clases.length || 1;
-            return Math.round((viewed / total) * 100);
-          })()}%
-        </strong>
-        <span style="color:var(--text-muted);font-size:12px;"> completado</span>
-      </p>
-    </div>
-  `;
-}
+function rAK(){$('APK').innerHTML='<div class="atw"><table class="ata"><thead><tr><th>Clave</th><th>Valor</th><th>Editar</th></tr></thead><tbody>'+D.cfr.map(r=>'<tr><td style="font-family:var(--m);font-size:12px">'+r.Clave+'</td><td>'+(r.Valor||'—')+'</td><td><button class="bs s" onclick="eCfg(\''+r.Clave+'\',\''+((r.Valor||'').replace(/'/g,"\\'"))+'\')">✏️</button></td></tr>').join('')+'</tbody></table></div><p style="margin-top:12px;font-size:12px;color:var(--t3)">Editar en <a href="https://docs.google.com/spreadsheets/d/1EFMa0ltd1k66bppiTistES_7rWAsJpRda1tiLd9nA6w/edit" target="_blank">Google Sheets</a></p>'}
 
-// ==========================================
-// ADMIN PANEL
-// ==========================================
-function renderAdmin() {
-  renderAdminClases();
-  renderAdminUsuarios();
-  renderAdminProyectos();
-  renderAdminConfig();
-}
+function eCfg(k,v){$('MFT').textContent='Editar: '+k;$('MFB').innerHTML='<div class="fg"><label>'+k+'</label><input id="fkv" value="'+v+'"></div>';$('MFS').onclick=async()=>{const nv=$('fkv').value;await aPost({action:'updateConfig',clave:k,valor:nv});D.cf[k]=nv;const r=D.cfr.find(x=>x.Clave===k);if(r)r.Valor=nv;cM('MF');rAK();rAU()};oM('MF')}
 
-function switchAdminTab(tabId) {
-  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  $(tabId).classList.add('active');
-  event.target.classList.add('active');
-}
+function cDel(t,id){$('DM').textContent='¿Eliminar '+(t==='c'?'clase':'usuario')+' '+id+'?';$('DY').onclick=async()=>{await aPost({action:t==='c'?'deleteClase':'deleteUsuario',id:id});if(t==='c')D.cl=D.cl.filter(c=>c.ID_Clase!==id);else{D.us=D.us.filter(u=>u.ID_Usuario!==id);popLogin()}cM('MD');rAll()};oM('MD')}
 
-function renderAdminClases() {
-  $('admin-clases').innerHTML = `
-    <div class="admin-toolbar">
-      <span style="font-size:13px;color:var(--text-secondary);">${STATE.clases.length} clases registradas</span>
-    </div>
-    <div class="admin-table-wrap">
-      <table class="admin-table">
-        <thead><tr>
-          <th>ID</th><th>Fase</th><th>Tipo</th><th>Módulo</th><th>Título</th><th>Fecha</th><th>Video</th>
-        </tr></thead>
-        <tbody>
-          ${STATE.clases.map(c => `<tr>
-            <td>${c.ID_Clase}</td>
-            <td>${c.Fase_ID}</td>
-            <td>${c.Tipo_Modulo}</td>
-            <td>${c.Tipo_Modulo === 'Taller' ? 'T-' + c.Sub_ID : c.Modulo_ID}</td>
-            <td>${c.Titulo_Clase}</td>
-            <td>${formatDate(c.Fecha_Clase)}</td>
-            <td>${c.Video_Meet_URL ? '✅' : '—'}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`;
-}
+function oM(id){$(id).classList.add('on')}function cM(id){$(id).classList.remove('on')}
+document.querySelectorAll('.mo').forEach(m=>{m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('on')})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.mo.on').forEach(m=>m.classList.remove('on'))});
 
-function renderAdminUsuarios() {
-  $('admin-usuarios').innerHTML = `
-    <div class="admin-toolbar">
-      <span style="font-size:13px;color:var(--text-secondary);">${STATE.usuarios.length} usuarios activos</span>
-    </div>
-    <div class="admin-table-wrap">
-      <table class="admin-table">
-        <thead><tr>
-          <th>ID</th><th>Nombre</th><th>Rol</th><th>Cargo</th><th>Email Corp.</th><th>Teléfono</th><th>Skills P/H/A</th>
-        </tr></thead>
-        <tbody>
-          ${STATE.usuarios.map(u => `<tr>
-            <td>${u.ID_Usuario}</td>
-            <td>${u.Nombre}</td>
-            <td>${u.Rol}</td>
-            <td>${u.Cargo || '—'}</td>
-            <td style="font-size:11px;">${u.Email_Corporativo || '—'}</td>
-            <td>${u.Telefono || '—'}</td>
-            <td>${Number(u.Skill_Prompting)||0} / ${Number(u.Skill_Herramientas_IA)||0} / ${Number(u.Skill_Analisis)||0}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`;
-}
-
-function renderAdminProyectos() {
-  $('admin-proyectos').innerHTML = `
-    <div class="admin-toolbar">
-      <span style="font-size:13px;color:var(--text-secondary);">${STATE.proyectos.length} entregas registradas</span>
-    </div>
-    <div class="admin-table-wrap">
-      <table class="admin-table">
-        <thead><tr>
-          <th>ID Entrega</th><th>Usuario</th><th>Clase</th><th>URL Proyecto</th><th>Nota</th><th>Fecha</th><th>Comentarios</th>
-        </tr></thead>
-        <tbody>
-          ${STATE.proyectos.length === 0
-            ? '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">No hay entregas registradas</td></tr>'
-            : STATE.proyectos.map(p => {
-              const userName = STATE.usuarios.find(u => u.ID_Usuario === p.ID_Usuario)?.Nombre || p.ID_Usuario;
-              return `<tr>
-                <td>${p.ID_Entrega}</td>
-                <td>${userName}</td>
-                <td>${p.ID_Clase}</td>
-                <td>${p.URL_Proyecto ? `<a href="${p.URL_Proyecto}" target="_blank" style="font-size:11px;">🔗 Ver</a>` : '—'}</td>
-                <td><strong style="color:var(--accent);">${p.Nota_Evaluacion || '—'}</strong></td>
-                <td>${formatDate(p.Fecha_Entrega)}</td>
-                <td>${p.Comentarios_Admin || '—'}</td>
-              </tr>`;
-            }).join('')
-          }
-        </tbody>
-      </table>
-    </div>`;
-}
-
-function renderAdminConfig() {
-  const cfg = STATE.configuracion;
-  $('admin-config').innerHTML = `
-    <div class="admin-table-wrap">
-      <table class="admin-table">
-        <thead><tr><th>Clave</th><th>Valor</th></tr></thead>
-        <tbody>
-          ${Object.entries(cfg).map(([k, v]) => `<tr>
-            <td style="font-family:var(--mono);font-size:12px;">${k}</td>
-            <td>${v || '—'}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>
-    <p style="margin-top:12px;font-size:12px;color:var(--text-muted);">
-      Para editar la configuración, modifica directamente la hoja "Configuracion" en 
-      <a href="https://docs.google.com/spreadsheets/d/1EFMa0ltd1k66bppiTistES_7rWAsJpRda1tiLd9nA6w/edit" target="_blank">Google Sheets</a>
-      y recarga el portal.
-    </p>`;
-}
-
-// ==========================================
-// MODAL HELPERS
-// ==========================================
-function openModal(id) { $(id).classList.add('active'); }
-function closeModal(id) { $(id).classList.remove('active'); }
-
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
-  });
-});
-
-// Close on ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-  }
-});
-
-// ==========================================
-// BOOT
-// ==========================================
 init();
 </script>
 </body>
