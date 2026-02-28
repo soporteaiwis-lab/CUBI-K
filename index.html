@@ -72,35 +72,44 @@ input,select,textarea{font-family:var(--f);outline:none}
 /* MAIN */
 .mc{padding:24px;max-width:1400px;margin:0 auto}
 .vp{display:none}.vp.von{display:block;animation:fi .25s ease}
-
-/* BANNER */
 .cbanner{background:var(--ac3g);border:1px solid rgba(245,158,11,.3);border-radius:var(--rs);padding:14px 20px;margin-bottom:20px;font-size:13px;color:#fbbf24;display:none}
 .cbanner.vis{display:block}
 .cbanner code{background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-family:var(--m);font-size:12px}
-
-/* PHASE BAR */
-.pbar{display:flex;gap:10px;margin-bottom:30px;flex-wrap:wrap;padding:10px 0}
-.pb{padding:8px 24px;background:transparent;border:1px solid var(--bdl);color:var(--t2);font-size:14px;font-weight:500;border-radius:30px;transition:all .3s ease;cursor:pointer;letter-spacing:0.3px}
-.pb:hover{border-color:var(--ac);color:var(--ac)}
-.pb.on{background:var(--ac);border-color:var(--ac);color:#0a0e1a;font-weight:700;box-shadow:0 0 15px rgba(0,212,170,.3);transform:translateY(-1px)}
 
 /* SECTION */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px}
 .sh h3{font-size:22px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
 .badge{font-size:11px;font-weight:600;padding:4px 10px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;color:var(--t2)}
 
-/* CAROUSEL NETFLIX STYLE */
-.c-row{position:relative;display:flex;align-items:center;margin-bottom:40px;padding:0 10px}
-.c-track{display:flex;gap:20px;overflow-x:auto;scroll-behavior:smooth;padding:10px 4px;scrollbar-width:none;flex-wrap:nowrap;flex:1}
-.c-track::-webkit-scrollbar{display:none}
-.c-btn{position:absolute;z-index:10;background:var(--bg1);color:var(--t1);border:1px solid var(--bdl);border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:var(--tr);box-shadow:var(--shl);top:50%;transform:translateY(-50%)}
-.c-btn.left{left:-18px}.c-btn.right{right:-18px}
-.c-btn:hover{background:var(--ac);color:#000;border-color:var(--ac);transform:translateY(-50%) scale(1.1);box-shadow:0 0 20px rgba(0,212,170,0.4)}
+/* COUNTDOWNS & BADGES */
+.cd-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:700; letter-spacing:0.5px; }
+.cd-ok { background:rgba(0, 212, 170, 0.15); color:var(--ac); border:1px solid rgba(0, 212, 170, 0.3); }
+.cd-warn { background:rgba(245, 158, 11, 0.15); color:var(--ac3); border:1px solid rgba(245, 158, 11, 0.3); }
+.cd-err { background:rgba(239, 68, 68, 0.15); color:var(--err); border:1px solid rgba(239, 68, 68, 0.3); }
 
-/* MODULE */
-.mblk{margin-bottom:10px}
-.mtit{font-size:18px;font-weight:700;color:var(--t1);margin-bottom:8px;padding-left:14px;display:flex;align-items:center;gap:10px;letter-spacing:-0.3px}
-.mtit .dot{width:10px;height:10px;border-radius:50%;background:var(--ac2)}.mtit.tw .dot{background:var(--ac3)}
+/* PHASES & MODULES TABS */
+.pbar{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;padding:10px 0}
+.pb{padding:10px 24px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:14px;font-weight:600;border-radius:30px;transition:all .3s ease;cursor:pointer;letter-spacing:0.5px}
+.pb:hover{border-color:var(--ac);color:var(--ac)}
+.pb.on{background:var(--ac);border-color:var(--ac);color:#0a0e1a;font-weight:800;box-shadow:0 0 15px rgba(0,212,170,.4);transform:translateY(-2px)}
+
+.ph-title{font-size:24px;font-weight:800;color:var(--t1);margin-bottom:16px;display:flex;align-items:center;gap:12px;letter-spacing:-0.5px}
+.ph-title span{color:var(--bg1);background:var(--ac2);font-size:12px;padding:4px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:1px}
+
+.mbar{display:flex;gap:6px;margin-bottom:30px;border-bottom:2px solid var(--bd);padding-bottom:1px;overflow-x:auto;scrollbar-width:none}
+.mbar::-webkit-scrollbar{display:none}
+.mtab{padding:10px 20px;background:transparent;color:var(--t2);font-size:14px;font-weight:600;border-radius:8px 8px 0 0;border:1px solid transparent;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.mtab:hover{color:var(--t1);background:rgba(255,255,255,0.03)}
+.mtab.on{background:var(--bg2);color:var(--ac2);border:1px solid var(--bd);border-bottom:none;position:relative}
+.mtab.on::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--ac2)}
+
+/* CAROUSEL NETFLIX STYLE */
+.c-row{position:relative;display:flex;align-items:center;margin-bottom:40px;}
+.c-track{display:flex;gap:20px;overflow-x:auto;scroll-behavior:smooth;padding:10px;scrollbar-width:none;flex-wrap:nowrap;flex:1}
+.c-track::-webkit-scrollbar{display:none}
+.c-btn{position:absolute;z-index:10;background:var(--bg2);color:var(--t1);border:1px solid var(--bdl);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:var(--tr);box-shadow:var(--shl);top:50%;transform:translateY(-50%)}
+.c-btn.left{left:-20px}.c-btn.right{right:-20px}
+.c-btn:hover{background:var(--ac);color:#000;border-color:var(--ac);transform:translateY(-50%) scale(1.1)}
 
 /* CLASS CARD */
 .cc{min-width:300px;max-width:300px;flex-shrink:0;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:22px;transition:var(--tr);cursor:pointer;position:relative}
@@ -112,13 +121,14 @@ input,select,textarea{font-family:var(--f);outline:none}
 .cb.v{background:rgba(0,212,170,.12);color:var(--ac)}.cb.p{background:rgba(99,102,241,.12);color:var(--ac2)}.cb.t{background:rgba(245,158,11,.12);color:var(--ac3)}
 .cc h4{font-size:17px;font-weight:700;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cc .ds{font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:40px}
-.cm{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t3);margin-bottom:14px}.cm span{display:flex;align-items:center;gap:4px}
+.cm{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--t3);margin-bottom:14px}.cm span{display:flex;align-items:center;gap:4px}
 .ca{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .bs{padding:6px 14px;font-size:11px;font-weight:600;border-radius:var(--rx);transition:var(--tr);display:inline-flex;align-items:center;gap:6px;text-decoration:none;cursor:pointer}
 .bs.p{background:var(--acg);color:var(--ac);border:1px solid rgba(0,212,170,.2)}.bs.p:hover{background:var(--ac);color:#0a0e1a}
 .bs.s{background:var(--bg3);color:var(--t2);border:1px solid var(--bd)}.bs.s:hover{border-color:var(--bdl);color:var(--t1);background:var(--bd)}
 .bs.d{background:var(--errg);color:var(--err);border:1px solid rgba(239,68,68,.2)}.bs.d:hover{background:var(--err);color:#fff}
-.bs.w{background:var(--ac3g);color:var(--ac3);border:1px solid rgba(245,158,11,.2)}.bs.w:hover{background:var(--ac3);color:#000}
+.bs.w{background:var(--ac3g);color:var(--ac3);border:1px solid rgba(245,158,11,.2)}.bs.w:hover:not([disabled]){background:var(--ac3);color:#000}
+.bs[disabled]{opacity:0.5;cursor:not-allowed;pointer-events:none}
 
 /* STUDENTS */
 .sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
@@ -140,7 +150,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 .sps{display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--t3)}
 .scn{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
 
-/* ADMIN & DASHBOARD TABLES */
+/* ADMIN TABLES */
 .atabs{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
 .at{padding:10px 20px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;border-radius:30px;transition:var(--tr)}
 .at:hover{border-color:var(--ac2);color:var(--t1)}.at.on{background:var(--ac2g);border-color:var(--ac2);color:var(--ac2)}
@@ -191,8 +201,9 @@ input,select,textarea{font-family:var(--f);outline:none}
 @media(max-width:768px){
   .tb{padding:0 16px}.tb-n{display:none}.mc{padding:16px}.lbox{padding:32px 22px;margin:16px}
   .cg,.sg,.ic,.hw{flex-direction:column}
-  .c-btn{display:none} /* Ocultar flechas en móvil, usan swipe nativo */
+  .c-btn{display:none}
   .c-row{padding:0}
+  .ph-title{font-size:20px;flex-direction:column;align-items:flex-start;gap:6px}
   .mnav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,14,26,.96);backdrop-filter:blur(12px);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:10px 0 env(safe-area-inset-bottom,10px);z-index:100}
   .mnav button{padding:6px 10px;background:transparent;color:var(--t3);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;border-radius:var(--rx)}
   .mnav button.on{color:var(--ac)}
@@ -258,10 +269,17 @@ input,select,textarea{font-family:var(--f);outline:none}
       <div id="HGRADES"></div>
     </div>
   </div>
+  <div id="HTALLERES"></div>
 </div>
 
 <!-- VISTA CLASES -->
-<div id="VC" class="vp"><div class="sh"><h3>📚 Clases y Talleres</h3><span class="badge" id="NC">0 clases en total</span></div><div class="pbar" id="PB"></div><div id="CB"></div></div>
+<div id="VC" class="vp">
+  <div class="sh"><h3>📚 Programa de Clases</h3><span class="badge" id="NC">0 clases en total</span></div>
+  <div class="pbar" id="PB"></div>
+  <div id="PH_TITLE" class="ph-title"></div>
+  <div id="MB" class="mbar"></div>
+  <div id="CB"></div>
+</div>
 
 <!-- VISTA ESTUDIANTES -->
 <div id="VE" class="vp"><div class="sh"><h3>👥 Estudiantes Registrados</h3><span class="badge" id="NE">0</span></div><div class="sg" id="SB"></div></div>
@@ -286,13 +304,29 @@ const API='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJN
 const MPW='123123';
 const APW='admin123';
 const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
-let D={u:null,us:[],cl:[],pr:[],cf:{},cfr:[],ph:1};
+let D={u:null,us:[],cl:[],pr:[],cf:{},cfr:[],ph:1,md:null};
 const $=i=>document.getElementById(i);
 const toast=(m,t='ok')=>{const e=document.createElement('div');e.className='tt '+t;e.innerHTML=(t==='ok'?'✅':'❌')+' '+m;$('TC').appendChild(e);setTimeout(()=>e.remove(),4000)};
 const ini=n=>n?n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase():'??';
 const fd=d=>{if(!d)return'—';try{return new Date(d).toLocaleDateString('es-CL',{day:'2-digit',month:'short',year:'numeric'})}catch{return String(d)}};
 const pp=j=>{if(!j||j==='{}'||j==='')return{};try{return typeof j==='string'?JSON.parse(j):j}catch{return{}}};
 function eurl(u){if(!u)return null;let m=u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);if(m)return'https://www.youtube.com/embed/'+m[1];m=u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);if(m)return'https://drive.google.com/file/d/'+m[1]+'/preview';return null}
+
+// LOGICA DE DEADLINES
+function getCD(dateStr) {
+  if(!dateStr) return {text:'', class:'', active: true};
+  const d = new Date(dateStr);
+  if(isNaN(d)) return {text:'', class:'', active: true};
+  
+  d.setHours(23,59,59,999);
+  const now = new Date();
+  const diff = d - now;
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  
+  if(days > 3) return {text: `⏳ Faltan ${days} días`, class: 'cd-ok', active: true};
+  if(days >= 0) return {text: `⚠️ Vence en ${days} día(s)`, class: 'cd-warn', active: true};
+  return {text: `⛔ Plazo Finalizado`, class: 'cd-err', active: false};
+}
 
 async function aGet(){
   if(DEMO)return demoD();
@@ -306,7 +340,6 @@ async function aPost(b){
     const txt=await r.text();
     let j;
     try { j=JSON.parse(txt); } catch(e) { throw new Error('Respuesta del servidor no es JSON.'); }
-    if(j.success)toast(j.message||'OK');else toast(j.message||'Error','er');
     return j;
   }
   catch(e){console.error(e);toast('Error de conexión','er');return{success:false}}
@@ -365,7 +398,7 @@ function updateProgressTop(){
 
 function rAll(){updateProgressTop();rHOME();rPB();rCL();rST();rAU();if(D.u.Rol==='Master'||D.u.Rol==='Admin')rAD()}
 
-// INICIO / DASHBOARD WIDGETS
+// DASHBOARD WIDGETS
 function rHOME(){
   const pg=pp(D.u.Progreso_JSON);
   const dn=Object.values(pg).filter(p=>p.visto).length;
@@ -388,14 +421,13 @@ function rHOME(){
         </div>
         <div style="flex:1; background:var(--bg3); padding:18px 14px; border-radius:12px; text-align:center; border:1px solid var(--bd);">
           <div style="font-size:26px; color:var(--ac3); font-weight:700; margin-bottom:6px;">${myP.length}</div>
-          <div style="font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600;">Entregas Realizadas</div>
+          <div style="font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600;">Entregas Hechas</div>
         </div>
       </div>
     </div>
   `;
 
-  // Libreta de Notas
-  let hG = `<div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); overflow:hidden;">
+  let hG = `<div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); overflow-x:auto;">
     <table class="ata" style="width:100%; font-size:14px;">
       <thead><tr style="background:var(--bg3);"><th style="padding:18px 20px;">Fase / Clase</th><th style="padding:18px 20px;">Tipo</th><th style="padding:18px 20px;">Link Entrega</th><th style="padding:18px 20px;">Nota</th><th style="padding:18px 20px;">Comentarios Mentor</th></tr></thead>
       <tbody>`;
@@ -418,16 +450,58 @@ function rHOME(){
         <td style="padding:16px 20px; color:var(--t2)">${c?c.Tipo_Modulo:'—'}</td>
         <td style="padding:16px 20px;">${p.URL_Proyecto?`<a href="${p.URL_Proyecto}" target="_blank" style="color:var(--ac2);font-weight:600;display:inline-flex;align-items:center;gap:6px">🔗 Ver Repo</a>`:'<span style="color:var(--t3)">—</span>'}</td>
         <td style="padding:16px 20px;"><span style="background:${badgeBg}; color:${badgeCol}; padding:6px 12px; border-radius:8px; font-weight:800; font-size:14px; display:inline-block">${notaTxt}</span></td>
-        <td style="padding:16px 20px;"><span style="font-size:13px;color:var(--t2);line-height:1.5;display:block;max-width:300px">${p.Comentarios_Admin||'—'}</span></td>
+        <td style="padding:16px 20px;"><span style="font-size:13px;color:var(--t2);line-height:1.5;display:block;max-width:300px;white-space:normal">${p.Comentarios_Admin||'—'}</span></td>
       </tr>`;
       if(hasGrade){ sum+=nt; cnt++; }
     });
     const avg = cnt>0 ? (sum/cnt).toFixed(1) : 0;
     hG+=`</tbody><tfoot><tr style="background:var(--bg2h);border-top:1px solid var(--bd)"><td colspan="3" style="text-align:right;padding:24px;font-size:14px;color:var(--t1);font-weight:600;">PROMEDIO FINAL DEL CURSO:</td><td colspan="2" style="padding:24px"><span style="background:var(--ac);color:#0a0e1a;padding:8px 18px;border-radius:10px;font-size:18px;font-weight:800;box-shadow:0 4px 15px rgba(0,212,170,.3)">${avg>0?avg:'—'}</span></td></tr></tfoot></table></div>`;
   } else {
-    hG+=`<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--t3);font-size:15px">Aún no has realizado ninguna entrega de proyectos.</td></tr></tbody></table></div>`;
+    hG+=`<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--t3);font-size:15px">Aún no tienes calificaciones registradas.</td></tr></tbody></table></div>`;
   }
   $('HGRADES').innerHTML = hG;
+
+  const talleres = D.cl.filter(c => c.Tipo_Modulo === 'Taller');
+  let hTalleres = `<div class="hw-c" style="flex:1; margin-top:10px;">
+    <h4>🚀 Mis Entregas y Talleres</h4>
+    <div class="atw"><table class="ata" style="width:100%">
+      <thead><tr><th>Taller Asignado</th><th>Fecha Límite (Deadline)</th><th>Estado del Plazo</th><th>Acción Permitida</th></tr></thead>
+      <tbody>`;
+  
+  if(talleres.length > 0){
+    talleres.forEach(t => {
+      const cd = getCD(t.Fecha_Clase);
+      const proj = D.pr.find(p => p.ID_Clase === t.ID_Clase && p.ID_Usuario === D.u.ID_Usuario);
+      const statusBadge = proj ? `<span class="cd-badge cd-ok">✅ Entregado el ${fd(proj.Fecha_Entrega)}</span>` : `<span class="cd-badge ${cd.class}">${cd.text}</span>`;
+      
+      let actionBtn = '';
+      if (proj) {
+         if (cd.active) {
+           actionBtn = `<button class="bs s" onclick="oSUB('${t.ID_Clase}')">✏️ Editar Link</button>
+                        <button class="bs d" onclick="cDelProj('${t.ID_Clase}')">🗑 Borrar</button>`;
+         } else {
+           actionBtn = `<span style="font-size:11px;color:var(--t3);background:var(--bg3);padding:4px 8px;border-radius:4px">Bloqueado (Plazo Cerrado)</span>`;
+         }
+      } else {
+         if (cd.active) {
+           actionBtn = `<button class="bs w" onclick="oSUB('${t.ID_Clase}')">⬆️ Realizar Entrega</button>`;
+         } else {
+           actionBtn = `<span style="font-size:11px;color:var(--err);background:var(--errg);padding:4px 8px;border-radius:4px">Plazo Vencido</span>`;
+         }
+      }
+      
+      hTalleres += `<tr>
+        <td style="padding:16px"><strong style="color:var(--t1)">${t.Titulo_Clase}</strong><br><span style="font-size:10px;color:var(--t3)">ID: ${t.ID_Clase} &bull; Fase ${t.Fase_ID}</span></td>
+        <td style="padding:16px;color:var(--t2)">${fd(t.Fecha_Clase)}</td>
+        <td style="padding:16px">${statusBadge}</td>
+        <td style="padding:16px;display:flex;gap:6px;align-items:center;min-height:50px">${actionBtn}</td>
+      </tr>`;
+    });
+  } else {
+    hTalleres += `<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--t3)">No hay talleres prácticos asignados en el programa.</td></tr>`;
+  }
+  hTalleres += `</tbody></table></div></div>`;
+  $('HTALLERES').innerHTML = hTalleres;
 }
 
 function exportGrades(){
@@ -499,13 +573,18 @@ function exportGrades(){
 function rPB(){
   const ps=[...new Set(D.cl.map(c=>Number(c.Fase_ID)))].filter(Boolean).sort();
   if(!ps.length)ps.push(1);
-  const t={};D.cl.forEach(c=>{if(c.Fase_ID&&c.Titulo_Fase)t[Number(c.Fase_ID)]=c.Titulo_Fase});
-  $('PB').innerHTML=ps.map(p=>`<button class="pb ${Number(p)===Number(D.ph)?'on':''}" onclick="D.ph=${p};rPB();rCL()">${t[p]||'FASE '+p}</button>`).join('');
+  if(!ps.includes(Number(D.ph))) D.ph = ps[0];
+  
+  const t={}; D.cl.forEach(c=>{if(c.Fase_ID&&c.Titulo_Fase)t[Number(c.Fase_ID)]=c.Titulo_Fase});
+  
+  $('PB').innerHTML=ps.map(p=>`<button class="pb ${Number(p)===Number(D.ph)?'on':''}" onclick="D.ph=${p};D.md=null;rPB();rCL()">${t[p]||'FASE '+p}</button>`).join('');
+  
+  $('PH_TITLE').innerHTML = `<span>Fase ${D.ph}</span> ${t[D.ph] || 'Programa General'}`;
 }
 
 function scrollTrack(btn, dir) {
   const track = btn.parentElement.querySelector('.c-track');
-  const cardWidth = 320; // card(300) + gap(20)
+  const cardWidth = 320; 
   track.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
 }
 
@@ -513,64 +592,97 @@ function rCL(){
   const ls=D.cl.filter(c=>Number(c.Fase_ID)===Number(D.ph));
   const pg=pp(D.u?.Progreso_JSON);
   const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
-  $('NC').textContent=ls.length+' clases registradas';
+  $('NC').textContent=ls.length+' clases registradas en esta fase';
   
   const ms={};
   ls.forEach(c=>{
-    const k=c.Tipo_Modulo==='Taller'?'T_'+c.Sub_ID:'M_'+c.Modulo_ID;
-    if(!ms[k])ms[k]={t:c.Tipo_Modulo,id:c.Modulo_ID,sub:c.Sub_ID,it:[]};
+    const isT = c.Tipo_Modulo==='Taller';
+    const k = isT ? 'T_'+c.Sub_ID : 'M_'+c.Modulo_ID;
+    if(!ms[k])ms[k]={isT, id: isT ? c.Sub_ID : c.Modulo_ID, it:[]};
     ms[k].it.push(c);
   });
   
-  let h='';
-  for(const[,m]of Object.entries(ms)){
-    const iT=m.t==='Taller';
-    h+=`<div class="mblk"><div class="mtit${iT?' tw':''}"><span class="dot"></span>${iT?'🔧 Taller '+m.sub:'📖 Módulo '+m.id}</div>
-        <div class="c-row">
-          <button class="c-btn left" onclick="scrollTrack(this, -1)">❮</button>
-          <div class="c-track">`;
-    
-    m.it.forEach(c=>{
-      const sn=pg[c.ID_Clase]?.visto;
-      const haS=D.pr.some(x=>x.ID_Clase===c.ID_Clase && x.ID_Usuario===D.u.ID_Usuario);
-      
-      h+=`<div class="cc${sn?' vd':''}${iT?' tw':''}" onclick="oC('${c.ID_Clase}')">
-            <div class="cct"><span class="cid">${c.ID_Clase}</span>${sn?'<span class="cb v">✓ Visto</span>':iT?'<span class="cb t">Taller</span>':'<span class="cb p">Pendiente</span>'}</div>
-            <h4>${c.Titulo_Clase||'—'}</h4>
-            <p class="ds">${c.Descripcion_Clase||'—'}</p>
-            <div class="cm"><span>📅 ${fd(c.Fecha_Clase)}</span></div>
-            <div class="ca">
-              ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':''}
-              ${c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':''}
-              ${(iT && !haS && D.u.Rol==='Usuario')?`<button class="bs w" onclick="event.stopPropagation();oSUB('${c.ID_Clase}')">⬆️ Entregar</button>`:''}
-              ${(iT && haS && D.u.Rol==='Usuario')?`<span class="bs" style="background:var(--bg3);color:var(--ac);border:1px solid var(--bd)">✅ Entregado</span>`:''}
-              ${adm?`<button class="bs s" onclick="event.stopPropagation();oCF('${c.ID_Clase}')">✏️ Editar</button>`:''}
-            </div>
-          </div>`;
-    });
-    h+=`</div>
-        <button class="c-btn right" onclick="scrollTrack(this, 1)">❯</button>
-      </div></div>`;
+  const mKeys = Object.keys(ms).sort();
+  if(!mKeys.length){
+    $('MB').innerHTML='';
+    $('CB').innerHTML='<div style="text-align:center;padding:60px;color:var(--t3)"><p style="font-size:40px;margin-bottom:12px">📚</p><p>Aún no hay clases configuradas para esta fase.</p></div>';
+    return;
   }
-  if(!ls.length)h='<div style="text-align:center;padding:60px;color:var(--t3)"><p style="font-size:40px;margin-bottom:12px">📚</p><p>No hay clases en esta fase</p></div>';
+  
+  if(!D.md || !ms[D.md]) D.md = mKeys[0];
+  
+  $('MB').innerHTML = mKeys.map(k => {
+    const m = ms[k];
+    const lbl = m.isT ? `🔧 Taller ${m.id}` : `📖 Módulo ${m.id}`;
+    return `<button class="mtab ${D.md === k ? 'on' : ''}" onclick="D.md='${k}';rCL()">${lbl}</button>`;
+  }).join('');
+  
+  const actMod = ms[D.md];
+  let h = `<div class="c-row"><button class="c-btn left" onclick="scrollTrack(this, -1)">❮</button><div class="c-track">`;
+  
+  actMod.it.forEach(c=>{
+    const sn = pg[c.ID_Clase]?.visto;
+    const proj = D.pr.find(x=>x.ID_Clase===c.ID_Clase && x.ID_Usuario===D.u.ID_Usuario);
+    const haS = !!proj;
+    const cd = getCD(c.Fecha_Clase);
+    const cdBadge = cd.text ? `<span class="cd-badge ${cd.class}">${cd.text}</span>` : '';
+    
+    h+=`<div class="cc ${sn?'vd':''} ${actMod.isT?'tw':''}" onclick="oC('${c.ID_Clase}')">
+          <div class="cct"><span class="cid">${c.ID_Clase}</span>${sn?'<span class="cb v">✓ Visto</span>':actMod.isT?'<span class="cb t">Taller</span>':'<span class="cb p">Pendiente</span>'}</div>
+          <h4>${c.Titulo_Clase||'—'}</h4>
+          <p class="ds">${c.Descripcion_Clase||'—'}</p>
+          <div class="cm"><span>📅 ${fd(c.Fecha_Clase)}</span> ${cdBadge}</div>
+          <div class="ca">
+            ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':''}
+            ${c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':''}
+            ${(actMod.isT && !haS)?`<button class="bs w" onclick="event.stopPropagation();oSUB('${c.ID_Clase}')" ${!cd.active?'disabled':''}>⬆️ Entregar</button>`:''}
+            ${(actMod.isT && haS)?`<span class="bs" style="background:var(--bg3);color:var(--ac);border:1px solid var(--bd)">✅ Entregado</span>`:''}
+            ${adm?`<button class="bs s" onclick="event.stopPropagation();oCF('${c.ID_Clase}')">✏️ Editar</button>`:''}
+          </div>
+        </div>`;
+  });
+  h+=`</div><button class="c-btn right" onclick="scrollTrack(this, 1)">❯</button></div>`;
   $('CB').innerHTML=h;
 }
 
 function oSUB(id_c){
-  $('MFT').textContent='Entregar Proyecto/Taller';
+  const proj = D.pr.find(p=>p.ID_Clase===id_c && p.ID_Usuario===D.u.ID_Usuario);
+  $('MFT').textContent = proj ? 'Editar URL de Entrega' : 'Entregar Proyecto/Taller';
   $('MFB').innerHTML=`
-    <div class="fg"><label>ID Clase / Taller</label><input value="${id_c}" readonly style="color:var(--t3)"></div>
-    <div class="fg"><label>URL Repositorio o Google Colab</label><input id="fsub" placeholder="https://..." type="url"></div>
+    <div class="fg"><label>ID Clase / Taller</label><input value="${id_c}" readonly style="color:var(--t3);font-family:var(--m)"></div>
+    <div class="fg"><label>URL Repositorio o Google Colab</label><input id="fsub" placeholder="https://..." type="url" value="${proj ? proj.URL_Proyecto : ''}"></div>
     <p style="font-size:12px;color:var(--t3);margin-top:10px;line-height:1.5">Asegúrate de que el enlace sea público o tenga permisos de lectura para que los mentores puedan evaluar tu trabajo.</p>
   `;
   $('MFS').onclick=async()=>{
     const u = $('fsub').value;
-    if(!u){toast('Ingresa una URL','er');return}
-    D.pr.push({ID_Entrega:'ENT-'+Date.now(), ID_Usuario:D.u.ID_Usuario, ID_Clase:id_c, URL_Proyecto:u, Fecha_Entrega:new Date().toISOString()});
-    cM('MF'); rAll(); toast('¡Entrega enviada a revisión!');
-    await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_c, url_proyecto: u});
+    if(!u){toast('Ingresa una URL válida','er');return}
+    cM('MF'); toast('Guardando entrega...', 'ok');
+    
+    if(proj){
+      proj.URL_Proyecto = u;
+      proj.Fecha_Entrega = new Date().toISOString();
+    } else {
+      D.pr.push({ID_Entrega:'ENT-'+Date.now(), ID_Usuario:D.u.ID_Usuario, ID_Clase:id_c, URL_Proyecto:u, Fecha_Entrega:new Date().toISOString()});
+    }
+    rAll(); 
+    const res = await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_c, url_proyecto: u});
+    if(res && res.success) toast('¡Entrega confirmada y guardada!');
+    else toast(res?.message || 'Error en guardado remoto', 'er');
   };
   oM('MF');
+}
+
+function cDelProj(id_clase){
+  $('DM').textContent='¿Estás seguro que deseas eliminar tu entrega actual? Podrás subirla nuevamente siempre que el plazo no haya finalizado.';
+  $('DY').onclick=async()=>{
+    cM('MD'); toast('Eliminando...', 'ok');
+    D.pr = D.pr.filter(p => !(p.ID_Clase === id_clase && p.ID_Usuario === D.u.ID_Usuario));
+    rAll();
+    const res = await aPost({action:'deleteProyecto', id_clase: id_clase, id_usuario: D.u.ID_Usuario});
+    if(res && res.success) toast('Entrega borrada con éxito');
+    else toast(res?.message || 'Error en borrado remoto', 'er');
+  };
+  oM('MD');
 }
 
 function oC(id){const c=D.cl.find(x=>x.ID_Clase===id);if(!c)return;const pg=pp(D.u?.Progreso_JSON);const sn=pg[id]?.visto;const ev=eurl(c.Video_Meet_URL);
@@ -589,16 +701,15 @@ async function mToggleSeen(id, state){
     const i = D.us.findIndex(u=>u.ID_Usuario===D.u.ID_Usuario);
     if(i>=0) D.us[i].Progreso_JSON = jStr;
     
-    // UI Instante Update (Optimista)
-    oC(id);
-    rAll(); 
-    if(state) toast('Marcado como visto'); else toast('Desmarcado');
+    oC(id); 
+    rCL();
+    updateProgressTop();
+    rHOME();
+    toast(state ? '✅ Marcado como visto' : 'Desmarcado');
 
-    // Server Save en segundo plano
-    await aPost({action:'updateProgreso',email:D.u.Email_Corporativo||D.u.Email_Personal,progreso:pg});
-  } catch(e) {
-    console.error(e);
-  }
+    const res = await aPost({action:'updateProgreso',email:D.u.Email_Corporativo||D.u.Email_Personal,progreso:pg});
+    if(!res || !res.success) throw new Error("Backend error");
+  } catch(e) { console.error(e); }
 }
 
 function rST(){const ls=D.us.filter(u=>u.Rol!=='Master');$('NE').textContent=ls.length+' alumnos';const tt=D.cl.length||1;
@@ -615,7 +726,7 @@ function sAT(id,b){document.querySelectorAll('.ap').forEach(p=>p.classList.remov
 function rAC(){$('APC').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.cl.length+' clases en total</span><button class="ba p" onclick="oCF()">+ Crear Clase Nueva</button></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Fase</th><th>Tipo</th><th>Mód</th><th>Título</th><th>Fecha</th><th>Video</th><th>Acc.</th></tr></thead><tbody>'+D.cl.map(c=>'<tr><td><strong style="color:var(--t1)">'+c.ID_Clase+'</strong></td><td>'+c.Fase_ID+'</td><td>'+c.Tipo_Modulo+'</td><td>'+(c.Tipo_Modulo==='Taller'?'T-'+c.Sub_ID:c.Modulo_ID)+'</td><td>'+c.Titulo_Clase+'</td><td>'+fd(c.Fecha_Clase)+'</td><td>'+(c.Video_Meet_URL?'✅':'—')+'</td><td><button class="bs s" onclick="oCF(\''+c.ID_Clase+'\')">✏️</button> <button class="bs d" onclick="cDel(\'c\',\''+c.ID_Clase+'\')">🗑</button></td></tr>').join('')+'</tbody></table></div>'}
 
 function oCF(id){const c=id?D.cl.find(x=>x.ID_Clase===id):null;$('MFT').textContent=c?'Editar Clase Existente':'Crear Nueva Clase';
-$('MFB').innerHTML='<div class="fg"><label>ID Clase</label><input id="fc1" value="'+(c?.ID_Clase||'CLS-'+String(D.cl.length+1).padStart(3,'0'))+'" '+(c?'readonly':'')+'></div><div class="fg"><label>Fase ID (Numérico)</label><input id="fc2" type="number" value="'+(c?.Fase_ID||1)+'" min="1"></div><div class="fg"><label>Título de la Fase</label><input id="fc3" value="'+(c?.Titulo_Fase||'')+'"></div><div class="fg"><label>Tipo de Módulo</label><select id="fc4"><option value="Normal" '+(c?.Tipo_Modulo!=='Taller'?'selected':'')+'>Normal</option><option value="Taller" '+(c?.Tipo_Modulo==='Taller'?'selected':'')+'>Taller Práctico</option></select></div><div class="fg"><label>Módulo ID (Ej: 1)</label><input id="fc5" value="'+(c?.Modulo_ID||1)+'"></div><div class="fg"><label>Sub ID (Ej: A, B)</label><input id="fc6" value="'+(c?.Sub_ID||'')+'"></div><div class="fg"><label>Título de la Clase</label><input id="fc7" value="'+(c?.Titulo_Clase||'')+'"></div><div class="fg"><label>Descripción Breve</label><textarea id="fc8">'+(c?.Descripcion_Clase||'')+'</textarea></div><div class="fg"><label>Fecha de la Clase</label><input id="fc9" type="datetime-local" value="'+(c?.Fecha_Clase?String(c.Fecha_Clase).substring(0,16):'')+'"></div><div class="fg"><label>URL del Video (Youtube)</label><input id="fc10" value="'+(c?.Video_Meet_URL||'')+'"></div><div class="fg"><label>URL de Meet (Calendario)</label><input id="fc11" value="'+(c?.Google_Calendar_Meet_URL||'')+'"></div><div class="fg"><label>URL Transcripción Doc</label><input id="fc12" value="'+(c?.Transcripcion_URL||'')+'"></div><div class="fg"><label>URL del Quiz</label><input id="fc13" value="'+(c?.Quiz_URL||'')+'"></div><div class="fg"><label>URL Material de Drive</label><input id="fc14" value="'+(c?.Material_Drive_URL||'')+'"></div>';
+$('MFB').innerHTML='<div class="fg"><label>ID Clase</label><input id="fc1" value="'+(c?.ID_Clase||'CLS-'+String(D.cl.length+1).padStart(3,'0'))+'" '+(c?'readonly':'')+'></div><div class="fg"><label>Fase ID (Numérico)</label><input id="fc2" type="number" value="'+(c?.Fase_ID||1)+'" min="1"></div><div class="fg"><label>Título de la Fase</label><input id="fc3" value="'+(c?.Titulo_Fase||'')+'"></div><div class="fg"><label>Tipo de Módulo</label><select id="fc4"><option value="Normal" '+(c?.Tipo_Modulo!=='Taller'?'selected':'')+'>Normal</option><option value="Taller" '+(c?.Tipo_Modulo==='Taller'?'selected':'')+'>Taller Práctico</option></select></div><div class="fg"><label>Módulo ID (Ej: 1)</label><input id="fc5" value="'+(c?.Modulo_ID||1)+'"></div><div class="fg"><label>Sub ID (Ej: A, B)</label><input id="fc6" value="'+(c?.Sub_ID||'')+'"></div><div class="fg"><label>Título de la Clase / Taller</label><input id="fc7" value="'+(c?.Titulo_Clase||'')+'"></div><div class="fg"><label>Descripción Breve</label><textarea id="fc8">'+(c?.Descripcion_Clase||'')+'</textarea></div><div class="fg"><label>Fecha de Clase / Límite de Entrega</label><input id="fc9" type="datetime-local" value="'+(c?.Fecha_Clase?String(c.Fecha_Clase).substring(0,16):'')+'"></div><div class="fg"><label>URL del Video (Youtube)</label><input id="fc10" value="'+(c?.Video_Meet_URL||'')+'"></div><div class="fg"><label>URL de Meet (Calendario)</label><input id="fc11" value="'+(c?.Google_Calendar_Meet_URL||'')+'"></div><div class="fg"><label>URL Transcripción Doc</label><input id="fc12" value="'+(c?.Transcripcion_URL||'')+'"></div><div class="fg"><label>URL del Quiz</label><input id="fc13" value="'+(c?.Quiz_URL||'')+'"></div><div class="fg"><label>URL Material de Drive</label><input id="fc14" value="'+(c?.Material_Drive_URL||'')+'"></div>';
 $('MFS').onclick=async()=>{const d={ID_Clase:$('fc1').value,Fase_ID:Number($('fc2').value),Titulo_Fase:$('fc3').value,Tipo_Modulo:$('fc4').value,Modulo_ID:$('fc5').value,Sub_ID:$('fc6').value,Titulo_Clase:$('fc7').value,Descripcion_Clase:$('fc8').value,Fecha_Clase:$('fc9').value,Video_Meet_URL:$('fc10').value,Google_Calendar_Meet_URL:$('fc11').value,Transcripcion_URL:$('fc12').value,Quiz_URL:$('fc13').value,Material_Drive_URL:$('fc14').value};if(!d.ID_Clase||!d.Titulo_Clase){toast('ID y Título requeridos','er');return}await aPost({action:id?'updateClase':'addClass',clase:d,id_clase:id||d.ID_Clase});if(id){const i=D.cl.findIndex(x=>x.ID_Clase===id);if(i>=0)D.cl[i]={...D.cl[i],...d}}else D.cl.push(d);cM('MF');rAll()};oM('MF')}
 
 function rAU2(){$('APU').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.us.length+' usuarios inscritos</span><button class="ba p" onclick="oUF()">+ Registrar Estudiante</button></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Nombre</th><th>Rol</th><th>Cargo</th><th>Email</th><th>Tel</th><th>Skills</th><th>Acc.</th></tr></thead><tbody>'+D.us.map(u=>'<tr><td><strong style="color:var(--t1)">'+u.ID_Usuario+'</strong></td><td>'+u.Nombre+'</td><td>'+u.Rol+'</td><td>'+(u.Cargo||'—')+'</td><td style="font-size:11px;color:var(--ac2)">'+(u.Email_Corporativo||'—')+'</td><td>'+(u.Telefono||'—')+'</td><td>'+(Number(u.Skill_Prompting)||0)+'/'+(Number(u.Skill_Herramientas_IA)||0)+'/'+(Number(u.Skill_Analisis)||0)+'</td><td><button class="bs s" onclick="oUF(\''+u.ID_Usuario+'\')">✏️</button> '+(u.Rol!=='Master'?'<button class="bs d" onclick="cDel(\'u\',\''+u.ID_Usuario+'\')">🗑</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'}
@@ -635,10 +746,10 @@ function oEF(id_u, id_c){
     <div class="fg"><label>Nota Asignada (Escala 1 al 7)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="${p.Nota_Evaluacion||''}"></div>
     <div class="fg"><label>Comentarios / Feedback para el alumno</label><textarea id="fec" style="min-height:100px">${p.Comentarios_Admin||''}</textarea></div>`;
   $('MFS').onclick=async()=>{
-    await aPost({action:'evaluarProyecto', id_usuario:id_u, id_clase:id_c, nota:$('fen').value, comentarios:$('fec').value, url:$('feu').value});
     const i=D.pr.findIndex(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
     if(i>=0){D.pr[i].Nota_Evaluacion=$('fen').value;D.pr[i].Comentarios_Admin=$('fec').value;D.pr[i].URL_Proyecto=$('feu').value;}
     cM('MF'); rAll(); toast('Evaluación asignada y guardada');
+    await aPost({action:'evaluarProyecto', id_usuario:id_u, id_clase:id_c, nota:$('fen').value, comentarios:$('fec').value, url:$('feu').value});
   };
   oM('MF');
 }
