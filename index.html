@@ -61,6 +61,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 .tb-n button:hover{color:var(--t1);background:rgba(255,255,255,.04)}
 .tb-n button.on{color:var(--ac);background:var(--acg)}
 .tb-r{display:flex;align-items:center;gap:12px}
+.uprg{font-size:12px;font-weight:700;color:var(--ac);background:var(--acg);padding:4px 8px;border-radius:12px;letter-spacing:0.5px}
 .upill{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:var(--bg2);border:1px solid var(--bd);border-radius:20px;font-size:13px;color:var(--t2)}
 .upill .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
 .blo{padding:6px 14px;background:transparent;border:1px solid var(--bd);color:var(--t2);font-size:12px;font-weight:500;border-radius:var(--rx);transition:var(--tr)}
@@ -87,29 +88,36 @@ input,select,textarea{font-family:var(--f);outline:none}
 .sh h3{font-size:20px;font-weight:700;letter-spacing:-.3px}
 .badge{font-size:11px;font-weight:600;padding:4px 10px;background:var(--bg2);border:1px solid var(--bd);border-radius:12px;color:var(--t2)}
 
-/* MODULE */
-.mblk{margin-bottom:28px}
-.mtit{font-size:14px;font-weight:600;color:var(--t2);margin-bottom:12px;padding-left:4px;display:flex;align-items:center;gap:8px}
-.mtit .dot{width:8px;height:8px;border-radius:50%;background:var(--ac2)}.mtit.tw .dot{background:var(--ac3)}
+/* CAROUSEL NETFLIX STYLE */
+.c-row{position:relative;display:flex;align-items:center;margin-bottom:30px;group}
+.c-track{display:flex;gap:16px;overflow-x:auto;scroll-behavior:smooth;padding:10px 4px;scrollbar-width:none}
+.c-track::-webkit-scrollbar{display:none}
+.c-btn{position:absolute;z-index:10;background:rgba(10,14,26,0.9);color:white;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:1px solid var(--bd);transition:var(--tr);box-shadow:var(--sh)}
+.c-btn:hover{background:var(--ac);color:#000;border-color:var(--ac);transform:scale(1.1)}
+.c-btn.left{left:-22px}.c-btn.right{right:-22px}
 
-/* CLASS GRID */
-.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-.cc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:20px;transition:var(--tr);cursor:pointer;position:relative}
-.cc:hover{border-color:var(--bdl);background:var(--bg2h);transform:translateY(-2px);box-shadow:var(--sh)}
+/* MODULE */
+.mblk{margin-bottom:10px}
+.mtit{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:4px;padding-left:4px;display:flex;align-items:center;gap:8px}
+.mtit .dot{width:10px;height:10px;border-radius:50%;background:var(--ac2)}.mtit.tw .dot{background:var(--ac3)}
+
+/* CLASS CARD */
+.cc{min-width:300px;max-width:300px;flex-shrink:0;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:20px;transition:var(--tr);cursor:pointer;position:relative}
+.cc:hover{border-color:var(--bdl);background:var(--bg2h);transform:translateY(-4px);box-shadow:var(--sh)}
 .cc.vd{border-left:3px solid var(--ac)}.cc.tw{border-left:3px solid var(--ac3)}
 .cct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
 .cid{font-family:var(--m);font-size:11px;color:var(--t3)}
 .cb{font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
 .cb.v{background:rgba(0,212,170,.12);color:var(--ac)}.cb.p{background:rgba(99,102,241,.12);color:var(--ac2)}.cb.t{background:rgba(245,158,11,.12);color:var(--ac3)}
-.cc h4{font-size:16px;font-weight:600;margin-bottom:6px}
-.cc .ds{font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5}
+.cc h4{font-size:16px;font-weight:600;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc .ds{font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cm{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t3);margin-bottom:12px}.cm span{display:flex;align-items:center;gap:4px}
-.ca{display:flex;gap:6px;flex-wrap:wrap}
+.ca{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .bs{padding:6px 12px;font-size:11px;font-weight:600;border-radius:var(--rx);transition:var(--tr);display:inline-flex;align-items:center;gap:4px;text-decoration:none;cursor:pointer}
 .bs.p{background:var(--acg);color:var(--ac);border:1px solid rgba(0,212,170,.2)}.bs.p:hover{background:var(--ac);color:#0a0e1a}
 .bs.s{background:var(--bg3);color:var(--t2);border:1px solid var(--bd)}.bs.s:hover{border-color:var(--bdl);color:var(--t1)}
 .bs.d{background:var(--errg);color:var(--err);border:1px solid rgba(239,68,68,.2)}.bs.d:hover{background:var(--err);color:#fff}
-.bs.w{background:var(--ac3g);color:var(--ac3);border:1px solid rgba(245,158,11,.2)}
+.bs.w{background:var(--ac3g);color:var(--ac3);border:1px solid rgba(245,158,11,.2)}.bs.w:hover{background:var(--ac3);color:#000}
 
 /* STUDENTS */
 .sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
@@ -131,7 +139,7 @@ input,select,textarea{font-family:var(--f);outline:none}
 .sps{display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--t3)}
 .scn{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 
-/* ADMIN */
+/* ADMIN & DASHBOARD TABLES */
 .atabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
 .at{padding:10px 18px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;border-radius:var(--rs);transition:var(--tr)}
 .at:hover{border-color:var(--ac2);color:var(--t1)}.at.on{background:var(--ac2g);border-color:var(--ac2);color:var(--ac2)}
@@ -155,6 +163,11 @@ input,select,textarea{font-family:var(--f);outline:none}
 .icc p{font-size:13px;color:var(--t2);line-height:1.6}
 .icc a{display:inline-block;margin-top:10px;font-size:12px;font-weight:600}
 
+/* HOME WIDGETS */
+.hw{display:flex;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+.hw-c{flex:1;min-width:300px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:24px}
+.hw-c h4{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
 /* MODAL */
 .mo{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
 .mo.on{display:flex}
@@ -176,7 +189,8 @@ input,select,textarea{font-family:var(--f);outline:none}
 /* RESPONSIVE */
 @media(max-width:768px){
   .tb{padding:0 12px}.tb-n{display:none}.mc{padding:14px}.lbox{padding:32px 22px;margin:16px}
-  .cg,.sg,.ic{grid-template-columns:1fr}
+  .cg,.sg,.ic,.hw{flex-direction:column}
+  .c-btn{display:none} /* Ocultar flechas en móvil, usan swipe nativo */
   .mnav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,14,26,.96);backdrop-filter:blur(12px);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:8px 0 env(safe-area-inset-bottom,8px);z-index:100}
   .mnav button{padding:6px 10px;background:transparent;color:var(--t3);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:var(--rx)}
   .mnav button.on{color:var(--ac)}
@@ -211,23 +225,51 @@ input,select,textarea{font-family:var(--f);outline:none}
 </div>
 </div>
 
-<!-- DASHBOARD -->
+<!-- DASHBOARD MAIN -->
 <div id="DASH">
 <div class="tb">
 <div class="tb-b"><h2>CUBI-K</h2><span class="tag" id="UTAG">Portal</span></div>
 <div class="tb-n" id="TBN"></div>
 <div class="tb-r">
+<span class="uprg" id="UPROG" title="Progreso de clases">0%</span>
 <button class="brf" onclick="doRefresh()" title="Recargar datos">🔄</button>
 <div class="upill"><div class="av" id="UAV">A</div><span id="UNM">User</span></div>
 <button class="blo" onclick="doLogout()">Salir</button>
 </div>
 </div>
 <div class="mc">
-<div class="cbanner" id="CBAN">⚠️ <strong>Modo Demo:</strong> Configura la variable <code>APP_SCRIPT_URL</code> con tu URL de Google Apps Script desplegado para conectar con la base de datos real.</div>
-<div id="VC" class="vp"><div class="sh"><h3>📚 Clases</h3><span class="badge" id="NC">0</span></div><div class="pbar" id="PB"></div><div id="CB"></div></div>
+<div class="cbanner" id="CBAN">⚠️ <strong>Modo Demo:</strong> Configura la variable <code>APP_SCRIPT_URL</code>.</div>
+
+<!-- VISTA INICIO / DASHBOARD ALUMNO -->
+<div id="VH" class="vp">
+  <div class="sh"><h3>🏠 Mi Dashboard</h3></div>
+  <div class="hw">
+    <div class="hw-c" style="flex:0.5">
+      <h4>📊 Mi Progreso</h4>
+      <div id="HPROG"></div>
+    </div>
+    <div class="hw-c" style="flex:1">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h4 style="margin:0">📝 Libreta de Notas</h4>
+        <button class="bs p" onclick="exportGrades()">📥 Exportar HTML</button>
+      </div>
+      <div id="HGRADES"></div>
+    </div>
+  </div>
+</div>
+
+<!-- VISTA CLASES -->
+<div id="VC" class="vp"><div class="sh"><h3>📚 Clases y Talleres</h3><span class="badge" id="NC">0</span></div><div class="pbar" id="PB"></div><div id="CB"></div></div>
+
+<!-- VISTA ESTUDIANTES -->
 <div id="VE" class="vp"><div class="sh"><h3>👥 Estudiantes</h3><span class="badge" id="NE">0</span></div><div class="sg" id="SB"></div></div>
+
+<!-- VISTA AULA -->
 <div id="VA" class="vp"><div class="sh"><h3>🎓 Aula Virtual</h3></div><div class="ic" id="AB"></div></div>
+
+<!-- VISTA ADMIN -->
 <div id="VD" class="vp"><div class="sh"><h3>⚙️ Panel de Administración</h3><span class="badge">Master / Admin</span></div><div class="atabs" id="ATBS"></div><div id="APC" class="ap on"></div><div id="APU" class="ap"></div><div id="APP" class="ap"></div><div id="APK" class="ap"></div></div>
+
 </div>
 <div class="mnav" id="MN"></div>
 </div>
@@ -235,12 +277,12 @@ input,select,textarea{font-family:var(--f);outline:none}
 <!-- MODALS -->
 <div class="mo" id="MC"><div class="mb" style="max-width:700px"><div class="mh"><h3 id="MCT">Clase</h3><button class="mx" onclick="cM('MC')">✕</button></div><div class="mbd" id="MCB"></div></div></div>
 <div class="mo" id="MF"><div class="mb"><div class="mh"><h3 id="MFT">Form</h3><button class="mx" onclick="cM('MF')">✕</button></div><div class="mbd" id="MFB"></div><div class="mft"><button class="ba s" onclick="cM('MF')">Cancelar</button><button class="ba p" id="MFS">Guardar</button></div></div></div>
-<div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Eliminar</button></div></div></div>
+<div class="mo" id="MD"><div class="mb" style="max-width:400px"><div class="mh"><h3>Confirmar</h3><button class="mx" onclick="cM('MD')">✕</button></div><div class="mbd"><p id="DM">¿Seguro?</p></div><div class="mft"><button class="ba s" onclick="cM('MD')">Cancelar</button><button class="ba d" id="DY">Confirmar</button></div></div></div>
 
 <script>
 const API='https://script.google.com/macros/s/AKfycbwC9Zc1mBliK0w1Htxe_IsscNzsJNeR7asbeMcaaGKzoLwiqECkFcNPMLhlGgPVsRQ3kg/exec';
 const MPW='123123';
-const APW='admin123'; // CONTRASEÑA PARA ADMINISTRADORES
+const APW='admin123';
 const DEMO=API==='TU_URL_DE_APP_SCRIPT_AQUI';
 let D={u:null,us:[],cl:[],pr:[],cf:{},cfr:[],ph:1};
 const $=i=>document.getElementById(i);
@@ -261,11 +303,11 @@ async function aPost(b){
     const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)});
     const txt=await r.text();
     let j;
-    try { j=JSON.parse(txt); } catch(e) { throw new Error('Respuesta del servidor no es JSON. Error de Backend.'); }
+    try { j=JSON.parse(txt); } catch(e) { throw new Error('Respuesta del servidor no es JSON.'); }
     if(j.success)toast(j.message||'OK');else toast(j.message||'Error','er');
     return j;
   }
-  catch(e){console.error(e);toast('Error en la operación POST','er');return{success:false}}
+  catch(e){console.error(e);toast('Error de conexión','er');return{success:false}}
 }
 
 function demoD(){return{configuracion:[],usuarios:[],clases:[],proyectos:[]}}
@@ -279,11 +321,9 @@ function popLogin(){const s=$('LSEL');s.innerHTML='<option value="">— Seleccio
 $('LSEL').addEventListener('change',function(){
   const u=D.us.find(x=>(x.Email_Corporativo||x.Email_Personal)===this.value);
   if(u&&(u.Rol==='Master'||u.Rol==='Admin')){
-    $('PWF').classList.add('vis');
-    $('PWF').querySelector('label').textContent = 'Contraseña ' + u.Rol;
+    $('PWF').classList.add('vis'); $('PWF').querySelector('label').textContent = 'Contraseña ' + u.Rol;
   }else{
-    $('PWF').classList.remove('vis');
-    $('LPW').value='';
+    $('PWF').classList.remove('vis'); $('LPW').value='';
   }
   $('LERR').textContent='';
 });
@@ -304,26 +344,145 @@ $('MLOG').addEventListener('click',function(){if($('MPW').value!==MPW){$('MERR')
 
 function enter(){$('LOGIN').classList.add('off');$('DASH').classList.add('on');$('UNM').textContent=D.u.Nombre;$('UAV').textContent=ini(D.u.Nombre);$('UTAG').textContent=D.u.Rol;
 const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
-const nv=[{i:'C',ic:'📚',l:'Clases'},{i:'E',ic:'👥',l:'Estudiantes'},{i:'A',ic:'🎓',l:'Aula'}];if(adm)nv.push({i:'D',ic:'⚙️',l:'Admin'});
+const nv=[{i:'H',ic:'🏠',l:'Inicio'},{i:'C',ic:'📚',l:'Clases'},{i:'E',ic:'👥',l:'Estudiantes'},{i:'A',ic:'🎓',l:'Aula'}];if(adm)nv.push({i:'D',ic:'⚙️',l:'Admin'});
 $('TBN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')">'+n.ic+' '+n.l+'</button>').join('');
 $('MN').innerHTML=nv.map((n,x)=>'<button class="'+(x===0?'on':'')+'" data-v="'+n.i+'" onclick="sv(\''+n.i+'\')"><span class="ni">'+n.ic+'</span>'+n.l+'</button>').join('');
-if(DEMO)$('CBAN').classList.add('vis');rAll();sv('C');toast('Bienvenido, '+D.u.Nombre)}
+if(DEMO)$('CBAN').classList.add('vis');rAll();sv('H');toast('Bienvenido, '+D.u.Nombre)}
 
 function doLogout(){D.u=null;$('DASH').classList.remove('on');$('LOGIN').classList.remove('off');$('LSEL').value='';$('LPW').value='';$('PWF').classList.remove('vis');$('LM').style.display='none';$('LN').style.display='block'}
 
-function sv(v){document.querySelectorAll('.vp').forEach(p=>p.classList.remove('von'));const m={C:'VC',E:'VE',A:'VA',D:'VD'};const el=$(m[v]);if(el)el.classList.add('von');document.querySelectorAll('.tb-n button,.mnav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
+function sv(v){document.querySelectorAll('.vp').forEach(p=>p.classList.remove('von'));const m={H:'VH',C:'VC',E:'VE',A:'VA',D:'VD'};const el=$(m[v]);if(el)el.classList.add('von');document.querySelectorAll('.tb-n button,.mnav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
 
-function rAll(){rPB();rCL();rST();rAU();if(D.u.Rol==='Master'||D.u.Rol==='Admin')rAD()}
+function updateProgressTop(){
+  const pg=pp(D.u.Progreso_JSON);
+  const dn=Object.values(pg).filter(p=>p.visto).length;
+  const tt=D.cl.length||1;
+  const pc=Math.round(dn/tt*100);
+  $('UPROG').textContent=`${pc}% ✅`;
+}
 
-function rPB(){const ps=[...new Set(D.cl.map(c=>Number(c.Fase_ID)))].filter(Boolean).sort();if(!ps.length)ps.push(1);const t={};D.cl.forEach(c=>{if(c.Fase_ID&&c.Titulo_Fase)t[Number(c.Fase_ID)]=c.Titulo_Fase});$('PB').innerHTML=ps.map(p=>'<button class="pb'+(p===D.ph?' on':'')+'" onclick="D.ph='+p+';rPB();rCL()">'+(t[p]||'Fase '+p)+'</button>').join('')}
+function rAll(){updateProgressTop();rHOME();rPB();rCL();rST();rAU();if(D.u.Rol==='Master'||D.u.Rol==='Admin')rAD()}
 
-function rCL(){const ls=D.cl.filter(c=>Number(c.Fase_ID)===D.ph);const pg=pp(D.u?.Progreso_JSON);$('NC').textContent=ls.length+' clases';
-const ms={};ls.forEach(c=>{const k=c.Tipo_Modulo==='Taller'?'T_'+c.Sub_ID:'M_'+c.Modulo_ID;if(!ms[k])ms[k]={t:c.Tipo_Modulo,id:c.Modulo_ID,sub:c.Sub_ID,it:[]};ms[k].it.push(c)});
-let h='';for(const[,m]of Object.entries(ms)){const iT=m.t==='Taller';h+='<div class="mblk"><div class="mtit'+(iT?' tw':'')+'"><span class="dot"></span>'+(iT?'🔧 Taller '+m.sub:'📖 Módulo '+m.id)+'</div><div class="cg">';
-m.it.forEach(c=>{const sn=pg[c.ID_Clase]?.visto;h+='<div class="cc'+(sn?' vd':'')+(iT?' tw':'')+'" onclick="oC(\''+c.ID_Clase+'\')"><div class="cct"><span class="cid">'+c.ID_Clase+'</span>'+(sn?'<span class="cb v">✓ Visto</span>':iT?'<span class="cb t">Taller</span>':'<span class="cb p">Pendiente</span>')+'</div><h4>'+(c.Titulo_Clase||'—')+'</h4><p class="ds">'+(c.Descripcion_Clase||'—')+'</p><div class="cm"><span>📅 '+fd(c.Fecha_Clase)+'</span></div><div class="ca">'+(c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':'')+(c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':'')+(c.Quiz_URL?'<a href="'+c.Quiz_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">❓ Quiz</a>':'')+(c.Google_Calendar_Meet_URL?'<a href="'+c.Google_Calendar_Meet_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📹 Meet</a>':'')+'</div></div>'});
-h+='</div></div>'}
-if(!ls.length)h='<div style="text-align:center;padding:60px;color:var(--t3)"><p style="font-size:40px;margin-bottom:12px">📚</p><p>No hay clases en esta fase</p></div>';
-$('CB').innerHTML=h}
+// INICIO / DASHBOARD WIDGETS
+function rHOME(){
+  const pg=pp(D.u.Progreso_JSON);
+  const dn=Object.values(pg).filter(p=>p.visto).length;
+  const tt=D.cl.length||1;
+  const pc=Math.round(dn/tt*100);
+  
+  $('HPROG').innerHTML=`
+    <div style="font-size:36px;font-weight:800;color:var(--ac);margin-bottom:8px">${pc}%</div>
+    <div style="height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;margin-bottom:12px">
+      <div style="height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));width:${pc}%"></div>
+    </div>
+    <p style="font-size:13px;color:var(--t2)">Has visto ${dn} de ${tt} clases disponibles.</p>
+  `;
+
+  // Libreta de Notas
+  const myP = D.pr.filter(p=>p.ID_Usuario===D.u.ID_Usuario);
+  let hG = `<div id="libreta-export" style="background:var(--bg3);border-radius:var(--rs);padding:1px"><table class="ata" style="width:100%"><thead><tr><th>Fase/Clase</th><th>Tipo</th><th>Link</th><th>Nota</th><th>Comentarios</th></tr></thead><tbody>`;
+  let sum=0, cnt=0;
+  
+  if(myP.length>0){
+    myP.forEach(p=>{
+      const c = D.cl.find(x=>x.ID_Clase===p.ID_Clase);
+      const nt = parseFloat((p.Nota_Evaluacion||"").replace(',','.'));
+      if(!isNaN(nt)){ sum+=nt; cnt++; }
+      hG+=`<tr>
+        <td><strong>${c?c.Titulo_Clase:p.ID_Clase}</strong><br><span style="font-size:10px;color:var(--t3)">Fase ${c?c.Fase_ID:''}</span></td>
+        <td>${c?c.Tipo_Modulo:'—'}</td>
+        <td>${p.URL_Proyecto?`<a href="${p.URL_Proyecto}" target="_blank" style="color:var(--ac2)">🔗 Ver</a>`:'—'}</td>
+        <td><strong style="color:${nt>=4?'var(--ac)':'var(--err)'}">${p.Nota_Evaluacion||'S/N'}</strong></td>
+        <td><span style="font-size:11px;color:var(--t2)">${p.Comentarios_Admin||'—'}</span></td>
+      </tr>`;
+    });
+    const avg = cnt>0 ? (sum/cnt).toFixed(1) : 0;
+    hG+=`</tbody><tfoot><tr style="background:var(--bg2h)"><td colspan="3" style="text-align:right;padding:12px"><strong>PROMEDIO FINAL:</strong></td><td colspan="2" style="padding:12px"><strong style="color:var(--ac);font-size:16px">${avg>0?avg:'—'}</strong></td></tr></tfoot></table></div>`;
+  } else {
+    hG+=`<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--t3)">No has realizado ninguna entrega aún.</td></tr></tbody></table></div>`;
+  }
+  $('HGRADES').innerHTML = hG;
+}
+
+function exportGrades(){
+  const html = `
+    <html><head><meta charset="utf-8"><title>Libreta de Notas - ${D.u.Nombre}</title>
+    <style>body{font-family:sans-serif;color:#333} table{width:100%;border-collapse:collapse;margin-top:20px} th,td{border:1px solid #ccc;padding:10px;text-align:left} th{background:#eee}</style>
+    </head><body><h2>Libreta de Notas: ${D.u.Nombre}</h2><p>Corporación: ${D.u.Corporacion||'CUBI-K'} | Rol: ${D.u.Rol}</p>
+    ${$('libreta-export').outerHTML}</body></html>
+  `;
+  const blob = new Blob([html], {type: 'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Libreta_Notas_${D.u.Nombre.replace(/\s+/g,'_')}.html`;
+  a.click();
+}
+
+function rPB(){const ps=[...new Set(D.cl.map(c=>Number(c.Fase_ID)))].filter(Boolean).sort();if(!ps.length)ps.push(1);const t={};D.cl.forEach(c=>{if(c.Fase_ID&&c.Titulo_Fase)t[Number(c.Fase_ID)]=c.Titulo_Fase});$('PB').innerHTML=ps.map(p=>'<button class="pb'+(p===D.ph?' on':'')+'" onclick="D.ph='+p+';rCL()">'+(t[p]||'Fase '+p)+'</button>').join('')}
+
+function rCL(){
+  const ls=D.cl.filter(c=>Number(c.Fase_ID)===D.ph);
+  const pg=pp(D.u?.Progreso_JSON);
+  const adm=D.u.Rol==='Master'||D.u.Rol==='Admin';
+  $('NC').textContent=ls.length+' clases';
+  
+  const ms={};
+  ls.forEach(c=>{
+    const k=c.Tipo_Modulo==='Taller'?'T_'+c.Sub_ID:'M_'+c.Modulo_ID;
+    if(!ms[k])ms[k]={t:c.Tipo_Modulo,id:c.Modulo_ID,sub:c.Sub_ID,it:[]};
+    ms[k].it.push(c);
+  });
+  
+  let h='';
+  for(const[,m]of Object.entries(ms)){
+    const iT=m.t==='Taller';
+    h+=`<div class="mblk"><div class="mtit${iT?' tw':''}"><span class="dot"></span>${iT?'🔧 Taller '+m.sub:'📖 Módulo '+m.id}</div>
+        <div class="c-row">
+          <button class="c-btn left" onclick="this.nextElementSibling.scrollBy({left:-320, behavior:'smooth'})">❮</button>
+          <div class="c-track">`;
+    
+    m.it.forEach(c=>{
+      const sn=pg[c.ID_Clase]?.visto;
+      const haS=D.pr.some(x=>x.ID_Clase===c.ID_Clase && x.ID_Usuario===D.u.ID_Usuario);
+      
+      h+=`<div class="cc${sn?' vd':''}${iT?' tw':''}" onclick="oC('${c.ID_Clase}')">
+            <div class="cct"><span class="cid">${c.ID_Clase}</span>${sn?'<span class="cb v">✓ Visto</span>':iT?'<span class="cb t">Taller</span>':'<span class="cb p">Pendiente</span>'}</div>
+            <h4>${c.Titulo_Clase||'—'}</h4>
+            <p class="ds">${c.Descripcion_Clase||'—'}</p>
+            <div class="cm"><span>📅 ${fd(c.Fecha_Clase)}</span></div>
+            <div class="ca">
+              ${c.Video_Meet_URL?'<a href="'+c.Video_Meet_URL+'" target="_blank" class="bs p" onclick="event.stopPropagation()">▶ Video</a>':''}
+              ${c.Transcripcion_URL?'<a href="'+c.Transcripcion_URL+'" target="_blank" class="bs s" onclick="event.stopPropagation()">📄 Texto</a>':''}
+              ${(iT && !haS && D.u.Rol==='Usuario')?`<button class="bs w" onclick="event.stopPropagation();oSUB('${c.ID_Clase}')">⬆️ Entregar</button>`:''}
+              ${(iT && haS && D.u.Rol==='Usuario')?`<span class="bs" style="background:var(--bg3);color:var(--ac)">✅ Entregado</span>`:''}
+              ${adm?`<button class="bs s" onclick="event.stopPropagation();oCF('${c.ID_Clase}')">✏️ Editar</button>`:''}
+            </div>
+          </div>`;
+    });
+    h+=`</div>
+        <button class="c-btn right" onclick="this.previousElementSibling.scrollBy({left:320, behavior:'smooth'})">❯</button>
+      </div></div>`;
+  }
+  if(!ls.length)h='<div style="text-align:center;padding:60px;color:var(--t3)"><p style="font-size:40px;margin-bottom:12px">📚</p><p>No hay clases en esta fase</p></div>';
+  $('CB').innerHTML=h;
+}
+
+function oSUB(id_c){
+  $('MFT').textContent='Entregar Proyecto/Taller';
+  $('MFB').innerHTML=`
+    <div class="fg"><label>ID Clase</label><input value="${id_c}" readonly></div>
+    <div class="fg"><label>URL Repositorio o Google Colab</label><input id="fsub" placeholder="https://..." type="url"></div>
+    <p style="font-size:12px;color:var(--t3);margin-top:10px">Asegúrate de que el enlace sea público o tenga permisos de lectura para los mentores.</p>
+  `;
+  $('MFS').onclick=async()=>{
+    const u = $('fsub').value;
+    if(!u){toast('Ingresa una URL','er');return}
+    await aPost({action:'submitProyecto', id_usuario: D.u.ID_Usuario, id_clase: id_c, url_proyecto: u});
+    D.pr.push({ID_Entrega:'ENT-'+Date.now(), ID_Usuario:D.u.ID_Usuario, ID_Clase:id_c, URL_Proyecto:u, Fecha_Entrega:new Date().toISOString()});
+    cM('MF'); rAll(); toast('¡Entrega realizada!');
+  };
+  oM('MF');
+}
 
 function oC(id){const c=D.cl.find(x=>x.ID_Clase===id);if(!c)return;const pg=pp(D.u?.Progreso_JSON);const sn=pg[id]?.visto;const ev=eurl(c.Video_Meet_URL);
 $('MCT').textContent=c.ID_Clase+' — '+c.Titulo_Clase;
@@ -345,8 +504,8 @@ function rST(){const ls=D.us.filter(u=>u.Rol!=='Master');$('NE').textContent=ls.
 $('SB').innerHTML=ls.map(u=>{const pg=pp(u.Progreso_JSON);const dn=Object.values(pg).filter(p=>p.visto).length;const pc=Math.round(dn/tt*100);const sp=Number(u.Skill_Prompting)||0,sh=Number(u.Skill_Herramientas_IA)||0,sa=Number(u.Skill_Analisis)||0;const ph=(u.Telefono||'').replace(/\+/g,'');
 return'<div class="sc"><div class="stp"><div class="sav">'+ini(u.Nombre)+'</div><div class="si"><h4>'+u.Nombre+'</h4><p>'+(u.Cargo||u.Rol)+' — '+(u.Corporacion||'')+'</p></div></div><div class="sr"><span class="sl">Prompting</span><div class="sbr"><div class="sf s1" style="width:'+sp*10+'%"></div></div><span class="sv">'+sp+'</span></div><div class="sr"><span class="sl">Herram. IA</span><div class="sbr"><div class="sf s2" style="width:'+sh*10+'%"></div></div><span class="sv">'+sh+'</span></div><div class="sr"><span class="sl">Análisis</span><div class="sbr"><div class="sf s3" style="width:'+sa*10+'%"></div></div><span class="sv">'+sa+'</span></div><div class="spr"><div class="spl"><span>Progreso</span><span>'+pc+'%</span></div><div class="spb"><div class="spf" style="width:'+pc+'%"></div></div><div class="sps"><span>✅ '+dn+'</span><span>📋 '+(tt-dn)+' pend.</span></div></div><div class="scn">'+(u.Email_Personal?'<a href="mailto:'+u.Email_Personal+'" class="bs s">✉️ Email</a>':'')+(ph?'<a href="https://wa.me/'+ph+'" target="_blank" class="bs s">💬 WhatsApp</a>':'')+(u.Drive_Alumno_URL?'<a href="'+u.Drive_Alumno_URL+'" target="_blank" class="bs s">📁 Drive</a>':'')+'</div></div>'}).join('')}
 
-function rAU(){const c=D.cf;const pg=pp(D.u?.Progreso_JSON);const dn=Object.values(pg).filter(p=>p.visto).length;const pc=Math.round(dn/(D.cl.length||1)*100);
-$('AB').innerHTML='<div class="icc"><h4>🏢 '+(c.Empresa_Mentor||'AIWIS')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Mentor||'—')+'</p><p><strong>Mentores:</strong> '+(c['01_Mentor_AIWIS']||'')+', '+(c['02_Mentor_AIWIS']||'')+'</p><a href="mailto:'+(c.Email_Soporte||'')+'">📧 Soporte</a></div><div class="icc"><h4>🎯 '+(c.Empresa_Cliente||'CUBI-K')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Cliente||'—')+'</p><p>Portal educativo IA corporativa</p></div><div class="icc"><h4>🐙 GitHub</h4><p>Repositorios del proyecto</p><a href="'+(c.Github_Aiwis||'#')+'" target="_blank">🔗 Ver Repo</a></div><div class="icc"><h4>📁 Google Drive</h4><p>Materiales del curso</p><a href="'+(c.Drive_Cubik_Aiwis||'#')+'" target="_blank">🔗 Abrir</a></div><div class="icc"><h4>📹 Google Meet</h4><p>Sala de clases en vivo</p><a href="https://meet.google.com/ryy-peau-kej" target="_blank">🔗 Entrar</a></div><div class="icc"><h4>📊 Mi Progreso</h4><p><strong style="color:var(--ac);font-size:28px">'+pc+'%</strong> <span style="color:var(--t3);font-size:12px">completado</span></p><p style="margin-top:4px">'+dn+' de '+D.cl.length+' clases</p></div>'}
+function rAU(){const c=D.cf;
+$('AB').innerHTML='<div class="icc"><h4>🏢 '+(c.Empresa_Mentor||'AIWIS')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Mentor||'—')+'</p><p><strong>Mentores:</strong> '+(c['01_Mentor_AIWIS']||'')+', '+(c['02_Mentor_AIWIS']||'')+'</p><a href="mailto:'+(c.Email_Soporte||'')+'">📧 Soporte</a></div><div class="icc"><h4>🎯 '+(c.Empresa_Cliente||'CUBI-K')+'</h4><p><strong>CEO:</strong> '+(c.CEO_Cliente||'—')+'</p><p>Portal educativo IA corporativa</p></div><div class="icc"><h4>🐙 GitHub</h4><p>Repositorios del proyecto</p><a href="'+(c.Github_Aiwis||'#')+'" target="_blank">🔗 Ver Repo</a></div><div class="icc"><h4>📁 Google Drive</h4><p>Materiales del curso</p><a href="'+(c.Drive_Cubik_Aiwis||'#')+'" target="_blank">🔗 Abrir</a></div><div class="icc"><h4>📹 Google Meet</h4><p>Sala de clases en vivo</p><a href="https://meet.google.com/ryy-peau-kej" target="_blank">🔗 Entrar</a></div>'}
 
 // ADMIN
 function rAD(){$('ATBS').innerHTML=[{i:'APC',l:'📚 Clases'},{i:'APU',l:'👥 Usuarios'},{i:'APP',l:'📦 Proyectos'},{i:'APK',l:'🔧 BDD Config'}].map((t,x)=>'<button class="at'+(x===0?' on':'')+'" onclick="sAT(\''+t.i+'\',this)">'+t.l+'</button>').join('');rAC();rAU2();rAPR();rAK()}
@@ -364,19 +523,31 @@ function oUF(id){const u=id?D.us.find(x=>x.ID_Usuario===id):null;$('MFT').textCo
 $('MFB').innerHTML='<div class="fg"><label>ID</label><input id="fu1" value="'+(u?.ID_Usuario||'USR-'+String(D.us.length+1).padStart(3,'0'))+'" '+(u?'readonly':'')+'></div><div class="fg"><label>Nombre</label><input id="fu2" value="'+(u?.Nombre||'')+'"></div><div class="fg"><label>Email Personal</label><input id="fu3" value="'+(u?.Email_Personal||'')+'"></div><div class="fg"><label>Email Corporativo</label><input id="fu4" value="'+(u?.Email_Corporativo||'')+'"></div><div class="fg"><label>Rol</label><select id="fu5"><option value="Usuario" '+(u?.Rol==='Usuario'?'selected':'')+'>Usuario</option><option value="Admin" '+(u?.Rol==='Admin'?'selected':'')+'>Admin</option><option value="Master" '+(u?.Rol==='Master'?'selected':'')+'>Master</option></select></div><div class="fg"><label>Cargo</label><input id="fu6" value="'+(u?.Cargo||'')+'"></div><div class="fg"><label>Corporación</label><input id="fu7" value="'+(u?.Corporacion||'CUBI-K')+'"></div><div class="fg"><label>Teléfono</label><input id="fu8" value="'+(u?.Telefono||'')+'"></div><div class="fg"><label>Skill Prompting (0-10)</label><input id="fu9" type="number" min="0" max="10" value="'+(Number(u?.Skill_Prompting)||0)+'"></div><div class="fg"><label>Skill Herramientas (0-10)</label><input id="fu10" type="number" min="0" max="10" value="'+(Number(u?.Skill_Herramientas_IA)||0)+'"></div><div class="fg"><label>Skill Análisis (0-10)</label><input id="fu11" type="number" min="0" max="10" value="'+(Number(u?.Skill_Analisis)||0)+'"></div><div class="fg"><label>Stacks</label><input id="fu12" value="'+(u?.Skill_Staks||'')+'"></div><div class="fg"><label>Drive URL</label><input id="fu13" value="'+(u?.Drive_Alumno_URL||'')+'"></div>';
 $('MFS').onclick=async()=>{const d={ID_Usuario:$('fu1').value,Nombre:$('fu2').value,Email_Personal:$('fu3').value,Email_Corporativo:$('fu4').value,Rol:$('fu5').value,Cargo:$('fu6').value,Corporacion:$('fu7').value,Telefono:$('fu8').value,Progreso_JSON:'{}',Skill_Prompting:Number($('fu9').value),Skill_Herramientas_IA:Number($('fu10').value),Skill_Analisis:Number($('fu11').value),Skill_Staks:$('fu12').value,Drive_Alumno_URL:$('fu13').value,Activo:true};if(!d.ID_Usuario||!d.Nombre){toast('ID y Nombre requeridos','er');return}await aPost({action:id?'updateUsuario':'addUsuario',usuario:d,id_usuario:id||d.ID_Usuario});if(id){const i=D.us.findIndex(x=>x.ID_Usuario===id);if(i>=0){d.Progreso_JSON=D.us[i].Progreso_JSON;D.us[i]={...D.us[i],...d}}}else D.us.push(d);cM('MF');popLogin();rAll()};oM('MF')}
 
-function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.pr.length+' entregas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Link</th><th>Nota</th><th>Fecha</th><th>Comentario</th><th>Evaluar</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;return'<tr><td>'+p.ID_Entrega+'</td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(p.URL_Proyecto?'<a href="'+p.URL_Proyecto+'" target="_blank">🔗</a>':'—')+'</td><td><strong style="color:var(--ac)">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td>'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs s" onclick="oEF(\''+p.ID_Entrega+'\')">📝</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:30px">Sin entregas</td></tr>')+'</tbody></table></div>'}
+function rAPR(){$('APP').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">'+D.pr.length+' entregas</span></div><div class="atw"><table class="ata"><thead><tr><th>ID</th><th>Usuario</th><th>Clase</th><th>Link</th><th>Nota</th><th>Fecha</th><th>Comentario</th><th>Evaluar</th></tr></thead><tbody>'+(D.pr.length?D.pr.map(p=>{const un=D.us.find(u=>u.ID_Usuario===p.ID_Usuario)?.Nombre||p.ID_Usuario;return'<tr><td>'+p.ID_Entrega+'</td><td>'+un+'</td><td>'+p.ID_Clase+'</td><td>'+(p.URL_Proyecto?'<a href="'+p.URL_Proyecto+'" target="_blank">🔗</a>':'—')+'</td><td><strong style="color:var(--ac)">'+(p.Nota_Evaluacion||'—')+'</strong></td><td>'+fd(p.Fecha_Entrega)+'</td><td>'+(p.Comentarios_Admin||'—')+'</td><td><button class="bs s" onclick="oEF(\''+p.ID_Usuario+'\',\''+p.ID_Clase+'\')">📝</button></td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:30px">Sin entregas</td></tr>')+'</tbody></table></div>'}
 
-function oEF(id){const p=D.pr.find(x=>x.ID_Entrega===id);if(!p)return;$('MFT').textContent='Evaluar '+id;$('MFB').innerHTML='<div class="fg"><label>Nota (1-7)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="'+(p.Nota_Evaluacion||'')+'"></div><div class="fg"><label>Comentarios</label><textarea id="fec">'+(p.Comentarios_Admin||'')+'</textarea></div>';$('MFS').onclick=async()=>{await aPost({action:'evaluarProyecto',id_entrega:id,nota:$('fen').value,comentarios:$('fec').value});const i=D.pr.findIndex(x=>x.ID_Entrega===id);if(i>=0){D.pr[i].Nota_Evaluacion=$('fen').value;D.pr[i].Comentarios_Admin=$('fec').value}cM('MF');rAPR()};oM('MF')}
+function oEF(id_u, id_c){
+  const p=D.pr.find(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
+  if(!p)return;
+  $('MFT').textContent='Evaluar: ' + (D.us.find(u=>u.ID_Usuario===id_u)?.Nombre||id_u);
+  $('MFB').innerHTML=`
+    <div class="fg"><label>URL Proyecto (Editable)</label><input id="feu" value="${p.URL_Proyecto||''}"></div>
+    <div class="fg"><label>Nota (1-7)</label><input id="fen" type="number" min="1" max="7" step="0.1" value="${p.Nota_Evaluacion||''}"></div>
+    <div class="fg"><label>Comentarios</label><textarea id="fec">${p.Comentarios_Admin||''}</textarea></div>`;
+  $('MFS').onclick=async()=>{
+    await aPost({action:'evaluarProyecto', id_usuario:id_u, id_clase:id_c, nota:$('fen').value, comentarios:$('fec').value, url:$('feu').value});
+    const i=D.pr.findIndex(x=>x.ID_Usuario===id_u && x.ID_Clase===id_c);
+    if(i>=0){D.pr[i].Nota_Evaluacion=$('fen').value;D.pr[i].Comentarios_Admin=$('fec').value;D.pr[i].URL_Proyecto=$('feu').value;}
+    cM('MF'); rAll(); toast('Evaluación actualizada');
+  };
+  oM('MF');
+}
 
 function rAK(){$('APK').innerHTML='<div class="atb"><span style="font-size:13px;color:var(--t2)">Vista de Configuraciones Sincronizadas</span><button class="ba p" onclick="openSheet()">📊 Acceder al Sheet BDD</button></div><div class="atw"><table class="ata"><thead><tr><th>Clave</th><th>Valor</th><th>Editar</th></tr></thead><tbody>'+D.cfr.map(r=>'<tr><td style="font-family:var(--m);font-size:12px">'+r.Clave+'</td><td>'+(r.Valor||'—')+'</td><td><button class="bs s" onclick="eCfg(\''+r.Clave+'\',\''+((r.Valor||'').replace(/'/g,"\\'"))+'\')">✏️</button></td></tr>').join('')+'</tbody></table></div><p style="margin-top:12px;font-size:12px;color:var(--t3)">Los usuarios de clase Admin y Master pueden acceder directamente a la base de datos Google Sheets si cuentan con la contraseña correspondiente.</p>'}
 
 function openSheet() {
-  const p = prompt("Por favor, ingresa tu clave Master/Admin para abrir la Base de Datos completa en Google Sheets:");
-  if (p === MPW || p === APW) {
-    window.open('https://docs.google.com/spreadsheets/d/1kHkPRF4FBeyHeJtCLLciBs7XZkDe-AQ4v1y4VekMV78/edit', '_blank');
-  } else if (p !== null) {
-    toast('Clave incorrecta', 'er');
-  }
+  const p = prompt("Ingresa tu clave Master/Admin para abrir la Base de Datos completa en Google Sheets:");
+  if (p === MPW || p === APW) { window.open('https://docs.google.com/spreadsheets/d/1kHkPRF4FBeyHeJtCLLciBs7XZkDe-AQ4v1y4VekMV78/edit', '_blank'); } 
+  else if (p !== null) { toast('Clave incorrecta', 'er'); }
 }
 
 function eCfg(k,v){$('MFT').textContent='Editar: '+k;$('MFB').innerHTML='<div class="fg"><label>'+k+'</label><input id="fkv" value="'+v+'"></div>';$('MFS').onclick=async()=>{const nv=$('fkv').value;await aPost({action:'updateConfig',clave:k,valor:nv});D.cf[k]=nv;const r=D.cfr.find(x=>x.Clave===k);if(r)r.Valor=nv;cM('MF');rAK();rAU()};oM('MF')}
