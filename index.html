@@ -2219,54 +2219,39 @@
       const calendarUrl = emailUser ? `https://calendar.google.com/calendar/r?authuser=${encodeURIComponent(emailUser)}` : 'https://calendar.google.com/';
 
       const qaCards = [
-        { icon: '✉️',  label: 'Gmail',        url: gmailUrl,                                              cls: 'gmail' },
-        { icon: '📹',  label: 'Google Meet',  url: meetSala,                                              cls: 'meet' },
-        { icon: '💾',  label: 'Mi Drive',     url: driveUserRoot,                                         cls: 'drive' },
-        drivePersonal ? { icon: '📂', label: 'Drive Alumno',  url: drivePersonal, cls: 'drive' } : null,
-        { icon: '🏢',  label: 'Drive CUBI-K', url: driveCubik,                                            cls: 'drive-corp' },
-        { icon: '📊',  label: 'Sheets BD',    url: sheetsBD,                                              cls: 'sheets' },
-        { icon: '📅',  label: 'Calendario',   url: calendarUrl,                                           cls: 'calendar' },
-        { icon: '♊',        label: 'Gemini IA',    url: cf.Url_Gemini           || 'https://gemini.google.com/',    cls: 'drive' },
-        { icon: '✨',        label: 'AI Studio',    url: cf.Url_Google_AI_Studio || 'https://aistudio.google.com/', cls: 'drive-corp' },
-        { icon: '📓',  label: 'NotebookLM',  url: 'https://notebooklm.google.com/',                      cls: 'meet' },
-        { icon: '🧵',  label: 'Google Stitch',url: 'https://stitch.withgoogle.com/',                      cls: 'drive-corp' },
+        {
+          icon: '<img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" width="32" onerror="this.outerHTML=\'✉️\'">',
+          label: 'Gmail', url: gmailUrl, cls: 'gmail'
+        },
+        { icon: '<img src="https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png" width="32" onerror="this.outerHTML=\'📹\'">', label: 'Google Meet', url: meetSala, cls: 'meet' },
+        { icon: '<img src="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" width="32" onerror="this.outerHTML=\'💾\'">', label: 'Mi Drive', url: driveUserRoot, cls: 'drive' },
+        drivePersonal ? { icon: '📂', label: 'Drive Alumno', url: drivePersonal, cls: 'drive' } : null,
+        { icon: '<img src="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" width="32" onerror="this.outerHTML=\'🏢\'">', label: 'Drive CUBI-K', url: driveCubik, cls: 'drive-corp' },
+        { icon: '<img src="https://ssl.gstatic.com/docs/spreadsheets/favicon3.ico" width="32" onerror="this.outerHTML=\'📊\'">', label: 'Sheets BD', url: sheetsBD, cls: 'sheets' },
+        { icon: '<img src="https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar-favicon-v1.ico" width="32" onerror="this.outerHTML=\'📅\'">', label: 'Calendario', url: calendarUrl, cls: 'calendar' },
+        { icon: '♊', label: 'Gemini IA', url: cf.Url_Gemini || 'https://gemini.google.com/', cls: 'drive' },
+        { icon: '✨', label: 'AI Studio', url: cf.Url_Google_AI_Studio || 'https://aistudio.google.com/', cls: 'drive-corp' },
       ].filter(Boolean);
 
-      const aiCards = [
-        { icon: '🤖', label: 'Claude',     url: cf.Url_Claude    || 'https://claude.ai/',                cls: 'ai-claude' },
-        { icon: '💬', label: 'ChatGPT',    url: cf.Url_ChatGPT   || 'https://chatgpt.com/',              cls: 'ai-gpt' },
-        { icon: '⚡',       label: 'Grok xAI',  url: 'https://grok.com/',                                      cls: 'ai-grok' },
-        { icon: '📊', label: 'Databricks', url: cf.Url_Databricks || 'https://community.cloud.databricks.com/', cls: 'dev-db' },
-        { icon: '▲',       label: 'Vercel',     url: 'https://vercel.com/dashboard',                          cls: 'dev-vercel' },
-        { icon: '🐙', label: 'GitHub',     url: cf.Github_Aiwis  || 'https://github.com/soporteaiwis-lab', cls: 'dev-github' },
-      ];
+      let qaHtml = `<div style="margin-bottom:30px">
+    <div class="qa-section-title">⚡ Accesos Rápidos — Suite Google</div>
+    <div class="qa-grid">`;
+      qaCards.forEach(c => {
+        qaHtml += `<a href="${c.url}" target="_blank" class="qa-card ${c.cls}">
+      <div class="qa-icon">${c.icon}</div>
+      <div class="qa-label">${c.label}</div>
+    </a>`;
+      });
+      qaHtml += `</div></div>`;
 
-      const buildCards = function(arr) {
-        return arr.map(function(c) {
-          return '<a href="' + c.url + '" target="_blank" class="qa-card ' + c.cls + '">' +
-            '<div class="qa-icon">' + c.icon + '</div>' +
-            '<div class="qa-label">' + c.label + '</div></a>';
-        }).join('');
-      };
-
-      const qaHtml =
-        '<div style="margin-bottom:30px">' +
-        '<div class="qa-section-title">&#x26A1; Suite Google &amp; Accesos R&#xE1;pidos</div>' +
-        '<div class="qa-grid">' + buildCards(qaCards) + '</div>' +
-        '<div class="qa-section-title" style="margin-top:18px">&#x1F916; IA &amp; Herramientas de Desarrollo</div>' +
-        '<div class="qa-grid">' + buildCards(aiCards) + '</div>' +
-        '</div>';
-
-      const qaEl = document.getElementById('HQUICK') || (function() {
-        var d = document.createElement('div'); d.id = 'HQUICK';
-        var target = document.getElementById('HPROG');
-        var hw = target ? target.parentElement : null;
-        var vp = hw ? hw.parentElement : null;
-        if (vp) vp.insertBefore(d, hw);
+      // Render accesos en el DOM (antes del progreso)
+      const qaEl = document.getElementById('HQUICK') || (() => {
+        const d = document.createElement('div'); d.id = 'HQUICK';
+        const target = $('HPROG')?.parentElement?.parentElement; // .hw
+        if (target) target.parentElement.insertBefore(d, target);
         return d;
-      }());
+      })();
       if (qaEl) qaEl.innerHTML = qaHtml;
-
 
       $('HPROG').innerHTML = `
     <div style="background:var(--bg2); border:1px solid var(--bd); border-radius:var(--r); padding:24px; display:flex; flex-direction:column; gap:24px;">
