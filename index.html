@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -1811,6 +1811,81 @@
         display: none
       }
     }
+
+    /* VISTA NOTEBOOK LM */
+    #VN {
+      height: calc(100vh - 120px);
+      width: 100%;
+      position: relative;
+    }
+    .vn-frame {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      background: var(--bg1);
+    }
+    .nlm-launcher {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: calc(100% - 60px);
+      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+      border: 1px solid var(--bd);
+      border-radius: var(--r);
+      padding: 48px 32px;
+      text-align: center;
+      gap: 24px;
+    }
+    .nlm-launcher .nlm-icon {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--ac), var(--ac2));
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      box-shadow: 0 8px 32px rgba(0,212,170,.25);
+      animation: nlmPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes nlmPulse {
+      0%,100% { box-shadow: 0 8px 32px rgba(0,212,170,.25); }
+      50% { box-shadow: 0 8px 48px rgba(99,102,241,.35); }
+    }
+    .nlm-launcher h2 { font-size: 22px; font-weight: 700; color: var(--t1); }
+    .nlm-launcher p { font-size: 14px; color: var(--t2); max-width: 480px; line-height: 1.6; }
+    .nlm-open-btn {
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--ac), #00b894);
+      color: #000;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--tr);
+      border: none;
+      letter-spacing: .5px;
+    }
+    .nlm-open-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,170,.4); }
+    .nlm-open-secondary {
+      padding: 10px 24px;
+      background: transparent;
+      color: var(--ac2);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--ac2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--tr);
+    }
+    .nlm-open-secondary:hover { background: var(--ac2g); }
+    .nlm-tip {
+      font-size: 11px;
+      color: var(--t3);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
   </style>
 </head>
 
@@ -1929,6 +2004,22 @@
         <div id="APU" class="ap"></div>
         <div id="APP" class="ap"></div>
         <div id="APK" class="ap"></div>
+      </div>
+
+      <!-- VISTA NOTEBOOK LM -->
+      <div id="VN" class="vp">
+        <div class="sh">
+          <h3>🤖 Chat NotebookLM — Internas CUBI-K</h3>
+          <a href="https://notebooklm.google.com/notebook/dd7c9082-c013-4dce-b358-bdc039e3d11a/preview" target="_blank" class="ba s">↗️ Abrir en pestaña aparte</a>
+        </div>
+        <div class="nlm-launcher">
+          <div class="nlm-icon">🧠</div>
+          <h2>Chat IA — NotebookLM</h2>
+          <p>Accede al chatbot de IA entrenado con las fuentes internas de CUBI-K. Por seguridad de Google, NotebookLM se abre en una ventana dedicada vinculada a tu sesión.</p>
+          <button class="nlm-open-btn" onclick="openNLMPopup()">🚀 Abrir Chat NotebookLM</button>
+          <button class="nlm-open-secondary" onclick="window.open('https://notebooklm.google.com/notebook/dd7c9082-c013-4dce-b358-bdc039e3d11a/preview','_blank')">↗️ Abrir en pestaña nueva</button>
+          <div class="nlm-tip">💡 Tip: Usa Ctrl+Click para mantener ambas ventanas lado a lado</div>
+        </div>
       </div>
 
     </div>
@@ -2094,7 +2185,7 @@
       $('LOGIN').classList.add('off'); $('DASH').classList.add('on');
       $('UNM').textContent = D.u.Nombre; $('UAV').textContent = ini(D.u.Nombre); $('UTAG').textContent = D.u.Rol;
       const adm = D.u.Rol === 'Master' || D.u.Rol === 'Admin';
-      const nv = [{ i: 'H', ic: '🏠', l: 'Inicio' }, { i: 'C', ic: '📚', l: 'Clases' }, { i: 'E', ic: '👥', l: 'Estudiantes' }, { i: 'A', ic: '🎓', l: 'Aula' }]; if (adm) nv.push({ i: 'D', ic: '⚙️', l: 'Admin' });
+      const nv = [{ i: 'H', ic: '🏠', l: 'Inicio' }, { i: 'C', ic: '📚', l: 'Clases' }, { i: 'E', ic: '👥', l: 'Estudiantes' }, { i: 'N', ic: '🤖', l: 'Chat IA' }, { i: 'A', ic: '🎓', l: 'Aula' }]; if (adm) nv.push({ i: 'D', ic: '⚙️', l: 'Admin' });
       $('TBN').innerHTML = nv.map((n, x) => '<button class="' + (x === 0 ? 'on' : '') + '" data-v="' + n.i + '" onclick="sv(\'' + n.i + '\')">' + n.ic + ' ' + n.l + '</button>').join('');
       $('MN').innerHTML = nv.map((n, x) => '<button class="' + (x === 0 ? 'on' : '') + '" data-v="' + n.i + '" onclick="sv(\'' + n.i + '\')"><span class="ni">' + n.ic + '</span>' + n.l + '</button>').join('');
       if (DEMO) $('CBAN').classList.add('vis');
@@ -2102,7 +2193,7 @@
     }
 
     function doLogout() { D.u = null; $('DASH').classList.remove('on'); $('LOGIN').classList.remove('off'); $('LSEL').value = ''; $('LPW').value = ''; $('PWF').classList.remove('vis'); $('LM').style.display = 'none'; $('LN').style.display = 'block'; $('CHAT_BOX').classList.remove('on'); }
-    function sv(v) { document.querySelectorAll('.vp').forEach(p => p.classList.remove('von')); const m = { H: 'VH', C: 'VC', E: 'VE', A: 'VA', D: 'VD' }; const el = $(m[v]); if (el) el.classList.add('von'); document.querySelectorAll('.tb-n button,.mnav button').forEach(b => b.classList.toggle('on', b.dataset.v === v)) }
+    function sv(v) { document.querySelectorAll('.vp').forEach(p => p.classList.remove('von')); const m = { H: 'VH', C: 'VC', E: 'VE', A: 'VA', D: 'VD', N: 'VN' }; const el = $(m[v]); if (el) el.classList.add('von'); document.querySelectorAll('.tb-n button,.mnav button').forEach(b => b.classList.toggle('on', b.dataset.v === v)) }
 
     function updateProgressTop() {
       const pg = pp(D.u.Progreso_JSON);
@@ -2799,6 +2890,20 @@
       }
 
       body.scrollTop = body.scrollHeight;
+    }
+
+    // ==================== NOTEBOOK LM POPUP ====================
+    function openNLMPopup() {
+      const url = 'https://notebooklm.google.com/notebook/dd7c9082-c013-4dce-b358-bdc039e3d11a/preview';
+      const w = Math.min(900, screen.availWidth - 100);
+      const h = Math.min(700, screen.availHeight - 100);
+      const left = (screen.availWidth - w) / 2;
+      const top = (screen.availHeight - h) / 2;
+      const popup = window.open(url, 'NotebookLM_CUBIK', `width=${w},height=${h},left=${left},top=${top},menubar=no,toolbar=no,location=yes,status=no,resizable=yes,scrollbars=yes`);
+      if (!popup || popup.closed) {
+        toast('⚠️ Tu navegador bloqueó el popup. Permite ventanas emergentes para este sitio.', 'er');
+        window.open(url, '_blank');
+      }
     }
 
     init();
